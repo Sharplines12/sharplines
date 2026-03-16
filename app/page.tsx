@@ -7,6 +7,7 @@ import { BestBetBanner } from "@/components/best-bet-banner";
 import { CheckoutButton } from "@/components/checkout-button";
 import { DisclaimerBanner } from "@/components/disclaimer-banner";
 import { LockedPickCard } from "@/components/locked-pick-card";
+import { NewsletterSignup } from "@/components/newsletter-signup";
 import { PickRow } from "@/components/pick-row";
 import { PremiumCtaBlock } from "@/components/premium-cta-block";
 import { RecordTracker } from "@/components/record-tracker";
@@ -172,6 +173,10 @@ export default async function HomePage() {
 
       <section className="site-container mt-20">
         <RecordTracker cards={dailyCards} />
+      </section>
+
+      <section className="site-container mt-20">
+        <NewsletterSignup />
       </section>
 
       <section className="site-container mt-20">
