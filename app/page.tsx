@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { Route } from "next";
-import { ArrowRight, Crown, LockKeyhole, Newspaper, Sparkles } from "lucide-react";
+import { ArrowRight, Crown, LockKeyhole, Newspaper, Sparkles, Trophy, TrendingUp } from "lucide-react";
 import { ArticleCard } from "@/components/article-card";
 import { BestBetBanner } from "@/components/best-bet-banner";
 import { CheckoutButton } from "@/components/checkout-button";
@@ -17,6 +17,8 @@ import { SportsbookCard } from "@/components/sportsbook-card";
 import { siteConfig } from "@/lib/data";
 import { getArticles, getDailyCards, getGuides, getSportsbooks, getTodayCard } from "@/lib/content";
 import { splitCardPicks } from "@/lib/pick-timing";
+import { buildRecordMetrics } from "@/lib/record-metrics";
+import { formatUnits } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: `${siteConfig.name} | Daily Top Picks`,
@@ -35,6 +37,24 @@ export default async function HomePage() {
   const { upcomingPicks, archivedPicks, freeUpcomingPicks, lockedUpcomingPicks, bestUpcomingPick, bestAvailablePick } =
     splitCardPicks(todayCard, "All sports", siteConfig.freePreviewCount);
   const bestBet = bestUpcomingPick ?? bestAvailablePick;
+  const metrics = buildRecordMetrics(dailyCards);
+  const heroStats = [
+    {
+      icon: Trophy,
+      label: "Record",
+      value: `${metrics.totals.wins}-${metrics.totals.losses}-${metrics.totals.pushes}`
+    },
+    {
+      icon: TrendingUp,
+      label: "Units",
+      value: formatUnits(metrics.totals.units)
+    },
+    {
+      icon: ArrowRight,
+      label: "ROI",
+      value: `${metrics.totals.roi.toFixed(1)}%`
+    }
+  ];
 
   return (
     <div className="pb-16">
@@ -42,19 +62,19 @@ export default async function HomePage() {
         <div className="panel-strong relative overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
           <div className="hero-orb right-0 top-0 h-40 w-40 bg-aqua/20" />
           <div className="hero-orb bottom-0 left-1/3 h-32 w-32 bg-neon/15" />
-          <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+          <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
             <div className="space-y-6">
               <span className="eyebrow">
                 <Sparkles className="h-4 w-4" />
-                Premium Daily Picks
+                Live card + premium analysis
               </span>
               <div className="space-y-4">
                 <h1 className="max-w-3xl font-display text-5xl uppercase leading-[0.95] text-white sm:text-6xl lg:text-7xl">
-                  Daily top picks with a media-brand feel and a real premium wall.
+                  Sharp picks. Clean records. A premium card that actually looks credible.
                 </h1>
                 <p className="max-w-2xl text-lg text-mist/75 sm:text-xl">
-                  {siteConfig.name} is built to feel like a sharp betting media property first: top picks, best bets,
-                  premium analysis, articles, reviews, and a gated member card that does not read like a spam funnel.
+                  {siteConfig.name} is built like a real betting media property first: daily top picks, transparent
+                  tracking, calmer editorial coverage, and a protected premium card without the spammy affiliate feel.
                 </p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row">
@@ -66,66 +86,91 @@ export default async function HomePage() {
                 </Link>
               </div>
               <div className="grid gap-4 sm:grid-cols-3">
-                {[
-                  { label: "Daily top picks and best bets", href: "/daily-picks" },
-                  { label: "Premium card with locked analysis", href: "/pricing" },
-                  { label: "Sportsbook reviews and articles", href: "/sportsbooks" }
-                ].map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href as Route}
-                    className="rounded-[24px] border border-white/10 bg-white/[0.04] p-4 text-sm text-mist/75 hover:border-aqua/30 hover:text-white"
-                  >
-                    {item.label}
-                  </Link>
+                {heroStats.map((item) => (
+                  <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/[0.04] p-4">
+                    <div className="flex items-center gap-2 text-mist/55">
+                      <item.icon className="h-4 w-4 text-aqua" />
+                      <p className="text-xs uppercase tracking-[0.18em]">{item.label}</p>
+                    </div>
+                    <p className="mt-3 text-2xl font-display uppercase text-white">{item.value}</p>
+                  </div>
                 ))}
               </div>
             </div>
 
-            <div className="panel p-6 sm:p-8">
-              <p className="muted-label">Premium product focus</p>
-              <h2 className="mt-2 text-3xl uppercase text-white">Today&apos;s card drives the whole site.</h2>
-              <p className="mt-4 text-sm leading-7">
-                Free users get a limited preview. Premium members get the full daily card, deeper writeups, archived
-                picks, record tracking, and the protected dashboard.
-              </p>
-              <div className="mt-6 space-y-3">
-                {[
-                  { label: "Upcoming preview", value: `${freeUpcomingPicks.length} live teaser picks`, href: "/daily-picks" },
-                  { label: "Premium locked", value: `${lockedUpcomingPicks.length} more live angles`, href: "/pricing" },
-                  { label: "Today&apos;s best bet", value: bestBet?.pickTitle ?? "Archive in review", href: "/daily-picks" }
-                ].map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href as Route}
-                    className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4 hover:border-aqua/30"
-                  >
-                    <p className="muted-label">{item.label}</p>
-                    <p className="mt-2 text-lg font-medium text-white">{item.value}</p>
-                  </Link>
-                ))}
+            <div className="relative">
+              <div className="panel p-6 sm:p-8">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="muted-label">{todayCard.date}</p>
+                    <h2 className="mt-2 text-3xl uppercase text-white">Today&apos;s card snapshot</h2>
+                  </div>
+                  <div className="rounded-full border border-neon/25 bg-neon/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-neon">
+                    {upcomingPicks.length ? "Live board" : "Archive view"}
+                  </div>
+                </div>
+
+                <div className="mt-6 flex items-end gap-3">
+                  <p className="text-5xl font-display uppercase text-white">{metrics.totals.wins}</p>
+                  <p className="pb-1 text-sm uppercase tracking-[0.18em] text-mist/55">
+                    Wins in the visible record sample
+                  </p>
+                </div>
+
+                <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                  {[
+                    { label: "Upcoming preview", value: `${freeUpcomingPicks.length} free picks`, href: "/daily-picks" },
+                    { label: "Locked premium", value: `${lockedUpcomingPicks.length} extra positions`, href: "/pricing" },
+                    { label: "Best bet", value: bestBet?.pickTitle ?? "Archive in review", href: "/daily-picks" },
+                    { label: "Archive", value: `${archivedPicks.length} moved down cleanly`, href: "/results" }
+                  ].map((item) => (
+                    <Link
+                      key={item.label}
+                      href={item.href as Route}
+                      className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4 hover:border-aqua/30"
+                    >
+                      <p className="muted-label">{item.label}</p>
+                      <p className="mt-2 text-base font-medium text-white">{item.value}</p>
+                    </Link>
+                  ))}
+                </div>
+
+                <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-mist/45">Why it converts</p>
+                  <p className="mt-3 text-sm leading-7 text-mist/70">
+                    The free layer stays useful, the locked layer stays visible, and the record tracking makes the
+                    product feel like a real operation instead of a one-page affiliate shell.
+                  </p>
+                </div>
               </div>
+              <div className="pointer-events-none absolute -right-2 -top-2 h-28 w-28 rounded-full bg-neon/10 blur-3xl" />
             </div>
           </div>
         </div>
       </section>
 
       <section className="site-container mt-20">
-        <SectionHeading
-          eyebrow="Today&apos;s Top Picks"
-          title="The homepage should sell the daily card before anything else."
-          copy="This section puts the best bet first, keeps the still-live teaser picks up top, and pushes already-started plays into a cleaner archive block."
-        />
-        <div className="mt-8 space-y-6">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <span className="eyebrow">Today&apos;s card</span>
+            <h2 className="mt-5 text-4xl uppercase leading-none text-white sm:text-5xl">
+              The homepage should feel like the front page of the picks product.
+            </h2>
+          </div>
+          <Link href="/daily-picks" className="cta-secondary">
+            View full daily board
+          </Link>
+        </div>
+        <div className="space-y-6">
           {bestBet ? <BestBetBanner pick={bestBet} locked /> : null}
           {upcomingPicks.length ? (
-            <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-              <div className="space-y-4">
+            <div className="grid gap-4 lg:grid-cols-[1.12fr_0.88fr]">
+              <div className="grid gap-4">
                 {freeUpcomingPicks.map((pick) => (
                   <PickRow key={pick.id} pick={pick} />
                 ))}
               </div>
-              <div className="space-y-4">
+              <div className="grid gap-4">
                 {lockedUpcomingPicks.map((pick) => (
                   <LockedPickCard key={pick.id} pick={pick} />
                 ))}
@@ -133,7 +178,7 @@ export default async function HomePage() {
                   <div className="flex items-center gap-3">
                     <LockKeyhole className="h-5 w-5 text-neon" />
                     <p className="text-sm text-white">
-                      Unlock the full premium card for complete analysis, extra leans, and unit sizing notes.
+                      Premium members unlock the rest of the card, deeper writeups, and archived notes.
                     </p>
                   </div>
                   <CheckoutButton className="cta-primary mt-5">Join premium</CheckoutButton>
@@ -150,18 +195,19 @@ export default async function HomePage() {
               </p>
             </div>
           )}
+
           {archivedPicks.length ? (
             <div className="panel p-6">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="text-xs uppercase tracking-[0.18em] text-mist/45">Archive preview</p>
-                  <h3 className="mt-2 text-3xl uppercase text-white">Started or graded plays move down here.</h3>
+                  <h3 className="mt-2 text-3xl uppercase text-white">Earlier starts roll down into the archive view.</h3>
                 </div>
                 <Link href="/results" className="text-sm uppercase tracking-[0.18em] text-aqua hover:text-white">
                   See full results
                 </Link>
               </div>
-              <div className="mt-5 grid gap-4">
+              <div className="mt-5 grid gap-4 lg:grid-cols-2">
                 {archivedPicks.slice(0, 2).map((pick) => (
                   <PickRow key={pick.id} pick={pick} />
                 ))}
