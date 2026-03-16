@@ -41,7 +41,7 @@ export default async function DailyPicksPage() {
         </div>
       </div>
 
-      <DisclaimerBanner copy="Pick availability, sportsbook pricing, and start times can change during the day. Keep live information current before publishing." />
+      <DisclaimerBanner copy="Lines, player availability, and listed prices can move throughout the day. Always confirm the current number and market status before placing a wager." />
       <ResponsibleGamingBanner />
     </div>
   );

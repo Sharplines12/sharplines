@@ -7,7 +7,7 @@ type DisclaimerBannerProps = {
 };
 
 export function DisclaimerBanner({
-  title = "Editorial and operator notice",
+  title = "Editorial and market note",
   copy
 }: DisclaimerBannerProps) {
   return (
