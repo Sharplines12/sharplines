@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { getApprovedSourceListText, validateSourceNotes } from "@/lib/picks-source-policy";
 import { createSupabaseServiceClient, isSupabaseConfigured } from "@/lib/supabase";
 
 type GeneratedPick = {
@@ -40,6 +41,28 @@ type GradedPick = {
   confidence: "high" | "medium" | "low";
   note: string;
 };
+
+type CardValidationResult =
+  | {
+      ok: true;
+      card: GeneratedCard;
+      rejectedHosts: string[];
+    }
+  | {
+      ok: false;
+      reason: string;
+      rejectedHosts: string[];
+    };
+
+const APPROVED_SPORTSBOOKS = new Set([
+  "FanDuel",
+  "DraftKings",
+  "BetMGM",
+  "Caesars",
+  "Fanatics",
+  "BetRivers",
+  "Hard Rock Bet"
+]);
 
 function getOpenAiHeaders() {
   return {
@@ -238,7 +261,7 @@ async function gradePendingPicks(todayIsoDate: string) {
   };
 }
 
-async function generateCard(date: { isoDate: string; displayDate: string }) {
+async function generateCard(date: { isoDate: string; displayDate: string }): Promise<GeneratedCard> {
   const sportsFocus = (process.env.PICKS_SPORTS || "NBA,NCAAB,NHL")
     .split(",")
     .map((item) => item.trim())
@@ -324,27 +347,130 @@ async function generateCard(date: { isoDate: string; displayDate: string }) {
     }
   };
 
-  return openAiJson<GeneratedCard>({
-    schemaName: "generate_daily_card",
-    schema: cardSchema,
-    system: [
-      "You are building the Sharplines daily picks card for a premium sports betting media brand.",
-      "Research the latest lines, injuries, projected availability, and market movement before recommending any pick.",
-      "Only include picks if the case is supported by current reporting and current betting context.",
-      "Favor major U.S. sportsbooks and markets that can be described clearly for a U.S. audience.",
-      "The tone must be sharp, measured, editorial, and realistic. No hype, no guaranteed outcomes, no scam language.",
-      "If the board is too unstable or the injury news is too unclear, return status='skip' and explain why.",
-      "Mark exactly one pick as isBestBet when publishing a card."
-    ].join(" "),
-    user: [
+  const systemPrompt = [
+    "You are building the Sharplines daily picks card for a premium sports betting media brand.",
+    "Research the latest lines, injuries, projected availability, and market movement before recommending any pick.",
+    "Only include picks if the case is supported by current reporting and current betting context.",
+    "Use only high-quality sources from this approved family:",
+    getApprovedSourceListText(),
+    "Do not use scraped content farms, generic announce sites, unverifiable SEO pages, or random low-trust blogs.",
+    "Favor major U.S. sportsbooks and markets that can be described clearly for a U.S. audience.",
+    "Only use these sportsbook labels: FanDuel, DraftKings, BetMGM, Caesars, Fanatics, BetRivers, Hard Rock Bet.",
+    "All start times must be written in ET.",
+    "The tone must be sharp, measured, editorial, and realistic. No hype, no guaranteed outcomes, no scam language.",
+    "If the board is too unstable or the injury news is too unclear, return status='skip' and explain why.",
+    "Mark exactly one pick as isBestBet when publishing a card."
+  ].join(" ");
+
+  const buildUserPrompt = (rejectedHosts: string[]) =>
+    [
       `Build the card for ${date.displayDate} (${date.isoDate}).`,
       `Sports to focus on: ${sportsFocus.join(", ")}.`,
       "Create a public-facing card with 3 to 5 total picks.",
       "For each pick, include the exact side/total/prop wording, the sportsbook, the current price, and a short premium teaser.",
       "Use unit sizes between 0.5 and 1.5.",
-      "Also include 2 to 4 source links that were useful in your research."
-    ].join("\n")
-  });
+      "Also include 3 to 5 source links that were useful in your research.",
+      rejectedHosts.length
+        ? `Do not cite these rejected hostnames again: ${rejectedHosts.join(", ")}.`
+        : "Use a mix of reporting/official sources and betting-market sources so the card is well supported."
+    ].join("\n");
+
+  const validateGeneratedCard = (card: GeneratedCard): CardValidationResult => {
+    const sourceValidation = validateSourceNotes(card.sourcingNotes);
+    const bestBetCount = card.picks.filter((pick) => pick.isBestBet).length;
+    const invalidSportsbooks = Array.from(
+      new Set(card.picks.map((pick) => pick.sportsbook).filter((name) => !APPROVED_SPORTSBOOKS.has(name)))
+    );
+    const invalidStartTimes = card.picks.filter((pick) => !pick.startTime.includes("ET")).map((pick) => pick.pickTitle);
+
+    if (!sourceValidation.ok) {
+      return {
+        ok: false,
+        reason: sourceValidation.reason,
+        rejectedHosts: sourceValidation.rejectedHosts
+      };
+    }
+
+    if (bestBetCount !== 1) {
+      return {
+        ok: false,
+        reason: "Daily card skipped because the generator did not return exactly one best bet.",
+        rejectedHosts: sourceValidation.rejectedHosts
+      };
+    }
+
+    if (invalidSportsbooks.length) {
+      return {
+        ok: false,
+        reason: `Daily card skipped because it used unsupported sportsbook labels: ${invalidSportsbooks.join(", ")}.`,
+        rejectedHosts: sourceValidation.rejectedHosts
+      };
+    }
+
+    if (invalidStartTimes.length) {
+      return {
+        ok: false,
+        reason: `Daily card skipped because some picks were missing ET start times: ${invalidStartTimes.join(", ")}.`,
+        rejectedHosts: sourceValidation.rejectedHosts
+      };
+    }
+
+    return {
+      ok: true,
+      card: {
+        ...card,
+        sourcingNotes: sourceValidation.trusted.slice(0, 5).map(({ title, url }) => ({ title, url }))
+      },
+      rejectedHosts: sourceValidation.rejectedHosts
+    };
+  };
+
+  let rejectedHosts: string[] = [];
+
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    const generated = await openAiJson<GeneratedCard>({
+      schemaName: "generate_daily_card",
+      schema: cardSchema,
+      system: systemPrompt,
+      user: buildUserPrompt(rejectedHosts)
+    });
+
+    if (generated.status === "skip") {
+      return generated;
+    }
+
+    const validation = validateGeneratedCard(generated);
+
+    if (validation.ok) {
+      return validation.card;
+    }
+
+    rejectedHosts = validation.rejectedHosts;
+
+    if (attempt === 2) {
+      return {
+        status: "skip",
+        skipReason: validation.reason,
+        headline: "No card published",
+        summary: "",
+        premiumIntro: "",
+        recordLabel: "Automation hold",
+        sourcingNotes: [],
+        picks: []
+      };
+    }
+  }
+
+  return {
+    status: "skip",
+    skipReason: "Daily card skipped because the automation did not produce a trusted card.",
+    headline: "No card published",
+    summary: "",
+    premiumIntro: "",
+    recordLabel: "Automation hold",
+    sourcingNotes: [],
+    picks: []
+  };
 }
 
 async function storeCard(card: GeneratedCard, date: { isoDate: string; displayDate: string }) {
