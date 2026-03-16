@@ -4,7 +4,7 @@ import { siteConfig } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: `${siteConfig.name} | About`,
-  description: `Learn about the brand strategy and editorial positioning behind ${siteConfig.name}.`
+  description: `Learn how ${siteConfig.name} is positioning itself as a disciplined betting media brand with premium picks, transparent tracking, and long-term editorial value.`
 };
 
 export default function AboutPage() {
@@ -12,39 +12,45 @@ export default function AboutPage() {
     <div className="site-container pb-16 pt-10 sm:pt-14">
       <SectionHeading
         eyebrow={`About ${siteConfig.name}`}
-        title="A sharper public image for a betting business that wants to look real."
-        copy={`${siteConfig.name} is positioned as a disciplined premium picks operator: content-first, transparent about results, and serious about long-term brand trust.`}
+        title="Built to look like a real betting media brand, not a one-week affiliate page."
+        copy={`${siteConfig.name} is a premium picks and betting content platform built around one idea: if the product is going to ask for trust, the site has to earn it first.`}
       />
 
       <div className="mt-10 grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="panel-strong p-8">
-          <h2 className="text-3xl uppercase text-white">Brand story</h2>
+          <h2 className="text-3xl uppercase text-white">The Sharplines story</h2>
           <p className="mt-4 text-sm leading-7">
-            This site is built for two audiences at once: bettors who need enough proof to buy, and sportsbook
-            partners who want to see a real business rather than a throwaway affiliate page. That is why the brand
-            system leans premium, the record is public, and the member experience is clearly separated from the
-            marketing copy.
+            Sharplines started from a simple frustration with the betting space: too many picks brands either look
+            flashy and disposable or try to sell confidence without showing enough work. The goal here is different.
+            The site is meant to feel like a serious sports betting property with a real editorial layer, a clear
+            premium product, and a public record that can be judged over time.
           </p>
           <p className="mt-4 text-sm leading-7">
-            The public story should stay straightforward. {siteConfig.name} publishes a clean daily card, frames picks
-            as opinion-based content, and tracks results honestly. The site deliberately avoids hype-first language
-            because the professional look is part of the sales asset.
+            That is why the public side of the brand leans into clean guides, sportsbook reviews, and transparent
+            results instead of shouting about impossible outcomes. The premium side is where the full card, deeper
+            writeups, archived positions, and member workflow live. The split is intentional: editorial trust up front,
+            premium depth behind the wall.
+          </p>
+          <p className="mt-4 text-sm leading-7">
+            The business is built for two audiences at once. For members, it has to feel worth paying for every day.
+            For operators and affiliate managers, it has to look like a credible media business with staying power.
+            Sharplines is designed to signal both.
           </p>
         </div>
 
         <div className="space-y-5">
           {[
             {
-              title: "What the brand signals",
-              copy: "Premium sports media aesthetic, disciplined betting language, and enough operator coverage to look current in the market."
+              title: "What Sharplines stands for",
+              copy: "Measured betting language, disciplined card building, and a premium experience that feels closer to a media product than a random picks feed."
             },
             {
-              title: "What makes it credible",
-              copy: "Public wins and losses, protected member picks, and a real checkout flow instead of a vague DM-to-buy funnel."
+              title: "Why it should feel credible",
+              copy: "Public wins and losses, cleaner operator coverage, and a paywall that is tied to a real product instead of vague hype or private-message selling."
             },
             {
-              title: "What comes later",
-              copy: "AI-assisted posting, richer operator guides, and a smoother admin workflow once live data starts moving through the system."
+              title: "Where it goes from here",
+              copy: "Automated publishing, sharper results tracking, more original writing, and a stronger operator-facing footprint as the site grows."
             }
           ].map((item) => (
             <div key={item.title} className="panel p-6">

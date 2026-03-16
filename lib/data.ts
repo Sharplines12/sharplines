@@ -78,9 +78,9 @@ export const siteConfig = {
   name: "Sharplines",
   shortName: "Sharplines",
   tagline: "Premium betting analysis, daily top picks, and a members-only card built like a real media brand.",
-  monthlyPrice: 59,
-  yearlyPrice: 499,
-  annualValue: 708,
+  monthlyPrice: 39,
+  yearlyPrice: 249,
+  annualValue: 468,
   contactEmail: "partners@sharplines.com",
   socialHandle: "@sharplines",
   isDemoContent: true,
@@ -579,43 +579,49 @@ export const articles: Article[] = [
   {
     slug: "how-to-read-a-daily-betting-card",
     title: "How To Read A Daily Betting Card Without Chasing Every Game",
-    excerpt: "A framework for understanding top picks, leans, confidence, and why fewer plays can still make a better card.",
+    excerpt: "How to tell the difference between a real betting card, a random list of opinions, and a content product that is just trying to look busy.",
     category: "Strategy",
     publishedAt: "March 10, 2026",
-    readingTime: "6 min read",
+    readingTime: "8 min read",
     heroKicker: "Card Strategy",
     content: [
-      "The best betting card is rarely the biggest one. A sharper card is usually a filtered one, where the strongest reads survive and the rest stay on the cutting-room floor.",
-      "That is why premium picks brands should separate best bets, standard plays, and smaller leans. The labels help users understand conviction without confusing volume for edge.",
-      "A disciplined card also makes post-result review easier. You can see whether the strongest opinions actually deserved the biggest exposure, which helps keep the product accountable over time."
+      "A lot of betting content still confuses activity with quality. The card is long, the opinions are loud, and everything gets treated like a must-play spot. That can feel exciting for a few minutes, but it becomes useless quickly if there is no structure behind it.",
+      "A real daily card should do two things well. First, it should tell you what the strongest opinions actually are. Second, it should make it obvious where conviction begins to taper off. If every pick is presented with the same energy and the same unit size, the card is not helping you think. It is just asking you to borrow someone else's confidence.",
+      "That is why better products separate the board into layers. There is usually a best bet or featured position, then a handful of standard plays, and then maybe a smaller lean that is worth tracking but not worth treating like the centerpiece. Those distinctions matter. They tell you how the handicapper sees the risk, not just how they want to market the card.",
+      "The same logic applies to analysis. Good writeups explain why a number is playable, what market factors matter, and what would make the bet less attractive if the line moves. Weak writeups mostly exist to sound certain. They tell you a side is strong, but they do not tell you where the edge actually lives.",
+      "Over time, the cleanest cards are also the easiest to grade honestly. When the strongest opinion loses, you can go back and ask whether the number was still right. When a smaller lean wins, you can avoid rewriting history and pretending it was always the best play on the board. That kind of separation keeps the product accountable, which is a big part of what makes a picks brand feel real."
     ]
   },
   {
     slug: "what-makes-a-sportsbook-review-useful",
     title: "What Makes A Sportsbook Review Useful For Real Bettors",
-    excerpt: "The difference between a filler affiliate review and a genuinely useful operator breakdown.",
+    excerpt: "The difference between a review that actually helps a bettor and one that only exists to hold an affiliate link.",
     category: "Reviews",
     publishedAt: "March 9, 2026",
-    readingTime: "5 min read",
+    readingTime: "7 min read",
     heroKicker: "Sportsbook Reviews",
     content: [
-      "A useful sportsbook review should tell users what the product feels like, what kinds of markets it handles well, and where the operator fits compared to alternatives.",
-      "It should not overhype promos or imply a bettor will profit simply by signing up. Strong review content is grounded, factual, and clear about tradeoffs.",
-      "For a media brand, sportsbook reviews should support trust. They work best when they feel editorial first and monetized second."
+      "Most sportsbook reviews are technically about the operator, but you can usually tell within a few sentences whether the page was written for an actual reader or for a link report. The weak ones all sound the same. They repeat whatever promo language is easiest to recycle, say the app is \"great for bettors,\" and move on without offering much of a reason to trust the opinion.",
+      "A useful review starts with the experience itself. What does the app feel like to navigate? Are the markets broad or mostly surface-level? Does the book make mainstream betting easy while feeling thinner around props and niche spots, or does it hold up better once you move past the front-page menu? Those are the kinds of things a bettor can actually use.",
+      "The next layer is context. A mainstream operator like FanDuel or DraftKings does not need a fake hard sell. Readers already know the names. What they need is a calmer explanation of how those books differ in practice: pricing, app feel, market depth, live betting, and whether the product seems stronger for beginners or for someone who already shops numbers across multiple books.",
+      "The other thing a real review should do is describe tradeoffs honestly. Maybe the app is clean but the pricing is rarely aggressive. Maybe the rewards ecosystem is interesting but the market menu can feel uneven by state. Those details make the page more credible because they signal that the goal is to evaluate the product, not just to push a signup.",
+      "For a betting media brand, sportsbook reviews are a trust test. If the reviews feel thoughtful, the affiliate layer feels earned. If the reviews feel thin, everything else starts to look thinner too."
     ]
   },
   {
     slug: "tracking-results-without-hiding-the-losses",
     title: "Tracking Results Without Hiding The Losses",
-    excerpt: "Why transparent records matter if you want your premium picks brand to look real.",
+    excerpt: "Why public results matter, what a clean record should show, and why hiding losing days destroys trust faster than a cold streak ever could.",
     category: "Transparency",
     publishedAt: "March 8, 2026",
-    readingTime: "4 min read",
+    readingTime: "7 min read",
     heroKicker: "Accountability",
     content: [
-      "A public record matters because it signals process confidence, not perfection. Serious users know losses happen. What they care about is whether a brand hides them.",
-      "A strong record tracker shows the full story: wins, losses, pushes, units, and sport-by-sport context. That makes the premium offer easier to trust.",
-      "When your site leads with transparency, the rest of the sales copy does not have to sound exaggerated."
+      "The easiest way to make a picks brand look fake is not by losing. It is by pretending the losses somehow do not count. Most people who have spent time around betting content already know the signs: selective screenshots, record resets, suspiciously vague unit counts, and timelines that celebrate every win while quietly erasing the rough nights.",
+      "A real record does not need to look perfect. It needs to look complete. That means wins, losses, pushes, unit size, and enough date-by-date structure that somebody can actually understand how the card has performed over time. Without that, the record is just another piece of marketing language.",
+      "That is also why unit tracking matters more than raw win rate. A 3-2 day can still be weak if the losses came on larger positions. A 2-2 day can still be fine if the card was built around one stronger position and one smaller lean. Once you start showing units and not just wins, the reader gets a clearer picture of how the product is actually being managed.",
+      "Transparency also changes the tone of the whole site. If your record is public, you do not need to write like you are trying to overpower skepticism. The data is already doing some of that work for you. The copy can stay calmer, the claims can stay tighter, and the premium pitch can feel more like an invitation than a dare.",
+      "In the long run, honest tracking is one of the few things that helps both sides of the business at once. Members feel less like they are buying into a black box, and operator partners see a brand that at least understands how to present itself like a serious product."
     ]
   }
 ];

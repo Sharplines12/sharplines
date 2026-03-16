@@ -76,8 +76,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <div className="mt-8">
         <PremiumCtaBlock
           compact
-          title="Editorial depth brings readers in. The premium card is what converts them."
-          copy="Use articles to support the brand, then move readers into daily picks, pricing, and the premium member experience."
+          title="Strong editorial work earns attention. The daily card is what turns that attention into a product."
+          copy="Sharplines uses articles to build trust first, then moves readers into daily picks, premium analysis, and the member dashboard."
         />
       </div>
     </div>
