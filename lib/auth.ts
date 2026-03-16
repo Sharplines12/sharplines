@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import type { User } from "@supabase/supabase-js";
-import { createSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase";
+import { createSupabaseServerClient, createSupabaseServiceClient, isSupabaseConfigured } from "@/lib/supabase";
 
 export type MembershipState = "public" | "authenticated" | "active-paid-member";
 
@@ -126,6 +126,68 @@ async function getProfileForUser(user: User) {
   return data;
 }
 
+async function autoConfirmSupabaseUserByEmail(email: string) {
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return false;
+  }
+
+  const serviceClient = createSupabaseServiceClient();
+  const { data } = await serviceClient.auth.admin.listUsers();
+  const user = data.users.find((item) => item.email?.toLowerCase() === email.toLowerCase());
+
+  if (!user) {
+    return false;
+  }
+
+  const result = await serviceClient.auth.admin.updateUserById(user.id, {
+    email_confirm: true
+  });
+
+  return !result.error;
+}
+
+async function createOrConfirmSupabaseUser(params: { email: string; password: string; name: string }) {
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return null;
+  }
+
+  const serviceClient = createSupabaseServiceClient();
+  const { data } = await serviceClient.auth.admin.listUsers();
+  const existingUser = data.users.find((item) => item.email?.toLowerCase() === params.email.toLowerCase());
+
+  if (existingUser) {
+    const updateResult = await serviceClient.auth.admin.updateUserById(existingUser.id, {
+      password: params.password,
+      email_confirm: true,
+      user_metadata: {
+        ...(existingUser.user_metadata || {}),
+        full_name: params.name
+      }
+    });
+
+    if (updateResult.error) {
+      throw updateResult.error;
+    }
+
+    return updateResult.data.user;
+  }
+
+  const createResult = await serviceClient.auth.admin.createUser({
+    email: params.email,
+    password: params.password,
+    email_confirm: true,
+    user_metadata: {
+      full_name: params.name
+    }
+  });
+
+  if (createResult.error) {
+    throw createResult.error;
+  }
+
+  return createResult.data.user;
+}
+
 function mapSupabaseUserToSession(user: User, profile: { membership_tier: string; full_name?: string | null }): SessionUser {
   const role = profile.membership_tier === "admin" ? "admin" : profile.membership_tier === "premium" ? "paid" : "free";
   const membershipState = role === "paid" || role === "admin" ? "active-paid-member" : "authenticated";
@@ -236,6 +298,30 @@ export async function authenticate(formData: FormData): Promise<AuthResult> {
     password
   });
 
+  if (error?.message?.toLowerCase().includes("email not confirmed")) {
+    const confirmed = await autoConfirmSupabaseUserByEmail(email);
+
+    if (confirmed) {
+      const retry = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (!retry.error && retry.data.user?.email) {
+        const profile = await getProfileForUser(retry.data.user);
+
+        return {
+          status: "success",
+          user: mapSupabaseUserToSession(retry.data.user, profile)
+        };
+      }
+    }
+
+    return {
+      status: "verify_email"
+    };
+  }
+
   if (error || !data.user?.email) {
     return {
       status: "error",
@@ -280,6 +366,34 @@ export async function registerUser(formData: FormData): Promise<AuthResult> {
   }
 
   const supabase = await createSupabaseServerClient();
+
+  if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    await createOrConfirmSupabaseUser({
+      email,
+      password,
+      name
+    });
+
+    const signIn = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (signIn.error || !signIn.data.user?.email) {
+      return {
+        status: "error",
+        message: "Account was created, but the automatic login did not complete. Try logging in once more."
+      };
+    }
+
+    const profile = await getProfileForUser(signIn.data.user);
+
+    return {
+      status: "success",
+      user: mapSupabaseUserToSession(signIn.data.user, profile)
+    };
+  }
+
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
