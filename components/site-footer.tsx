@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SharplinesWordmark } from "@/components/sharplines-wordmark";
 import { siteConfig } from "@/lib/data";
 
 export function SiteFooter() {
@@ -7,7 +8,7 @@ export function SiteFooter() {
       <div className="panel-strong px-6 py-8 sm:px-8">
         <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
-            <p className="muted-label">{siteConfig.name}</p>
+            <SharplinesWordmark />
             <h2 className="mt-2 text-3xl uppercase text-white">{siteConfig.tagline}</h2>
             <div className="mt-5 flex flex-wrap gap-3 text-sm text-mist/65">
               {siteConfig.disclosures.map((item) => (

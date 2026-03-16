@@ -10,7 +10,12 @@ export const metadata: Metadata = {
   title: `${siteConfig.name} | Premium Daily Picks & Betting Analysis`,
   description:
     `${siteConfig.name} is a premium sports betting media brand focused on daily top picks, gated premium analysis, sportsbook reviews, and responsible betting content.`,
-  metadataBase: new URL(process.env.APP_URL || "http://localhost:3000")
+  metadataBase: new URL(process.env.APP_URL || "http://localhost:3000"),
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg"
+  }
 };
 
 export default function RootLayout({

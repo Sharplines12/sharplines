@@ -1,9 +1,9 @@
 import Link from "next/link";
 import type { Route } from "next";
-import { MenuSquare, Shield } from "lucide-react";
+import { MenuSquare } from "lucide-react";
 import { logoutAction } from "@/app/login/actions";
+import { SharplinesWordmark } from "@/components/sharplines-wordmark";
 import { getSession } from "@/lib/auth";
-import { siteConfig } from "@/lib/data";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -24,13 +24,7 @@ export async function SiteHeader() {
       <div className="panel-strong px-4 py-3 sm:px-6">
         <div className="flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04]">
-              <Shield className="h-5 w-5 text-neon" />
-            </div>
-            <div>
-              <p className="font-display text-2xl uppercase text-white">{siteConfig.name}</p>
-              <p className="text-xs uppercase tracking-[0.2em] text-mist/45">Premium picks brand</p>
-            </div>
+            <SharplinesWordmark compact />
           </Link>
 
           <nav className="hidden items-center gap-5 lg:flex">
