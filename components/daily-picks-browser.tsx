@@ -5,6 +5,7 @@ import { BestBetBanner } from "@/components/best-bet-banner";
 import { LockedPickCard } from "@/components/locked-pick-card";
 import { PickRow } from "@/components/pick-row";
 import type { DailyCard } from "@/lib/data";
+import { splitCardPicks } from "@/lib/pick-timing";
 
 type DailyPicksBrowserProps = {
   cards: DailyCard[];
@@ -21,11 +22,18 @@ export function DailyPicksBrowser({ cards, freePreviewCount }: DailyPicksBrowser
   );
 
   const selectedCard = cards.find((card) => card.date === date) ?? cards[0];
-
-  const filteredPicks = selectedCard.picks.filter((pick) => sport === "All sports" || pick.sport === sport);
-  const bestBet = filteredPicks.find((pick) => pick.isBestBet) ?? filteredPicks[0];
-  const freePicks = filteredPicks.slice(0, freePreviewCount);
-  const lockedPicks = filteredPicks.slice(freePreviewCount);
+  const {
+    filteredPicks,
+    upcomingPicks,
+    archivedPicks,
+    freeUpcomingPicks,
+    lockedUpcomingPicks,
+    bestUpcomingPick,
+    bestAvailablePick
+  } = useMemo(
+    () => splitCardPicks(selectedCard, sport, freePreviewCount),
+    [freePreviewCount, selectedCard, sport]
+  );
 
   return (
     <div className="space-y-6">
@@ -62,20 +70,69 @@ export function DailyPicksBrowser({ cards, freePreviewCount }: DailyPicksBrowser
         </div>
       </div>
 
-      {bestBet ? <BestBetBanner pick={bestBet} locked /> : null}
+      {bestUpcomingPick ? (
+        <BestBetBanner pick={bestUpcomingPick} locked />
+      ) : bestAvailablePick ? (
+        <div className="panel p-6">
+          <p className="text-xs uppercase tracking-[0.18em] text-mist/45">Archive mode</p>
+          <h2 className="mt-3 text-3xl uppercase text-white">Today&apos;s teaser card has moved into the archive.</h2>
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-mist/70">
+            Every filtered pick on this card has already started or been graded. The live teaser area below now shows
+            archived entries so the board still reads cleanly instead of pretending old starts are still upcoming.
+          </p>
+        </div>
+      ) : null}
 
-      <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="space-y-4">
-          {freePicks.map((pick) => (
-            <PickRow key={pick.id} pick={pick} />
-          ))}
+      {upcomingPicks.length ? (
+        <section className="space-y-4">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.18em] text-mist/45">Upcoming card</p>
+              <h2 className="mt-2 text-3xl uppercase text-white">Only the still-live teaser stays up front.</h2>
+            </div>
+            <p className="text-sm text-mist/60">
+              {upcomingPicks.length} upcoming pick{upcomingPicks.length === 1 ? "" : "s"} still on the board
+            </p>
+          </div>
+          <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+            <div className="space-y-4">
+              {freeUpcomingPicks.map((pick) => (
+                <PickRow key={pick.id} pick={pick} />
+              ))}
+            </div>
+            <div className="space-y-4">
+              {lockedUpcomingPicks.map((pick) => (
+                <LockedPickCard key={pick.id} pick={pick} />
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {archivedPicks.length ? (
+        <section className="space-y-4">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.18em] text-mist/45">Archived card area</p>
+              <h2 className="mt-2 text-3xl uppercase text-white">Already-started and graded plays move down here.</h2>
+            </div>
+            <p className="text-sm text-mist/60">
+              {archivedPicks.length} archived pick{archivedPicks.length === 1 ? "" : "s"}
+            </p>
+          </div>
+          <div className="grid gap-4">
+            {archivedPicks.map((pick) => (
+              <PickRow key={pick.id} pick={pick} />
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {!filteredPicks.length ? (
+        <div className="panel p-6">
+          <p className="text-sm text-mist/70">No picks match that filter yet.</p>
         </div>
-        <div className="space-y-4">
-          {lockedPicks.map((pick) => (
-            <LockedPickCard key={pick.id} pick={pick} />
-          ))}
-        </div>
-      </div>
+      ) : null}
     </div>
   );
 }

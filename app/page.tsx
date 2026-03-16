@@ -15,6 +15,7 @@ import { SectionHeading } from "@/components/section-heading";
 import { SportsbookCard } from "@/components/sportsbook-card";
 import { siteConfig } from "@/lib/data";
 import { getArticles, getDailyCards, getGuides, getSportsbooks, getTodayCard } from "@/lib/content";
+import { splitCardPicks } from "@/lib/pick-timing";
 
 export const metadata: Metadata = {
   title: `${siteConfig.name} | Daily Top Picks`,
@@ -30,9 +31,9 @@ export default async function HomePage() {
     getGuides(),
     getSportsbooks()
   ]);
-  const bestBet = todayCard.picks.find((pick) => pick.isBestBet) ?? todayCard.picks[0];
-  const freePicks = todayCard.picks.slice(0, siteConfig.freePreviewCount);
-  const lockedPicks = todayCard.picks.slice(siteConfig.freePreviewCount);
+  const { upcomingPicks, archivedPicks, freeUpcomingPicks, lockedUpcomingPicks, bestUpcomingPick, bestAvailablePick } =
+    splitCardPicks(todayCard, "All sports", siteConfig.freePreviewCount);
+  const bestBet = bestUpcomingPick ?? bestAvailablePick;
 
   return (
     <div className="pb-16">
@@ -89,9 +90,9 @@ export default async function HomePage() {
               </p>
               <div className="mt-6 space-y-3">
                 {[
-                  { label: "Free preview", value: `${siteConfig.freePreviewCount} picks`, href: "/daily-picks" },
-                  { label: "Premium locked", value: `${lockedPicks.length} more angles`, href: "/pricing" },
-                  { label: "Today&apos;s best bet", value: bestBet.pickTitle, href: "/daily-picks" }
+                  { label: "Upcoming preview", value: `${freeUpcomingPicks.length} live teaser picks`, href: "/daily-picks" },
+                  { label: "Premium locked", value: `${lockedUpcomingPicks.length} more live angles`, href: "/pricing" },
+                  { label: "Today&apos;s best bet", value: bestBet?.pickTitle ?? "Archive in review", href: "/daily-picks" }
                 ].map((item) => (
                   <Link
                     key={item.label}
@@ -112,31 +113,60 @@ export default async function HomePage() {
         <SectionHeading
           eyebrow="Today&apos;s Top Picks"
           title="The homepage should sell the daily card before anything else."
-          copy="This section puts the best bet first, previews the free picks clearly, and uses locked premium cards to make the membership value obvious without looking cheap."
+          copy="This section puts the best bet first, keeps the still-live teaser picks up top, and pushes already-started plays into a cleaner archive block."
         />
         <div className="mt-8 space-y-6">
-          <BestBetBanner pick={bestBet} locked />
-          <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="space-y-4">
-              {freePicks.map((pick) => (
-                <PickRow key={pick.id} pick={pick} />
-              ))}
-            </div>
-            <div className="space-y-4">
-              {lockedPicks.map((pick) => (
-                <LockedPickCard key={pick.id} pick={pick} />
-              ))}
-              <div className="panel p-5">
-                <div className="flex items-center gap-3">
-                  <LockKeyhole className="h-5 w-5 text-neon" />
-                  <p className="text-sm text-white">
-                    Unlock the full premium card for complete analysis, extra leans, and unit sizing notes.
-                  </p>
+          {bestBet ? <BestBetBanner pick={bestBet} locked /> : null}
+          {upcomingPicks.length ? (
+            <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+              <div className="space-y-4">
+                {freeUpcomingPicks.map((pick) => (
+                  <PickRow key={pick.id} pick={pick} />
+                ))}
+              </div>
+              <div className="space-y-4">
+                {lockedUpcomingPicks.map((pick) => (
+                  <LockedPickCard key={pick.id} pick={pick} />
+                ))}
+                <div className="panel p-5">
+                  <div className="flex items-center gap-3">
+                    <LockKeyhole className="h-5 w-5 text-neon" />
+                    <p className="text-sm text-white">
+                      Unlock the full premium card for complete analysis, extra leans, and unit sizing notes.
+                    </p>
+                  </div>
+                  <CheckoutButton className="cta-primary mt-5">Join premium</CheckoutButton>
                 </div>
-                <CheckoutButton className="cta-primary mt-5">Join premium</CheckoutButton>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="panel p-6">
+              <p className="text-xs uppercase tracking-[0.18em] text-mist/45">Archive mode</p>
+              <h3 className="mt-3 text-3xl uppercase text-white">The live teaser has rolled forward.</h3>
+              <p className="mt-4 max-w-3xl text-sm leading-7 text-mist/70">
+                Today&apos;s visible card has already started, so the homepage preview now leans on the archive block
+                instead of pretending old starts are still upcoming.
+              </p>
+            </div>
+          )}
+          {archivedPicks.length ? (
+            <div className="panel p-6">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.18em] text-mist/45">Archive preview</p>
+                  <h3 className="mt-2 text-3xl uppercase text-white">Started or graded plays move down here.</h3>
+                </div>
+                <Link href="/results" className="text-sm uppercase tracking-[0.18em] text-aqua hover:text-white">
+                  See full results
+                </Link>
+              </div>
+              <div className="mt-5 grid gap-4">
+                {archivedPicks.slice(0, 2).map((pick) => (
+                  <PickRow key={pick.id} pick={pick} />
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
       </section>
 

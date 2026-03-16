@@ -22,7 +22,7 @@ export default async function DailyPicksPage() {
       <SectionHeading
         eyebrow="Daily Picks"
         title="Daily top picks sit at the center of the whole product."
-        copy="Free users can scan the headline plays and preview limited analysis. The full card, deeper writeups, and extra leans stay behind the premium wall."
+        copy="Free users can scan the headline plays and preview limited analysis. Upcoming picks stay in the teaser flow, while already-started plays drop into an archive area below so the board keeps its timing honest."
       />
 
       <DailyPicksBrowser cards={dailyCards} freePreviewCount={siteConfig.freePreviewCount} />
