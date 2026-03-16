@@ -229,7 +229,7 @@ export default async function HomePage() {
         <SectionHeading
           eyebrow="Recent Articles"
           title="Articles make the site feel like a real betting media property."
-          copy="Use content to deepen trust, help SEO, and support the premium brand tone without taking the focus off the picks."
+          copy=""
         />
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
           {articles.map((article) => (
