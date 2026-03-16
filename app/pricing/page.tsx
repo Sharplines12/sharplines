@@ -21,7 +21,7 @@ export default function PricingPage() {
         copy="The pricing page should make the difference between preview access and full-card access immediately clear."
       />
 
-      <div className="grid gap-5 lg:grid-cols-2">
+      <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
         <PricingCard
           tier="Monthly premium"
           price={siteConfig.monthlyPrice}
@@ -35,22 +35,26 @@ export default function PricingPage() {
           ]}
           cta={<CheckoutButton className="cta-primary w-full justify-center">Start monthly</CheckoutButton>}
         />
-        <PricingCard
-          tier="Yearly premium"
-          price={siteConfig.yearlyPrice}
-          suffix="/ year"
-          features={[
-            "Everything in monthly premium",
-            "Lower effective monthly price",
-            "Stronger long-term member retention flow",
-            "Priority positioning as the main premium plan"
-          ]}
-          cta={
-            <CheckoutButton className="cta-secondary w-full justify-center" plan="yearly">
-              Start yearly
-            </CheckoutButton>
-          }
-        />
+        <div className="panel p-6">
+          <p className="muted-label">Launch plan</p>
+          <h2 className="mt-3 text-3xl uppercase text-white">Start with one paid offer and make it feel sharp.</h2>
+          <p className="mt-4 text-sm leading-7 text-mist/75">
+            Sharplines is launching with one clear premium membership instead of stacking extra pricing options too
+            early. That keeps the site cleaner, makes the offer easier to understand, and gives the product room to
+            prove itself before adding a yearly plan.
+          </p>
+          <div className="mt-6 space-y-3 text-sm text-mist/75">
+            {[
+              "Monthly membership is live now.",
+              "Yearly pricing can be added later once retention data is real.",
+              "The goal at launch is clarity, not too many checkout decisions."
+            ].map((item) => (
+              <div key={item} className="rounded-[20px] border border-white/10 bg-white/[0.03] px-4 py-3">
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="panel p-6">
