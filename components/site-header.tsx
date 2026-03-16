@@ -1,0 +1,98 @@
+import Link from "next/link";
+import type { Route } from "next";
+import { MenuSquare, Shield } from "lucide-react";
+import { logoutAction } from "@/app/login/actions";
+import { getSession } from "@/lib/auth";
+import { siteConfig } from "@/lib/data";
+
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/daily-picks", label: "Daily Picks" },
+  { href: "/guides", label: "Guides" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/sportsbooks", label: "Sportsbooks" },
+  { href: "/articles", label: "Articles" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" }
+];
+
+export async function SiteHeader() {
+  const session = await getSession();
+
+  return (
+    <header className="site-container sticky top-0 z-40 pt-4">
+      <div className="panel-strong px-4 py-3 sm:px-6">
+        <div className="flex items-center justify-between gap-4">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04]">
+              <Shield className="h-5 w-5 text-neon" />
+            </div>
+            <div>
+              <p className="font-display text-2xl uppercase text-white">{siteConfig.name}</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-mist/45">Premium picks brand</p>
+            </div>
+          </Link>
+
+          <nav className="hidden items-center gap-5 lg:flex">
+            {navItems.map((item) => (
+              <Link key={item.href} href={item.href as Route} className="text-sm font-medium text-mist/70 hover:text-white">
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="hidden items-center gap-3 sm:flex">
+            {session ? (
+              <>
+                {session.membershipState === "active-paid-member" ? (
+                  <Link href="/members" className="cta-secondary">
+                    Dashboard
+                  </Link>
+                ) : (
+                  <Link href="/pricing" className="cta-secondary">
+                    Upgrade
+                  </Link>
+                )}
+                <form action={logoutAction}>
+                  <button type="submit" className="cta-primary">
+                    Log out
+                  </button>
+                </form>
+              </>
+            ) : (
+              <>
+                <Link href="/signup" className="cta-secondary">
+                  Sign up
+                </Link>
+                <Link href="/login" className="cta-secondary">
+                  Member login
+                </Link>
+                <Link href="/pricing" className="cta-primary">
+                  Unlock premium
+                </Link>
+              </>
+            )}
+          </div>
+
+          <div className="sm:hidden">
+            <Link href="/login" className="cta-secondary px-4 py-2">
+              <MenuSquare className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+
+        <div className="mt-4 flex gap-2 overflow-x-auto pb-1 lg:hidden">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href as Route}
+              className="whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-mist/60"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </header>
+  );
+}
