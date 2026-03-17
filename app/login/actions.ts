@@ -12,7 +12,7 @@ export async function loginAction(
   formData: FormData
 ): Promise<LoginFormState> {
   const result = await authenticate(formData);
-  const nextPath = String(formData.get("next") || "/members");
+  const nextPath = String(formData.get("next") || "/dashboard");
 
   if (result.status !== "success") {
     return {

@@ -441,3 +441,17 @@ export async function requirePaidMember() {
 
   return session;
 }
+
+export async function requireAuthenticatedUser(nextPath = "/dashboard") {
+  const session = await getSession();
+
+  if (!session) {
+    redirect(`/login?next=${encodeURIComponent(nextPath)}`);
+  }
+
+  return session;
+}
+
+export function isPaidAccess(role: SessionUser["role"]) {
+  return role === "paid" || role === "admin";
+}

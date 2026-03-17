@@ -8,12 +8,13 @@ import { getSession } from "@/lib/auth";
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/daily-picks", label: "Daily Picks" },
+  { href: "/archive", label: "Archive" },
+  { href: "/performance", label: "Performance" },
   { href: "/guides", label: "Guides" },
-  { href: "/pricing", label: "Pricing" },
   { href: "/sportsbooks", label: "Sportsbooks" },
-  { href: "/articles", label: "Articles" },
+  { href: "/pricing", label: "Pricing" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" }
+  { href: "/articles", label: "Articles" }
 ];
 
 export async function SiteHeader() {
@@ -39,12 +40,12 @@ export async function SiteHeader() {
             {session ? (
               <>
                 {session.membershipState === "active-paid-member" ? (
-                  <Link href="/members" className="cta-secondary">
+                  <Link href="/dashboard" className="cta-secondary">
                     Dashboard
                   </Link>
                 ) : (
-                  <Link href="/pricing" className="cta-secondary">
-                    Upgrade
+                  <Link href="/dashboard" className="cta-secondary">
+                    Dashboard
                   </Link>
                 )}
                 <form action={logoutAction}>
@@ -69,7 +70,7 @@ export async function SiteHeader() {
           </div>
 
           <div className="sm:hidden">
-            <Link href="/login" className="cta-secondary px-4 py-2">
+            <Link href={session ? "/dashboard" : "/login"} className="cta-secondary px-4 py-2">
               <MenuSquare className="h-4 w-4" />
             </Link>
           </div>

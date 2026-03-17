@@ -1,5 +1,7 @@
 import type { DailyCard } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import { formatUnits } from "@/lib/utils";
+import { ResultPill } from "@/components/result-pill";
 
 type ResultsDayCardProps = {
   day: DailyCard;
@@ -30,17 +32,14 @@ export function ResultsDayCard({ day, compact = false }: ResultsDayCardProps) {
                   {pick.market} • {pick.line} • {pick.units.toFixed(1)}u
                 </p>
               </div>
-              <span
-                className={cn(
-                  "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]",
-                  pick.result === "win" && "bg-neon/10 text-neon",
-                  pick.result === "loss" && "bg-rose-400/10 text-rose-200",
-                  pick.result === "push" && "bg-aqua/10 text-aqua",
-                  pick.result === "pending" && "bg-white/[0.04] text-mist/65"
-                )}
-              >
-                {pick.result}
-              </span>
+              <div className="flex items-center gap-3">
+                {typeof pick.profitLoss === "number" ? (
+                  <span className={cn("text-xs font-semibold uppercase tracking-[0.18em]", pick.profitLoss >= 0 ? "text-neon" : "text-rose-200")}>
+                    {formatUnits(pick.profitLoss)}
+                  </span>
+                ) : null}
+                <ResultPill result={pick.result} />
+              </div>
             </div>
           </div>
         ))}

@@ -19,6 +19,7 @@ import {
   type PickEntry,
   type Sportsbook
 } from "@/lib/data";
+import { flattenDailyCards, getHistoricalPicks, getFuturePicks, type PickArchiveEntry } from "@/lib/picks";
 import { createSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase";
 
 type DbDailyCard = {
@@ -51,6 +52,12 @@ type DbPickEntry = {
   premium_analysis: string;
   result: PickEntry["result"];
   is_featured: boolean | null;
+  posted_at: string | null;
+  updated_at: string | null;
+  settled_at: string | null;
+  profit_loss: number | null;
+  is_premium: boolean | null;
+  closing_status: PickEntry["closingStatus"] | null;
 };
 
 type DbArticle = {
@@ -102,7 +109,13 @@ function mapPick(pick: DbPickEntry): PickEntry {
     premiumTeaser: pick.premium_teaser,
     premiumAnalysis: pick.premium_analysis,
     result: pick.result,
-    isBestBet: pick.is_featured ?? false
+    isBestBet: pick.is_featured ?? false,
+    postedAt: pick.posted_at ?? undefined,
+    updatedAt: pick.updated_at ?? undefined,
+    settledAt: pick.settled_at,
+    profitLoss: pick.profit_loss ?? undefined,
+    isPremium: pick.is_premium ?? undefined,
+    closingStatus: pick.closing_status ?? undefined
   };
 }
 
@@ -192,6 +205,21 @@ export async function getTodayCard() {
 export async function getResultsLedger() {
   const cards = await getDailyCards();
   return cards.slice(1).length ? cards.slice(1) : fallbackResultsLedger;
+}
+
+export async function getArchivePicks() {
+  const cards = await getDailyCards();
+  return getHistoricalPicks(cards).sort((left, right) => new Date(right.postedAt).getTime() - new Date(left.postedAt).getTime());
+}
+
+export async function getFutureArchivePicks() {
+  const cards = await getDailyCards();
+  return getFuturePicks(cards).sort((left, right) => new Date(left.postedAt).getTime() - new Date(right.postedAt).getTime());
+}
+
+export async function getPickBySlug(slug: string) {
+  const cards = await getDailyCards();
+  return flattenDailyCards(cards).find((pick) => pick.slug === slug || pick.id === slug) ?? null;
 }
 
 export async function getArticles() {

@@ -28,5 +28,5 @@ export async function signupAction(
     };
   }
 
-  redirect("/pricing?welcome=free");
+  redirect("/dashboard?welcome=free");
 }

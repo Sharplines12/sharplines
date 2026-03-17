@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
       data: { user }
     } = await supabase.auth.getUser();
 
-    if ((pathname.startsWith("/premium-picks") || pathname.startsWith("/members")) && !user) {
+    if ((pathname.startsWith("/premium-picks") || pathname.startsWith("/members") || pathname.startsWith("/dashboard")) && !user) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("next", pathname);
       return NextResponse.redirect(loginUrl);
@@ -27,7 +27,7 @@ export async function middleware(request: NextRequest) {
 
   const session = request.cookies.get("premium_picks_session");
 
-  if ((pathname.startsWith("/premium-picks") || pathname.startsWith("/members")) && !session) {
+  if ((pathname.startsWith("/premium-picks") || pathname.startsWith("/members") || pathname.startsWith("/dashboard")) && !session) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("next", pathname);
     return NextResponse.redirect(loginUrl);
@@ -37,5 +37,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/premium-picks/:path*", "/members/:path*"]
+  matcher: ["/premium-picks/:path*", "/members/:path*", "/dashboard/:path*"]
 };

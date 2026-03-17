@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { RecordTracker } from "@/components/record-tracker";
 import { ResponsibleGamingBanner } from "@/components/responsible-gaming-banner";
 import { ResultsDayCard } from "@/components/results-day-card";
@@ -21,8 +22,17 @@ export default async function ResultsPage() {
       <SectionHeading
         eyebrow="Results"
         title="Transparent tracking is what keeps the premium brand trustworthy."
-        copy="The public side shows enough record detail to build trust, while the premium dashboard gives members the cleaner internal view."
+        copy="Sharplines keeps recent results public, but the broader trust layer now lives across the full archive and performance pages. The premium product is the future card, not the past record."
       />
+
+      <div className="flex flex-wrap gap-3">
+        <Link href="/archive" className="cta-secondary">
+          Full archive
+        </Link>
+        <Link href="/performance" className="cta-secondary">
+          Performance page
+        </Link>
+      </div>
 
       <RecordTracker cards={dailyCards} />
 

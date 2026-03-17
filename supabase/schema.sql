@@ -45,10 +45,21 @@ create table if not exists public.picks (
   premium_analysis text not null,
   result text not null default 'pending' check (result in ('win', 'loss', 'push', 'pending')),
   is_featured boolean not null default false,
+  is_premium boolean not null default true,
+  posted_at timestamptz not null default now(),
+  settled_at timestamptz,
+  profit_loss numeric(8,2) not null default 0,
+  closing_status text not null default 'open' check (closing_status in ('open', 'started', 'settled')),
   sort_order integer not null default 0,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.picks add column if not exists is_premium boolean not null default true;
+alter table public.picks add column if not exists posted_at timestamptz not null default now();
+alter table public.picks add column if not exists settled_at timestamptz;
+alter table public.picks add column if not exists profit_loss numeric(8,2) not null default 0;
+alter table public.picks add column if not exists closing_status text not null default 'open';
 
 create table if not exists public.articles (
   slug text primary key,
@@ -110,6 +121,44 @@ create table if not exists public.saved_picks (
   primary key (user_id, pick_id)
 );
 
+create table if not exists public.user_bets (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  date date not null,
+  sport text not null,
+  league text not null,
+  game text not null,
+  bet_type text not null,
+  pick_title text not null,
+  sportsbook text not null,
+  odds text not null,
+  stake numeric(10,2) not null default 0,
+  units numeric(8,2) not null default 0,
+  result text not null default 'pending' check (result in ('win', 'loss', 'push', 'pending')),
+  profit_loss numeric(8,2) not null default 0,
+  notes text not null default '',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  settled_at timestamptz
+);
+
+create table if not exists public.pick_change_log (
+  id uuid primary key default gen_random_uuid(),
+  pick_id uuid not null references public.picks(id) on delete cascade,
+  changed_at timestamptz not null default now(),
+  changed_by text not null default 'system',
+  change_summary text not null,
+  old_values jsonb,
+  new_values jsonb
+);
+
+-- TODO: when closing-line-value and line movement tracking go live,
+-- add closing_odds, closing_line, clv_units, and market_snapshot columns
+-- to public.picks or a dedicated public.pick_market_history table.
+-- TODO: when CSV import or screenshot parsing is added for user bet tracking,
+-- add import_source, import_batch_id, parsed_payload, and attachment_url fields
+-- to public.user_bets or a companion import-jobs table.
+
 alter table public.profiles enable row level security;
 alter table public.daily_cards enable row level security;
 alter table public.picks enable row level security;
@@ -118,6 +167,8 @@ alter table public.guides enable row level security;
 alter table public.sportsbooks enable row level security;
 alter table public.saved_articles enable row level security;
 alter table public.saved_picks enable row level security;
+alter table public.user_bets enable row level security;
+alter table public.pick_change_log enable row level security;
 
 create policy "public can read daily cards"
 on public.daily_cards for select
@@ -174,3 +225,23 @@ with check (auth.uid() = user_id);
 create policy "users can delete own saved picks"
 on public.saved_picks for delete
 using (auth.uid() = user_id);
+
+create policy "users can read own bets"
+on public.user_bets for select
+using (auth.uid() = user_id);
+
+create policy "users can insert own bets"
+on public.user_bets for insert
+with check (auth.uid() = user_id);
+
+create policy "users can update own bets"
+on public.user_bets for update
+using (auth.uid() = user_id);
+
+create policy "users can delete own bets"
+on public.user_bets for delete
+using (auth.uid() = user_id);
+
+create policy "public can read pick change log"
+on public.pick_change_log for select
+using (true);

@@ -22,6 +22,12 @@ export function SiteFooter() {
             <Link href="/daily-picks" className="hover:text-white">
               Daily Picks
             </Link>
+            <Link href="/archive" className="hover:text-white">
+              Picks Archive
+            </Link>
+            <Link href="/performance" className="hover:text-white">
+              Performance
+            </Link>
             <Link href="/guides" className="hover:text-white">
               Betting Guides
             </Link>

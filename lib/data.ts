@@ -23,6 +23,13 @@ export type PickEntry = {
   premiumAnalysis: string;
   result: PickResult;
   isBestBet?: boolean;
+  postedAt?: string;
+  updatedAt?: string;
+  settledAt?: string | null;
+  profitLoss?: number;
+  isPremium?: boolean;
+  closingStatus?: "open" | "started" | "settled";
+  slug?: string;
 };
 
 export type DailyCard = {
@@ -73,6 +80,27 @@ export type Article = {
 };
 
 export type Guide = Article;
+
+export type UserBet = {
+  id: string;
+  userId: string;
+  date: string;
+  sport: string;
+  league: string;
+  event: string;
+  betType: string;
+  pickTitle: string;
+  sportsbook: string;
+  odds: string;
+  stake: number;
+  units: number;
+  result: PickResult;
+  profitLoss: number;
+  notes: string;
+  createdAt: string;
+  updatedAt: string;
+  settledAt?: string | null;
+};
 
 type EditorialEntryInput = Omit<Article, "readingTime">;
 

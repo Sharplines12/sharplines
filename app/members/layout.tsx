@@ -8,10 +8,13 @@ import { requirePaidMember } from "@/lib/auth";
 import { siteConfig } from "@/lib/data";
 
 const memberNav = [
-  { href: "/members", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/dashboard", label: "Account dashboard", icon: LayoutDashboard },
+  { href: "/members", label: "Premium workspace", icon: LayoutDashboard },
   { href: "/members/today", label: "Today's card", icon: NotebookPen },
   { href: "/members/course", label: "Course", icon: BookOpen },
-  { href: "/members/archive", label: "Archive", icon: BarChart3 }
+  { href: "/members/archive", label: "Archive", icon: BarChart3 },
+  { href: "/dashboard/my-bets", label: "My Bets", icon: NotebookPen },
+  { href: "/dashboard/compare", label: "Compare", icon: BarChart3 }
 ];
 
 export default async function MembersLayout({

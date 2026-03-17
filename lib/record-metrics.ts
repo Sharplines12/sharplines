@@ -1,4 +1,5 @@
 import type { DailyCard } from "@/lib/data";
+import { calculateProfitLoss } from "@/lib/picks";
 
 export function buildRecordMetrics(cards: DailyCard[]) {
   const gradedPicks = cards.flatMap((day) => day.picks).filter((pick) => pick.result !== "pending");
@@ -6,17 +7,7 @@ export function buildRecordMetrics(cards: DailyCard[]) {
   const wins = gradedPicks.filter((pick) => pick.result === "win").length;
   const losses = gradedPicks.filter((pick) => pick.result === "loss").length;
   const pushes = gradedPicks.filter((pick) => pick.result === "push").length;
-  const units = gradedPicks.reduce((sum, pick) => {
-    if (pick.result === "win") {
-      return sum + pick.units * 0.91;
-    }
-
-    if (pick.result === "loss") {
-      return sum - pick.units;
-    }
-
-    return sum;
-  }, 0);
+  const units = gradedPicks.reduce((sum, pick) => sum + calculateProfitLoss(pick.result, pick.odds, pick.units), 0);
   const roi = totalRisked ? (units / totalRisked) * 100 : 0;
 
   const grouped = new Map<string, { wins: number; losses: number; pushes: number; units: number }>();
@@ -26,10 +17,10 @@ export function buildRecordMetrics(cards: DailyCard[]) {
 
     if (pick.result === "win") {
       current.wins += 1;
-      current.units += pick.units * 0.91;
+      current.units += calculateProfitLoss(pick.result, pick.odds, pick.units);
     } else if (pick.result === "loss") {
       current.losses += 1;
-      current.units -= pick.units;
+      current.units += calculateProfitLoss(pick.result, pick.odds, pick.units);
     } else {
       current.pushes += 1;
     }

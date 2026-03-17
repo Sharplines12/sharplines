@@ -17,8 +17,8 @@ export default function PricingPage() {
     <div className="site-container space-y-10 pb-16 pt-10 sm:pt-14">
       <SectionHeading
         eyebrow="Pricing"
-        title="Free keeps the brand visible. Premium unlocks the real product."
-        copy="The difference between public preview access and the full premium card is designed to be immediate and easy to understand."
+        title="Past picks stay public. Premium unlocks the live edge."
+        copy="Sharplines is built to keep historical results, archive pages, and public performance open while gating current-day picks, full premium analysis, and the deeper utility layer behind membership."
       />
 
       <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
@@ -28,10 +28,10 @@ export default function PricingPage() {
           suffix="/ month"
           featured
           features={[
-            "Full daily top picks and betting card",
+            "Full current-day top picks and betting card before lock",
             "Complete written analysis and premium notes",
-            "Archived picks and record dashboard",
-            "Premium dashboard access"
+            "Premium-only picks and deeper live-card context",
+            "Dashboard compare tools and premium workspace access"
           ]}
           cta={<CheckoutButton className="cta-primary w-full justify-center">Start monthly</CheckoutButton>}
         />
@@ -46,8 +46,8 @@ export default function PricingPage() {
           <div className="mt-6 space-y-3 text-sm text-mist/75">
             {[
               "Monthly premium access is the active subscription product.",
-              "The premium tier includes the full daily card, archive access, and dashboard entry.",
-              "Additional plan options can be introduced later without changing the core offer."
+              "Past picks, historical results, and public performance remain visible without a paywall.",
+              "Premium exists to unlock the future card, deeper writeups, and the utility layer before games start."
             ].map((item) => (
               <div key={item} className="rounded-[20px] border border-white/10 bg-white/[0.03] px-4 py-3">
                 {item}
@@ -61,7 +61,7 @@ export default function PricingPage() {
         <p className="muted-label">Free tier</p>
         <h2 className="mt-2 text-3xl uppercase text-white">Create a free account to follow the content before upgrading.</h2>
         <p className="mt-4 max-w-3xl text-sm leading-7">
-          A free account gives users a cleaner path into saved content, public picks previews, and the premium upgrade flow.
+          A free account gives users access to the dashboard, manual bet tracking, compare tools, public archive browsing, and the premium upgrade flow.
         </p>
         <div className="mt-6">
           <Link href="/signup" className="cta-secondary">
@@ -83,11 +83,12 @@ export default function PricingPage() {
             </thead>
             <tbody className="divide-y divide-white/10 bg-white/[0.02]">
               {[
-                ["Today's picks", "Limited preview", "Full card"],
+                ["Today's picks", "Limited preview", "Full card before lock"],
                 ["Analysis", "Teasers only", "Complete writeups"],
-                ["Archive", "Public results", "Premium archive"],
-                ["Dashboard", "No", "Yes"],
-                ["Saved articles", "No", "Yes"]
+                ["Past picks archive", "Full public access", "Full public access"],
+                ["Performance stats", "Public access", "Advanced compare + premium context"],
+                ["My Bets tracker", "Dashboard access", "Dashboard access"],
+                ["Premium workspace", "No", "Yes"]
               ].map(([feature, free, premium]) => (
                 <tr key={feature}>
                   <td className="px-4 py-3 text-white">{feature}</td>
