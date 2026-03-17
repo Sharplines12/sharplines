@@ -1,5 +1,7 @@
 "use server";
 
+import { subscribeNewsletter } from "@/lib/newsletter";
+
 export type NewsletterFormState = {
   success: boolean;
   message: string;
@@ -16,6 +18,19 @@ export async function submitNewsletterAction(
     return {
       success: false,
       message: "Add a valid email so we know where to send Sharplines market notes."
+    };
+  }
+
+  try {
+    await subscribeNewsletter({
+      email,
+      focus,
+      source: "homepage-signup"
+    });
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "Sharplines could not save that email right now."
     };
   }
 

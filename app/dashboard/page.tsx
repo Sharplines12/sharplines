@@ -41,9 +41,9 @@ export default async function DashboardPage() {
       <div className="grid gap-5 xl:grid-cols-2">
         <div className="panel p-6">
           <p className="muted-label">Sportsbook tracker</p>
-          <h2 className="mt-2 text-3xl uppercase text-white">Manual sportsbook tracking is live.</h2>
+          <h2 className="mt-2 text-3xl uppercase text-white">Slate-based tracking is live.</h2>
           <p className="mt-4 text-sm leading-7 text-mist/75">
-            Log your own bets, settle them manually, and compare the personal record against Sharplines&apos; public archive and performance pages.
+            Choose from the day&apos;s league slate, log the exact sportsbook and line you took, and let supported markets grade automatically on the midnight rollover.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/dashboard/my-bets" className="cta-primary">
@@ -77,6 +77,22 @@ export default async function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {session.role === "admin" ? (
+        <div className="panel p-6">
+          <p className="muted-label">Owner controls</p>
+          <h2 className="mt-2 text-3xl uppercase text-white">Audience and premium members</h2>
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-mist/75">
+            Review everyone who joined the newsletter, everyone on premium, and send Sharplines newsletter emails from
+            one admin workspace.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/dashboard/audience" className="cta-primary">
+              Open audience admin
+            </Link>
+          </div>
+        </div>
+      ) : null}
 
       <div className="panel p-6">
         <p className="muted-label">Sharplines public record</p>

@@ -45,6 +45,11 @@ export async function SiteHeader() {
                 <Link href="/casino" className="cta-secondary">
                   Casino tracker
                 </Link>
+                {session.role === "admin" ? (
+                  <Link href="/dashboard/audience" className="cta-secondary">
+                    Audience
+                  </Link>
+                ) : null}
                 <form action={logoutAction}>
                   <button type="submit" className="cta-primary">
                     Log out
@@ -54,7 +59,7 @@ export async function SiteHeader() {
             ) : (
               <>
                 <Link href="/signup" className="cta-secondary">
-                  Sign up
+                  Start free tracker
                 </Link>
                 <Link href="/login" className="cta-secondary">
                   Member login
@@ -93,6 +98,11 @@ export async function SiteHeader() {
             <Link href="/casino" className="whitespace-nowrap rounded-full border border-neon/25 bg-neon/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white">
               Casino tracker
             </Link>
+            {session.role === "admin" ? (
+              <Link href="/dashboard/audience" className="whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white">
+                Audience
+              </Link>
+            ) : null}
           </div>
         ) : null}
       </div>

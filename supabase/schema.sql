@@ -167,6 +167,31 @@ create table if not exists public.pick_change_log (
   new_values jsonb
 );
 
+create table if not exists public.newsletter_subscribers (
+  id uuid primary key default gen_random_uuid(),
+  email text not null unique,
+  focus text,
+  source text not null default 'site',
+  status text not null default 'active' check (status in ('active', 'unsubscribed')),
+  subscribed_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  last_sent_at timestamptz
+);
+
+create table if not exists public.newsletter_campaigns (
+  id uuid primary key default gen_random_uuid(),
+  subject text not null,
+  preview_text text,
+  audience text not null check (audience in ('subscribers', 'premium-members', 'both')),
+  content_html text not null,
+  content_text text not null,
+  recipient_count integer not null default 0,
+  status text not null default 'draft' check (status in ('draft', 'sent', 'failed')),
+  created_by text,
+  created_at timestamptz not null default now(),
+  sent_at timestamptz
+);
+
 -- TODO: when closing-line-value and line movement tracking go live,
 -- add closing_odds, closing_line, clv_units, and market_snapshot columns
 -- to public.picks or a dedicated public.pick_market_history table.
@@ -190,6 +215,8 @@ alter table public.saved_picks enable row level security;
 alter table public.user_bets enable row level security;
 alter table public.casino_sessions enable row level security;
 alter table public.pick_change_log enable row level security;
+alter table public.newsletter_subscribers enable row level security;
+alter table public.newsletter_campaigns enable row level security;
 
 create policy "public can read daily cards"
 on public.daily_cards for select
@@ -209,6 +236,10 @@ using (true);
 
 create policy "public can read sportsbooks"
 on public.sportsbooks for select
+using (true);
+
+create policy "public can read newsletter campaigns"
+on public.newsletter_campaigns for select
 using (true);
 
 create policy "users can read own profile"
