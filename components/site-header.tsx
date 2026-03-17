@@ -84,6 +84,17 @@ export async function SiteHeader() {
             </Link>
           ))}
         </div>
+
+        {session ? (
+          <div className="mt-3 flex gap-2 overflow-x-auto pb-1 sm:hidden">
+            <Link href="/dashboard" className="whitespace-nowrap rounded-full border border-aqua/25 bg-aqua/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white">
+              Sportsbook tracker
+            </Link>
+            <Link href="/casino" className="whitespace-nowrap rounded-full border border-neon/25 bg-neon/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white">
+              Casino tracker
+            </Link>
+          </div>
+        ) : null}
       </div>
     </header>
   );
