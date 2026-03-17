@@ -5,8 +5,8 @@ import { getUserBets } from "@/lib/user-bets";
 import { siteConfig } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: `${siteConfig.name} | Bet History`,
-  description: `Browse your complete tracked bet history with filters, search, results, and responsive record management inside ${siteConfig.name}.`
+  title: `${siteConfig.name} | Sportsbook History`,
+  description: `Browse your complete tracked sportsbook bet history with filters, search, results, and responsive record management inside ${siteConfig.name}.`
 };
 
 export default async function DashboardHistoryPage() {

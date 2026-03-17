@@ -63,10 +63,10 @@ export function UserBetsManager({ bets, premiumUser = false }: UserBetsManagerPr
     <div className="space-y-6">
       <div className="grid gap-5 xl:grid-cols-[0.95fr_1.05fr]">
         <div className="panel-strong p-6 sm:p-8">
-          <p className="muted-label">My bets</p>
-          <h2 className="mt-2 text-4xl uppercase text-white">Track your own card next to Sharplines.</h2>
+          <p className="muted-label">Sportsbook bets</p>
+          <h2 className="mt-2 text-4xl uppercase text-white">Track your own sportsbook card next to Sharplines.</h2>
           <p className="mt-4 text-sm leading-7 text-mist/75">
-            This is a manual tracker, not a sportsbook sync. Add, edit, and settle your own bets so you can compare your process against the public Sharplines record.
+            This is a manual sportsbook tracker, not a sportsbook sync. Add, edit, and settle your own bets so you can compare your process against the public Sharplines record without mixing in casino sessions.
           </p>
           {!premiumUser ? (
             <div className="mt-6 rounded-[24px] border border-aqua/20 bg-aqua/10 p-4 text-sm leading-7 text-mist/80">
@@ -97,6 +97,9 @@ export function UserBetsManager({ bets, premiumUser = false }: UserBetsManagerPr
             </Link>
             <Link href="/dashboard/analytics" className="cta-secondary">
               Analytics
+            </Link>
+            <Link href="/casino" className="cta-secondary">
+              Casino tracker
             </Link>
           </div>
           <div className="mt-6 rounded-[22px] border border-white/10 bg-white/[0.03] p-4 text-sm leading-7 text-mist/70">

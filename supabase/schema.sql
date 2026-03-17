@@ -142,6 +142,21 @@ create table if not exists public.user_bets (
   settled_at timestamptz
 );
 
+create table if not exists public.casino_sessions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  date date not null,
+  casino_name text not null,
+  game_type text not null,
+  buy_in numeric(10,2) not null default 0,
+  cash_out numeric(10,2) not null default 0,
+  profit_loss numeric(10,2) not null default 0,
+  session_length text,
+  notes text not null default '',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 create table if not exists public.pick_change_log (
   id uuid primary key default gen_random_uuid(),
   pick_id uuid not null references public.picks(id) on delete cascade,
@@ -158,6 +173,11 @@ create table if not exists public.pick_change_log (
 -- TODO: when CSV import or screenshot parsing is added for user bet tracking,
 -- add import_source, import_batch_id, parsed_payload, and attachment_url fields
 -- to public.user_bets or a companion import-jobs table.
+-- TODO: when casino session CSV import or partner-linked wallet/session sync exists,
+-- add import_source, import_batch_id, source_session_id, attachment_url, and sync_provider
+-- fields to public.casino_sessions or a dedicated import-jobs table.
+-- TODO: if sportsbook sync partnerships ever exist, keep them in a separate sync layer
+-- for public.user_bets rather than implying direct sportsbook account integration today.
 
 alter table public.profiles enable row level security;
 alter table public.daily_cards enable row level security;
@@ -168,6 +188,7 @@ alter table public.sportsbooks enable row level security;
 alter table public.saved_articles enable row level security;
 alter table public.saved_picks enable row level security;
 alter table public.user_bets enable row level security;
+alter table public.casino_sessions enable row level security;
 alter table public.pick_change_log enable row level security;
 
 create policy "public can read daily cards"
@@ -240,6 +261,22 @@ using (auth.uid() = user_id);
 
 create policy "users can delete own bets"
 on public.user_bets for delete
+using (auth.uid() = user_id);
+
+create policy "users can read own casino sessions"
+on public.casino_sessions for select
+using (auth.uid() = user_id);
+
+create policy "users can insert own casino sessions"
+on public.casino_sessions for insert
+with check (auth.uid() = user_id);
+
+create policy "users can update own casino sessions"
+on public.casino_sessions for update
+using (auth.uid() = user_id);
+
+create policy "users can delete own casino sessions"
+on public.casino_sessions for delete
 using (auth.uid() = user_id);
 
 create policy "public can read pick change log"

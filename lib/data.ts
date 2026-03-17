@@ -118,6 +118,21 @@ export type UserBet = {
   settledAt?: string | null;
 };
 
+export type CasinoSession = {
+  id: string;
+  userId: string;
+  date: string;
+  casinoName: string;
+  gameType: string;
+  buyIn: number;
+  cashOut: number;
+  profitLoss: number;
+  sessionLength?: string | null;
+  notes: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 type EditorialEntryInput = Omit<Article, "readingTime">;
 
 function buildReadingTime(excerpt: string, content: string[]) {

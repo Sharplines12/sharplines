@@ -1,25 +1,29 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import type { Route } from "next";
 import type { ReactNode } from "react";
-import { Archive, BarChart3, CircleDollarSign, Crown, LayoutDashboard, ListChecks, LogOut, ScrollText } from "lucide-react";
+import { BarChart3, CircleDollarSign, Crown, Landmark, LogOut, ScrollText } from "lucide-react";
 import { logoutAction } from "@/app/login/actions";
-import { requireAuthenticatedUser, isPaidAccess } from "@/lib/auth";
+import { isPaidAccess, requireAuthenticatedUser } from "@/lib/auth";
+import { siteConfig } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: `${siteConfig.name} | Casino Tracker`,
+  description: `Track casino sessions separately from sportsbook bets with a dedicated session log, history, and analytics dashboard inside ${siteConfig.name}.`
+};
 
 const navItems = [
-  { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
-  { href: "/dashboard/my-bets", label: "My Bets", icon: ListChecks },
-  { href: "/dashboard/history", label: "History", icon: ScrollText },
-  { href: "/dashboard/analytics", label: "Analytics", icon: BarChart3 },
-  { href: "/dashboard/compare", label: "Compare", icon: BarChart3 },
-  { href: "/dashboard/archive", label: "Archive", icon: Archive }
+  { href: "/casino", label: "Overview", icon: Landmark },
+  { href: "/casino/history", label: "History", icon: ScrollText },
+  { href: "/casino/analytics", label: "Analytics", icon: BarChart3 }
 ];
 
-export default async function DashboardLayout({
+export default async function CasinoLayout({
   children
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const session = await requireAuthenticatedUser("/dashboard");
+  const session = await requireAuthenticatedUser("/casino");
   const paidAccess = isPaidAccess(session.role);
 
   return (
@@ -27,11 +31,11 @@ export default async function DashboardLayout({
       <div className="grid gap-5 lg:grid-cols-[280px_1fr]">
         <aside className="panel-strong h-fit p-5">
           <div className="rounded-[24px] border border-white/10 bg-white/[0.03] p-5">
-            <p className="muted-label">Sportsbook tracker</p>
+            <p className="muted-label">Casino tracker</p>
             <h2 className="mt-2 text-3xl uppercase text-white">{session.fullName || session.email}</h2>
             <p className="mt-3 text-sm text-mist/70">{paidAccess ? "Premium user" : "Free user"}</p>
             <p className="mt-2 text-sm leading-7 text-mist/60">
-              Bet-based tracking for sportsbook positions only. Casino sessions now live in their own separate Sharplines tracker.
+              Session-based tracking for casino play. Sportsbook bets and Sharplines picks stay in their own separate product lane.
             </p>
           </div>
 
@@ -46,6 +50,13 @@ export default async function DashboardLayout({
                 {item.label}
               </Link>
             ))}
+            <Link
+              href={"/dashboard" as Route}
+              className="flex items-center gap-3 rounded-2xl border border-white/5 px-4 py-3 text-sm font-medium text-mist/75 hover:border-aqua/25 hover:bg-aqua/10 hover:text-white"
+            >
+              <CircleDollarSign className="h-4 w-4" />
+              Sportsbook tracker
+            </Link>
             {paidAccess ? (
               <Link
                 href={"/members" as Route}
@@ -63,13 +74,6 @@ export default async function DashboardLayout({
                 Upgrade to premium
               </Link>
             )}
-            <Link
-              href={"/casino" as Route}
-              className="flex items-center gap-3 rounded-2xl border border-white/5 px-4 py-3 text-sm font-medium text-mist/75 hover:border-aqua/25 hover:bg-aqua/10 hover:text-white"
-            >
-              <CircleDollarSign className="h-4 w-4" />
-              Casino tracker
-            </Link>
           </nav>
 
           <form action={logoutAction} className="mt-5">

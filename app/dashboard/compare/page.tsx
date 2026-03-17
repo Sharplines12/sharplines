@@ -6,8 +6,8 @@ import { getUserBets } from "@/lib/user-bets";
 import { siteConfig } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: `${siteConfig.name} | Compare`,
-  description: `Compare your tracked record against the public Sharplines record with ROI, units, sport breakdowns, and recent form.`
+  title: `${siteConfig.name} | Sportsbook Compare`,
+  description: `Compare your tracked sportsbook record against the public Sharplines record with ROI, units, sport breakdowns, and recent form.`
 };
 
 export default async function DashboardComparePage() {

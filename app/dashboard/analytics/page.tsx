@@ -6,8 +6,8 @@ import { siteConfig } from "@/lib/data";
 import { getUserBets } from "@/lib/user-bets";
 
 export const metadata: Metadata = {
-  title: `${siteConfig.name} | Analytics`,
-  description: `Review personal betting analytics, timeframe filters, category breakdowns, streaks, and chart views inside the ${siteConfig.name} dashboard.`
+  title: `${siteConfig.name} | Sportsbook Analytics`,
+  description: `Review personal sportsbook analytics, timeframe filters, category breakdowns, streaks, and chart views inside the ${siteConfig.name} dashboard.`
 };
 
 export default async function DashboardAnalyticsPage() {
@@ -16,4 +16,3 @@ export default async function DashboardAnalyticsPage() {
 
   return <UserAnalyticsBrowser cards={cards} userBets={bets} premiumUser={isPaidAccess(session.role)} />;
 }
-

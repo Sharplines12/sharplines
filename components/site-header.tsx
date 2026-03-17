@@ -39,15 +39,12 @@ export async function SiteHeader() {
           <div className="hidden items-center gap-3 sm:flex">
             {session ? (
               <>
-                {session.membershipState === "active-paid-member" ? (
-                  <Link href="/dashboard" className="cta-secondary">
-                    Dashboard
-                  </Link>
-                ) : (
-                  <Link href="/dashboard" className="cta-secondary">
-                    Dashboard
-                  </Link>
-                )}
+                <Link href="/dashboard" className="cta-secondary">
+                  Sportsbook tracker
+                </Link>
+                <Link href="/casino" className="cta-secondary">
+                  Casino tracker
+                </Link>
                 <form action={logoutAction}>
                   <button type="submit" className="cta-primary">
                     Log out
