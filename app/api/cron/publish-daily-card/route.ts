@@ -15,7 +15,7 @@ export async function GET(request: Request) {
     return NextResponse.json({
       ok: true,
       status: "skipped",
-      reason: "Outside the 9 AM America/New_York publish window."
+      reason: "Outside the midnight America/New_York publish window."
     });
   }
 

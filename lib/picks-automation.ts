@@ -595,5 +595,5 @@ export function isAuthorizedAutomationRequest(request: Request) {
 
 export function shouldRunNow(date = new Date()) {
   const parts = getNewYorkParts(date);
-  return parts.hour === 8 || parts.hour === 9;
+  return parts.hour === 0;
 }
