@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, BarChart3, BookOpen, ListChecks, LockKeyhole } from "lucide-react";
 import { DashboardStatCard } from "@/components/dashboard-stat-card";
+import { PerformanceTrendChart } from "@/components/performance-trend-chart";
 import { getDailyCards } from "@/lib/content";
 import { isPaidAccess, requireAuthenticatedUser } from "@/lib/auth";
 import { getUserBets } from "@/lib/user-bets";
@@ -102,6 +103,20 @@ export default async function DashboardPage() {
             Sharplines emphasizes transparent tracking, disciplined betting, and long-term accountability over hype or short-term screenshots.
           </p>
         </div>
+      </div>
+
+      <div className="grid gap-5 xl:grid-cols-2">
+        <PerformanceTrendChart
+          rows={sharplines.byMonth}
+          title="Sharplines monthly trend"
+          copy="Public monthly units make it easier to judge whether the Sharplines card is tracking with discipline over time."
+        />
+        <PerformanceTrendChart
+          rows={userPerformance.byMonth}
+          title="Your monthly trend"
+          copy="Your tracker becomes more useful once you can see how your own record has moved month by month."
+          accent="aqua"
+        />
       </div>
 
       <div className="panel p-6">

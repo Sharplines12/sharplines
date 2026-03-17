@@ -1,14 +1,15 @@
 import Link from "next/link";
 import type { Route } from "next";
 import type { ReactNode } from "react";
-import { BarChart3, Crown, LayoutDashboard, ListChecks, LogOut } from "lucide-react";
+import { Archive, BarChart3, Crown, LayoutDashboard, ListChecks, LogOut } from "lucide-react";
 import { logoutAction } from "@/app/login/actions";
 import { requireAuthenticatedUser, isPaidAccess } from "@/lib/auth";
 
 const navItems = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
   { href: "/dashboard/my-bets", label: "My Bets", icon: ListChecks },
-  { href: "/dashboard/compare", label: "Compare", icon: BarChart3 }
+  { href: "/dashboard/compare", label: "Compare", icon: BarChart3 },
+  { href: "/dashboard/archive", label: "Archive", icon: Archive }
 ];
 
 export default async function DashboardLayout({

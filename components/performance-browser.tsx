@@ -5,6 +5,7 @@ import type { DailyCard, UserBet } from "@/lib/data";
 import { buildSharplinesPerformance, buildUserPerformance, listSupportedSports, type PerformanceSnapshot, type TimeframeKey } from "@/lib/performance";
 import { cn, formatUnits } from "@/lib/utils";
 import { ResultPill } from "@/components/result-pill";
+import { PerformanceTrendChart } from "@/components/performance-trend-chart";
 
 type PerformanceBrowserProps = {
   cards: DailyCard[];
@@ -147,6 +148,19 @@ export function PerformanceBrowser({ cards, userBets = [], compareMode = false, 
       {compareMode ? (
         <>
           <div className="grid gap-5 xl:grid-cols-2">
+            <PerformanceTrendChart
+              rows={sharplines.byMonth}
+              title="Sharplines trend"
+              copy="Monthly units help show whether the card is trending in a disciplined direction over time instead of hiding behind isolated screenshots."
+            />
+            <PerformanceTrendChart
+              rows={userSnapshot.byMonth}
+              title="Your trend"
+              copy="Your monthly tracker lets you compare habits, results, and consistency against the Sharplines public record."
+              accent="aqua"
+            />
+          </div>
+          <div className="grid gap-5 xl:grid-cols-2">
             <RecentForm form={sharplines.recentForm} />
             <RecentForm form={userSnapshot.recentForm} />
           </div>
@@ -165,6 +179,11 @@ export function PerformanceBrowser({ cards, userBets = [], compareMode = false, 
         </>
       ) : (
         <>
+          <PerformanceTrendChart
+            rows={sharplines.byMonth}
+            title="Units over time"
+            copy="A public trend view makes it easier to judge whether Sharplines has been steady over time instead of selectively highlighting a short hot stretch."
+          />
           <div className="grid gap-5 xl:grid-cols-[0.8fr_1.2fr]">
             <RecentForm form={sharplines.recentForm} />
             <BreakdownTable rows={sharplines.bySport} heading="By sport" />

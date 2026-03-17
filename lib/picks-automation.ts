@@ -1,5 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { getApprovedSourceListText, validateSourceNotes } from "@/lib/picks-source-policy";
+import { logPickChanges } from "@/lib/pick-change-log";
+import { calculateProfitLoss } from "@/lib/picks";
 import { createSupabaseServiceClient, isSupabaseConfigured } from "@/lib/supabase";
 
 type GeneratedPick = {
@@ -193,7 +195,7 @@ async function gradePendingPicks(todayIsoDate: string) {
   const supabase = createSupabaseServiceClient();
   const { data: pending } = await supabase
     .from("picks")
-    .select("id, date, event, market, line, result")
+    .select("id, date, event, market, line, odds, units, result")
     .eq("result", "pending")
     .lt("date", todayIsoDate)
     .order("date", { ascending: false })
@@ -249,10 +251,33 @@ async function gradePendingPicks(todayIsoDate: string) {
     };
   }
 
+  const pendingMap = new Map(pending.map((pick) => [pick.id, pick]));
+
   await Promise.all(
-    eligibleUpdates.map((update) =>
-      supabase.from("picks").update({ result: update.result }).eq("id", update.id)
-    )
+    eligibleUpdates.map(async (update) => {
+      const current = pendingMap.get(update.id);
+      const nextValues = {
+        result: update.result,
+        settled_at: new Date().toISOString(),
+        closing_status: "settled",
+        profit_loss: calculateProfitLoss(update.result, current?.odds || "-110", Number(current?.units || 1))
+      };
+
+      await supabase
+        .from("picks")
+        .update(nextValues)
+        .eq("id", update.id);
+
+      await logPickChanges([
+        {
+          pickId: update.id,
+          changedBy: "automation",
+          changeSummary: `Automated grading updated result to ${update.result}.`,
+          oldValues: current ? { result: current.result } : null,
+          newValues: nextValues
+        }
+      ]);
+    })
   );
 
   return {
@@ -486,6 +511,10 @@ async function storeCard(card: GeneratedCard, date: { isoDate: string; displayDa
     .maybeSingle();
 
   const dailyCardId = existing?.id || randomUUID();
+  const { data: existingPicks } = await supabase
+    .from("picks")
+    .select("*")
+    .eq("daily_card_id", dailyCardId);
 
   const { data: graded } = await supabase
     .from("picks")
@@ -518,35 +547,61 @@ async function storeCard(card: GeneratedCard, date: { isoDate: string; displayDa
 
   await supabase.from("picks").delete().eq("daily_card_id", dailyCardId);
 
+  if (existingPicks?.length) {
+    await logPickChanges(
+      existingPicks.map((pick) => ({
+        pickId: pick.id,
+        changedBy: "automation",
+        changeSummary: "Daily card was regenerated and the prior pick entry was archived out of the live card.",
+        oldValues: pick,
+        newValues: null
+      }))
+    );
+  }
+
+  const insertedPicks = card.picks.map((pick, index) => ({
+    id: randomUUID(),
+    daily_card_id: dailyCardId,
+    date: date.isoDate,
+    event: pick.event,
+    sport: pick.sport,
+    league: pick.league,
+    pick_title: pick.pickTitle,
+    bet_type: pick.betType,
+    market: pick.market,
+    line: pick.line,
+    odds: pick.odds,
+    sportsbook: pick.sportsbook,
+    start_time: pick.startTime,
+    confidence: pick.confidence,
+    units: pick.units,
+    short_summary: pick.shortSummary,
+    premium_teaser: pick.premiumTeaser,
+    premium_analysis: pick.premiumAnalysis,
+    result: "pending",
+    is_featured: pick.isBestBet,
+    is_premium: true,
+    posted_at: new Date().toISOString(),
+    closing_status: "open",
+    sort_order: index + 1
+  }));
   const { error: picksError } = await supabase.from("picks").insert(
-    card.picks.map((pick, index) => ({
-      id: randomUUID(),
-      daily_card_id: dailyCardId,
-      date: date.isoDate,
-      event: pick.event,
-      sport: pick.sport,
-      league: pick.league,
-      pick_title: pick.pickTitle,
-      bet_type: pick.betType,
-      market: pick.market,
-      line: pick.line,
-      odds: pick.odds,
-      sportsbook: pick.sportsbook,
-      start_time: pick.startTime,
-      confidence: pick.confidence,
-      units: pick.units,
-      short_summary: pick.shortSummary,
-      premium_teaser: pick.premiumTeaser,
-      premium_analysis: pick.premiumAnalysis,
-      result: "pending",
-      is_featured: pick.isBestBet,
-      sort_order: index + 1
-    }))
+    insertedPicks
   );
 
   if (picksError) {
     throw picksError;
   }
+
+  await logPickChanges(
+    insertedPicks.map((pick) => ({
+      pickId: pick.id,
+      changedBy: "automation",
+      changeSummary: "Daily card automation published a new pick.",
+      oldValues: null,
+      newValues: pick
+    }))
+  );
 
   return {
     dailyCardId,
