@@ -26,6 +26,10 @@ export default function AboutPage() {
             transparent performance tracking, and a long-term approach to betting content.
           </p>
           <p className="mt-4 text-sm leading-7">
+            The founding team also includes Finley Patrick, helping shape the editorial discipline, platform
+            credibility, and long-term direction behind Sharplines.
+          </p>
+          <p className="mt-4 text-sm leading-7">
             Sharplines started from a simple frustration with the betting space: too many picks brands either look
             flashy and disposable or try to sell confidence without showing enough work. The goal here is different.
             The site is meant to feel like a serious sports betting property with a real editorial layer, a clear
@@ -92,13 +96,27 @@ export default function AboutPage() {
       </div>
 
       <div className="mt-8 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
-        <AuthorCard
-          title="Founder"
-          links={[
-            { label: "Contact", href: "/contact" },
-            { label: "Responsible Gaming", href: "/responsible-gaming" }
-          ]}
-        />
+        <div className="grid gap-5">
+          <AuthorCard
+            title="Founder"
+            links={[
+              { label: "Contact", href: "/contact" },
+              { label: "Responsible Gaming", href: "/responsible-gaming" }
+            ]}
+          />
+          <div className="panel p-6">
+            <p className="muted-label">Founding team</p>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              {siteConfig.founders.map((person) => (
+                <div key={person.name} className="rounded-[22px] border border-white/10 bg-white/[0.03] p-5">
+                  <h2 className="text-2xl uppercase text-white">{person.name}</h2>
+                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-aqua">{person.role}</p>
+                  <p className="mt-3 text-sm leading-7 text-mist/75">{person.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
         <div className="panel p-6">
           <p className="muted-label">Responsible positioning</p>
           <h2 className="mt-3 text-3xl uppercase text-white">Trust grows from discipline, not hype.</h2>

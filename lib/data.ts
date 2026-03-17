@@ -104,6 +104,18 @@ export const siteConfig = {
     description: "Focused on structured analysis, disciplined betting, and transparency.",
     bio: "Dale Campbell is the founder of Sharplines and focuses on a data-driven approach, disciplined betting, transparent performance tracking, and long-term consistency across the site’s picks and editorial coverage."
   },
+  founders: [
+    {
+      name: "Dale Campbell",
+      role: "Founder",
+      description: "Focused on structured analysis, disciplined betting, and transparency."
+    },
+    {
+      name: "Finley Patrick",
+      role: "Founder",
+      description: "Focused on editorial discipline, platform credibility, and a long-term approach to building Sharplines."
+    }
+  ],
   disclosures: [
     "21+ only. Please gamble responsibly.",
     "Sports betting involves risk. Only wager what you can afford to lose.",
