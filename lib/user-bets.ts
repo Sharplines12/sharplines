@@ -165,6 +165,7 @@ export async function saveUserBet(userId: string, input: UserBetInput) {
     result: input.result,
     profit_loss: profitLoss,
     notes: input.notes,
+    updated_at: new Date().toISOString(),
     settled_at: input.result === "pending" ? null : new Date().toISOString()
   };
 
@@ -180,6 +181,8 @@ export async function saveUserBet(userId: string, input: UserBetInput) {
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/my-bets");
   revalidatePath("/dashboard/compare");
+  revalidatePath("/dashboard/analytics");
+  revalidatePath("/dashboard/history");
 }
 
 export async function deleteUserBet(userId: string, betId: string) {
@@ -197,4 +200,6 @@ export async function deleteUserBet(userId: string, betId: string) {
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/my-bets");
   revalidatePath("/dashboard/compare");
+  revalidatePath("/dashboard/analytics");
+  revalidatePath("/dashboard/history");
 }

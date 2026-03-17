@@ -2,10 +2,12 @@
 
 import { useActionState, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import type { UserBet } from "@/lib/data";
 import { cn, formatUnits } from "@/lib/utils";
 import { ResultPill } from "@/components/result-pill";
 import { deleteUserBetAction, saveUserBetAction, type UserBetFormState } from "@/app/dashboard/my-bets/actions";
+import { buildUserPerformance } from "@/lib/performance";
 
 type UserBetsManagerProps = {
   bets: UserBet[];
@@ -42,6 +44,7 @@ export function UserBetsManager({ bets, premiumUser = false }: UserBetsManagerPr
   const router = useRouter();
 
   const sports = useMemo(() => ["All sports", ...Array.from(new Set(bets.map((bet) => bet.sport))).sort()], [bets]);
+  const snapshot = useMemo(() => buildUserPerformance(bets), [bets]);
   const filtered = useMemo(() => {
     const lowered = query.trim().toLowerCase();
     return bets.filter((bet) => (sportFilter === "All sports" ? true : bet.sport === sportFilter))
@@ -70,6 +73,32 @@ export function UserBetsManager({ bets, premiumUser = false }: UserBetsManagerPr
               Premium members can use this tracker as part of the paid utility layer, but it remains available to logged-in users while the product grows.
             </div>
           ) : null}
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4">
+              <p className="muted-label">Tracked bets</p>
+              <p className="mt-2 text-3xl uppercase text-white">{snapshot.totalBets}</p>
+            </div>
+            <div className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4">
+              <p className="muted-label">Current streak</p>
+              <p className="mt-2 text-3xl uppercase text-white">{snapshot.currentStreak.label}</p>
+            </div>
+            <div className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4">
+              <p className="muted-label">ROI</p>
+              <p className={cn("mt-2 text-3xl uppercase", snapshot.roi >= 0 ? "text-neon" : "text-rose-200")}>{snapshot.roi.toFixed(1)}%</p>
+            </div>
+            <div className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4">
+              <p className="muted-label">Units</p>
+              <p className={cn("mt-2 text-3xl uppercase", snapshot.units >= 0 ? "text-neon" : "text-rose-200")}>{formatUnits(snapshot.units)}</p>
+            </div>
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/dashboard/history" className="cta-secondary">
+              Full history
+            </Link>
+            <Link href="/dashboard/analytics" className="cta-secondary">
+              Analytics
+            </Link>
+          </div>
         </div>
 
         <form action={formAction} className="panel p-6 sm:p-8">

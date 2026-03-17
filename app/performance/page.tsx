@@ -23,7 +23,7 @@ export default async function PerformancePage() {
         copy="Sharplines keeps historical record, units, ROI, and sport-level breakdowns visible so the brand can be evaluated on a full sequence, not on a few screenshots or short-term hot stretches."
       />
 
-      <PerformanceBrowser cards={cards} />
+      <PerformanceBrowser cards={cards} premiumUser={false} />
 
       <div className="panel p-6">
         <p className="muted-label">Explore the record</p>

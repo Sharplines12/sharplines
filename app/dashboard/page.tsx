@@ -45,15 +45,21 @@ export default async function DashboardPage() {
           <p className="mt-4 text-sm leading-7 text-mist/75">
             Log your own bets, settle them manually, and compare the personal record against Sharplines&apos; public archive and performance pages.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/dashboard/my-bets" className="cta-primary">
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link href="/dashboard/my-bets" className="cta-primary">
               Open my bets
-            </Link>
-            <Link href="/dashboard/compare" className="cta-secondary">
+          </Link>
+          <Link href="/dashboard/history" className="cta-secondary">
+            Bet history
+          </Link>
+          <Link href="/dashboard/analytics" className="cta-secondary">
+            Analytics
+          </Link>
+          <Link href="/dashboard/compare" className="cta-secondary">
               Compare records
-            </Link>
-          </div>
+          </Link>
         </div>
+      </div>
 
         <div className="panel p-6">
           <p className="muted-label">Sharplines public record</p>

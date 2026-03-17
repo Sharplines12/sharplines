@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PerformanceBrowser } from "@/components/performance-browser";
-import { requireAuthenticatedUser } from "@/lib/auth";
+import { isPaidAccess, requireAuthenticatedUser } from "@/lib/auth";
 import { getDailyCards } from "@/lib/content";
 import { getUserBets } from "@/lib/user-bets";
 import { siteConfig } from "@/lib/data";
@@ -19,6 +19,7 @@ export default async function DashboardComparePage() {
       cards={cards}
       userBets={userBets}
       compareMode
+      premiumUser={isPaidAccess(session.role)}
       title="Your card versus the Sharplines public record."
       copy="Use the compare view to see how your manual tracker stacks up against Sharplines by timeframe, sport, ROI, units, and recent form. The goal is accountability, not hype."
     />
