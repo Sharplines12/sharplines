@@ -36,6 +36,30 @@ export default function AboutPage() {
             For operators and affiliate managers, it has to look like a credible media business with staying power.
             Sharplines is designed to signal both.
           </p>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {[
+              {
+                title: "Education",
+                copy:
+                  "Sharplines uses guides and evergreen explainers to help readers understand odds, bankroll habits, line movement, and operator differences."
+              },
+              {
+                title: "Comparison",
+                copy:
+                  "The site is built to encourage price awareness, operator comparisons, and smarter shopping across legal books instead of blind brand loyalty."
+              },
+              {
+                title: "Analysis",
+                copy:
+                  "Daily picks, deeper writeups, and editorial articles give the brand a sharper point of view than a generic odds feed or promo hub."
+              }
+            ].map((item) => (
+              <div key={item.title} className="rounded-[22px] border border-white/10 bg-white/[0.03] p-5">
+                <p className="text-xs uppercase tracking-[0.18em] text-aqua">{item.title}</p>
+                <p className="mt-3 text-sm leading-7 text-mist/75">{item.copy}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="space-y-5">
@@ -50,7 +74,7 @@ export default function AboutPage() {
             },
             {
               title: "Where it goes from here",
-              copy: "Automated publishing, sharper results tracking, more original writing, and a stronger operator-facing footprint as the site grows."
+              copy: "Automated publishing, sharper results tracking, more original writing, and deeper educational and comparison coverage as the site grows."
             }
           ].map((item) => (
             <div key={item.title} className="panel p-6">

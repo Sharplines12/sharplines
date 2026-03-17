@@ -18,8 +18,33 @@ export default async function GuidesPage() {
       <SectionHeading
         eyebrow="Betting Guides"
         title="Evergreen guide content gives the brand depth beyond the daily card."
-        copy="These guides help the site look like a real editorial platform with long-term SEO potential, while still supporting the premium picks product."
+        copy="These guides position Sharplines like a betting education property as much as a picks brand, with evergreen explainers that support search growth and long-term trust."
       />
+
+      <div className="grid gap-5 lg:grid-cols-3">
+        {[
+          {
+            title: "Foundational betting education",
+            copy:
+              "Odds formats, bankroll basics, line reading, and operator terminology give new readers an on-ramp into the product."
+          },
+          {
+            title: "Comparison-driven decisions",
+            copy:
+              "Guides can explain why price, market depth, limits, and app usability matter when readers choose where to bet."
+          },
+          {
+            title: "Evergreen search content",
+            copy:
+              "These pages also give the site a durable SEO layer that keeps bringing in users even when a single daily card has expired."
+          }
+        ].map((item) => (
+          <div key={item.title} className="panel p-6">
+            <p className="muted-label">{item.title}</p>
+            <p className="mt-4 text-sm leading-7 text-mist/75">{item.copy}</p>
+          </div>
+        ))}
+      </div>
 
       <div className="grid gap-5 lg:grid-cols-3">
         {guides.map((guide) => (

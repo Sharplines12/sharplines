@@ -260,9 +260,41 @@ export default async function HomePage() {
 
       <section className="site-container mt-20">
         <SectionHeading
+          eyebrow="Why The Brand Travels"
+          title="Sharplines works better when it reads like education, comparison, and analysis under one roof."
+          copy="The picks product stays at the center, but the surrounding content makes the brand feel broader, more useful, and more credible to both readers and operators."
+        />
+        <div className="mt-8 grid gap-5 lg:grid-cols-3">
+          {[
+            {
+              title: "Betting education site",
+              copy:
+                "Guides explain bankroll discipline, market basics, odds formats, line reading, and how welcome offers actually work so newer users can learn the language before they ever hit a premium paywall."
+            },
+            {
+              title: "Odds comparison mindset",
+              copy:
+                "Sportsbook pages and daily-card notes reinforce the habit of comparing prices, checking market movement, and understanding that a number at one operator is not always the same edge somewhere else."
+            },
+            {
+              title: "Analysis blog",
+              copy:
+                "Articles and matchup writing give Sharplines a real editorial voice. That layer helps the brand feel informed and current instead of looking like a one-dimensional picks funnel."
+            }
+          ].map((item) => (
+            <div key={item.title} className="panel p-6">
+              <p className="muted-label">{item.title}</p>
+              <p className="mt-4 text-sm leading-7 text-mist/75">{item.copy}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="site-container mt-20">
+        <SectionHeading
           eyebrow="Sportsbook Reviews"
           title="Affiliate pages stay clean, neutral, and second to the premium picks product."
-          copy="These pages stay editorial and trustworthy, with calm promo language and clear responsible-gaming context."
+          copy="These pages stay editorial and trustworthy, with calm promo language, price-shopping context, and clear responsible-gaming language."
         />
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
           {sportsbooks.slice(0, 4).map((sportsbook) => (
@@ -275,7 +307,7 @@ export default async function HomePage() {
         <SectionHeading
           eyebrow="Recent Articles"
           title="Articles make the site feel like a real betting media property."
-          copy=""
+          copy="Analysis writing gives Sharplines a point of view, keeps the site current, and supports long-term editorial trust around the picks product."
         />
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
           {articles.map((article) => (
@@ -293,7 +325,7 @@ export default async function HomePage() {
         <SectionHeading
           eyebrow="Betting Guides"
           title="Guides make the site look like a serious long-term editorial platform."
-          copy="These pages give affiliate managers and readers something deeper to evaluate than a single picks feed."
+          copy="These pages give affiliate managers and readers something deeper to evaluate than a single picks feed, especially around education and line-shopping behavior."
         />
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
           {guides.slice(0, 3).map((guide) => (
