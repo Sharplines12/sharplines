@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ArticleCard } from "@/components/article-card";
 import { DisclaimerBanner } from "@/components/disclaimer-banner";
 import { SectionHeading } from "@/components/section-heading";
@@ -12,13 +13,35 @@ export const metadata: Metadata = {
 
 export default async function GuidesPage() {
   const guides = await getGuides();
+  const featuredGroups = [
+    {
+      title: "Sportsbook comparisons",
+      copy: "Best apps, operator matchups, and category-specific comparisons built to help readers evaluate books with more than promo headlines.",
+      slugs: [
+        "best-sportsbook-apps-in-the-us-2026",
+        "fanduel-vs-draftkings-full-comparison",
+        "best-sportsbook-for-parlays",
+        "best-sportsbook-for-live-betting"
+      ]
+    },
+    {
+      title: "Betting education",
+      copy: "Foundational explainers that walk readers through odds, line reading, sportsbook basics, and how the market actually works.",
+      slugs: ["how-sports-betting-works", "what-american-odds-mean", "how-to-read-betting-lines", "how-welcome-bonuses-work"]
+    },
+    {
+      title: "Method and discipline",
+      copy: "Long-form content around bankroll structure, transparent tracking, and the Sharplines approach to building a daily card.",
+      slugs: ["bankroll-management-guide", "how-sharplines-makes-picks"]
+    }
+  ];
 
   return (
     <div className="site-container space-y-10 pb-16 pt-10 sm:pt-14">
       <SectionHeading
         eyebrow="Betting Guides"
-        title="Evergreen guide content gives the brand depth beyond the daily card."
-        copy="These guides position Sharplines like a betting education property as much as a picks brand, with evergreen explainers that support search growth, disciplined betting, and long-term trust."
+        title="Long-form guides give Sharplines the depth of a real betting media property."
+        copy="This library is built around sportsbook comparisons, betting education, and disciplined methodology. The goal is to support the daily card with evergreen editorial pages that help SEO, improve trust, and keep the brand grounded in analysis rather than hype."
       />
 
       <div className="grid gap-5 lg:grid-cols-3">
@@ -42,6 +65,25 @@ export default async function GuidesPage() {
           <div key={item.title} className="panel p-6">
             <p className="muted-label">{item.title}</p>
             <p className="mt-4 text-sm leading-7 text-mist/75">{item.copy}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid gap-5 lg:grid-cols-3">
+        {featuredGroups.map((group) => (
+          <div key={group.title} className="panel p-6">
+            <p className="muted-label">{group.title}</p>
+            <p className="mt-4 text-sm leading-7 text-mist/75">{group.copy}</p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              {group.slugs
+                .map((slug) => guides.find((guide) => guide.slug === slug))
+                .filter(Boolean)
+                .map((guide) => (
+                  <Link key={guide!.slug} href={`/guides/${guide!.slug}`} className="cta-secondary">
+                    {guide!.title}
+                  </Link>
+                ))}
+            </div>
           </div>
         ))}
       </div>

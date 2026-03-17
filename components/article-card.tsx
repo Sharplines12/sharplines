@@ -8,6 +8,8 @@ type ArticleCardProps = {
 };
 
 export function ArticleCard({ article, hrefPrefix = "/articles" }: ArticleCardProps) {
+  const ctaLabel = hrefPrefix === "/guides" ? "Read guide" : "Read article";
+
   return (
     <article className="panel p-6">
       <p className="muted-label">{article.category}</p>
@@ -18,7 +20,7 @@ export function ArticleCard({ article, hrefPrefix = "/articles" }: ArticleCardPr
         <span>{article.readingTime}</span>
       </div>
       <Link href={`${hrefPrefix}/${article.slug}` as Route} className="cta-secondary mt-5">
-        Read article
+        {ctaLabel}
       </Link>
     </article>
   );
