@@ -20,7 +20,7 @@ export default async function PerformancePage() {
       <SectionHeading
         eyebrow="Performance"
         title="Transparent performance is a public product layer, not a hidden sales claim."
-        copy="Sharplines keeps historical record, units, ROI, and sport-level breakdowns visible so the brand can be evaluated on a full sequence, not on a few screenshots or short-term hot stretches."
+        copy="Sharplines keeps historical record, units, ROI, pending vs settled states, and sport-level breakdowns visible so the brand can be evaluated on a full sequence, not on a few screenshots or short-term hot stretches."
       />
 
       <PerformanceBrowser cards={cards} premiumUser={false} />

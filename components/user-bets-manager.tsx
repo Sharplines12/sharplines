@@ -99,6 +99,9 @@ export function UserBetsManager({ bets, premiumUser = false }: UserBetsManagerPr
               Analytics
             </Link>
           </div>
+          <div className="mt-6 rounded-[22px] border border-white/10 bg-white/[0.03] p-4 text-sm leading-7 text-mist/70">
+            CSV import and direct sportsbook sync are future hooks only. Right now Sharplines treats personal bet tracking as a manual utility so the product never implies account-level sportsbook integration that does not exist yet.
+          </div>
         </div>
 
         <form action={formAction} className="panel p-6 sm:p-8">

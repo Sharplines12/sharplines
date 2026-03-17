@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DisclaimerBanner } from "@/components/disclaimer-banner";
+import { LiveStatusPill } from "@/components/live-status-pill";
 import { ResultPill } from "@/components/result-pill";
 import { getPickBySlug } from "@/lib/content";
 import { getSession, isPaidAccess } from "@/lib/auth";
@@ -81,6 +82,20 @@ export default async function PickPage({ params }: PickPageProps) {
               <p className="mt-2 text-sm uppercase tracking-[0.16em] text-white">{item.value}</p>
             </div>
           ))}
+        </div>
+
+        <div className="mt-8 rounded-[28px] border border-white/10 bg-white/[0.03] p-6">
+          <div className="flex flex-wrap items-center gap-3">
+            {pick.liveStatus ? <LiveStatusPill status={pick.liveStatus} /> : null}
+            {pick.gameDetail ? <span className="text-xs uppercase tracking-[0.16em] text-mist/45">{pick.gameDetail}</span> : null}
+            {pick.liveDataSource ? <span className="text-xs uppercase tracking-[0.16em] text-mist/45">Source: {pick.liveDataSource}</span> : null}
+          </div>
+          <p className="mt-4 text-xl uppercase text-white">{pick.scoreboard?.summary || "Scoreboard becomes available when the live game feed matches this event."}</p>
+          {pick.liveStatus === "final" && pick.result === "pending" && !pick.autoGradingSupported ? (
+            <p className="mt-3 text-sm leading-7 text-mist/70">
+              Final game status is available, but this market still needs manual or richer-stat grading. Sharplines does not pretend unsupported markets are graded automatically.
+            </p>
+          ) : null}
         </div>
 
         <div className="mt-8 rounded-[28px] border border-white/10 bg-white/[0.03] p-6">

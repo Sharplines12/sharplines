@@ -40,6 +40,9 @@ export type UserBetInput = {
   notes: string;
 };
 
+// Future hook: this input shape can be reused by CSV import jobs or sportsbook-partner sync jobs
+// once Sharplines has explicit user permission and a real ingestion pipeline.
+
 const fallbackUserBets: UserBet[] = [
   {
     id: "sample-user-bet-1",

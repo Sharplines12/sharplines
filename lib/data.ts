@@ -2,6 +2,15 @@ import { affiliateLinks, affiliateNotes } from "@/lib/affiliate-config";
 
 export type PickResult = "win" | "loss" | "push" | "pending";
 export type MembershipState = "public" | "authenticated" | "active-paid-member";
+export type PickLiveStatus = "upcoming" | "live" | "final";
+
+export type PickScoreboard = {
+  awayTeam: string;
+  homeTeam: string;
+  awayScore: number | null;
+  homeScore: number | null;
+  summary: string;
+};
 
 export type PickEntry = {
   id: string;
@@ -29,6 +38,13 @@ export type PickEntry = {
   profitLoss?: number;
   isPremium?: boolean;
   closingStatus?: "open" | "started" | "settled";
+  liveStatus?: PickLiveStatus;
+  scoreboard?: PickScoreboard | null;
+  gameDetail?: string | null;
+  eventStartAt?: string | null;
+  liveUpdatedAt?: string | null;
+  liveDataSource?: string | null;
+  autoGradingSupported?: boolean;
   slug?: string;
 };
 
@@ -192,95 +208,95 @@ export const dailyCards: DailyCard[] = [
   {
     id: "2026-03-16",
     date: "March 16, 2026",
-    headline: "Daily Top Picks",
-    summary: "Four measured positions across college hoops and NBA totals, with one featured best bet and two locked premium edges.",
-    premiumIntro: "Premium members get the full card, unit sizing context, and extra matchup notes.",
-    recordLabel: "Featured daily card",
+    headline: "Monday Card",
+    summary: "A four-play demo archive built from completed March 16 NBA and NHL results, graded after the final whistles.",
+    premiumIntro: "Premium members get the full card context, unit sizing, and postgame notes on how each position finished.",
+    recordLabel: "3-1, +2.81u",
     picks: [
       {
         id: "p1",
         date: "2026-03-16",
-        event: "Duke vs. North Carolina",
+        event: "Celtics vs. Suns",
         sport: "Basketball",
-        league: "NCAA",
-        pickTitle: "Duke controls the half-court battle",
-        betType: "Spread",
-        market: "Spread",
-        line: "Duke -4.5",
+        league: "NBA",
+        pickTitle: "Boston's two-way floor travels well",
+        betType: "Moneyline",
+        market: "Moneyline",
+        line: "Celtics ML",
         odds: "-110",
         sportsbook: "FanDuel",
-        startTime: "7:00 PM ET",
+        startTime: "10:00 PM ET",
         confidence: "High",
         units: 1.5,
-        shortSummary: "Transition defense and late-game free throw profile support the favorite.",
-        premiumTeaser: "Unlock the full matchup breakdown, injury context, and number threshold.",
+        shortSummary: "Boston closed stronger on both ends and finished the trip with a 120-112 win.",
+        premiumTeaser: "Unlock the closing notes, late-game shot profile, and how the matchup held up live.",
         premiumAnalysis:
-          "Duke grades out better in the half-court and should create cleaner late-possession shots. The free throw edge matters late if this number stays under two possessions. Premium notes also cover how far the line can move before the edge disappears.",
-        result: "pending",
+          "This was a clean example of backing the stronger two-way team profile instead of overcomplicating the spot. Boston controlled the final stretch and cleared the moneyline position with room, which is the kind of favorite profile Sharplines wants at the top of a card.",
+        result: "win",
         isBestBet: true
       },
       {
         id: "p2",
         date: "2026-03-16",
-        event: "Knicks vs. Heat",
+        event: "Rockets vs. Lakers",
         sport: "Basketball",
         league: "NBA",
-        pickTitle: "Under in a slower-possession profile",
+        pickTitle: "Under in a lower-efficiency half-court game",
         betType: "Total",
         market: "Total",
         line: "Under 218.5",
         odds: "-108",
         sportsbook: "BetMGM",
-        startTime: "7:30 PM ET",
+        startTime: "10:30 PM ET",
         confidence: "Medium",
         units: 1,
-        shortSummary: "Both second units project a longer half-court game than the market implies.",
-        premiumTeaser: "Members get the tempo notes, foul-rate context, and the live-bet pivot.",
+        shortSummary: "The pace never got loose and the game finished 100-92, comfortably under the number.",
+        premiumTeaser: "Members get the tempo read, foul environment, and why this under stayed playable late.",
         premiumAnalysis:
-          "This number still looks a touch rich if the Heat bench rotation stays intact. Premium members get the pace assumptions, why the foul environment matters here, and what would invalidate the under before tip.",
-        result: "pending"
+          "The handicap worked because neither side consistently generated easy offense in flow. The premium takeaway is that this was a pace-and-shot-quality under, not just a blind fade of star power, and the margin to the finish reflected that.",
+        result: "win"
       },
       {
         id: "p3",
         date: "2026-03-16",
-        event: "Creighton vs. Marquette",
+        event: "Bulls vs. Grizzlies",
         sport: "Basketball",
-        league: "NCAA",
-        pickTitle: "Rebounding prop in a volume matchup",
-        betType: "Player Prop",
-        market: "Player Prop",
-        line: "Kalkbrenner over 7.5 rebounds",
+        league: "NBA",
+        pickTitle: "Chicago brings the stronger full-game profile",
+        betType: "Spread",
+        market: "Spread",
+        line: "Bulls -4.5",
         odds: "+102",
         sportsbook: "Fanatics",
-        startTime: "9:10 PM ET",
+        startTime: "8:00 PM ET",
         confidence: "Medium",
         units: 1,
-        shortSummary: "Projected shot profile creates extra defensive board chances.",
-        premiumTeaser: "Premium unlocks the player-rotation angle and stat split notes.",
+        shortSummary: "Chicago controlled the matchup from the second quarter on and won 132-107.",
+        premiumTeaser: "Premium unlocks the matchup split, turnover edge, and why the favorite kept extending.",
         premiumAnalysis:
-          "The matchup projects enough jump shooting to create rebound volume on both ends, but the best edge comes from how Marquette's spacing shifts missed-shot geography. Members get the minute projection, matchup split, and the fallback number.",
-        result: "pending"
+          "This was one of those spread spots where the stronger shot-making and cleaner possession game showed up for most of the night. Once Chicago created separation, the Grizzlies never really pressured the ticket, which made this the easiest win on the board outside the best bet.",
+        result: "win"
       },
       {
         id: "p4",
         date: "2026-03-16",
-        event: "Maple Leafs vs. Rangers",
+        event: "Rangers vs. Kings",
         sport: "Hockey",
         league: "NHL",
-        pickTitle: "Premium-only lean on early pace",
+        pickTitle: "Smaller total lean in a volatile spot",
         betType: "Total",
         market: "Total",
         line: "Over 6.5",
         odds: "+100",
         sportsbook: "Caesars",
-        startTime: "7:00 PM ET",
+        startTime: "10:30 PM ET",
         confidence: "Lean",
         units: 0.5,
-        shortSummary: "The free card shows the headline, but the reason this stayed smaller is in the member notes.",
-        premiumTeaser: "Unlock the goalie volatility angle and why this is a smaller unit lean.",
+        shortSummary: "The pace case never materialized and the game stayed well below the total in a 4-1 final.",
+        premiumTeaser: "Unlock the postgame note on why this stayed a half-unit position instead of a core play.",
         premiumAnalysis:
-          "This is the classic example of a play that belongs in the premium card but not in the public hero. Members see exactly why the goaltending uncertainty keeps this at half a unit and how to react if the number moves.",
-        result: "pending"
+          "This was exactly the kind of lean that belongs at the bottom of the card rather than in a featured slot. The read on possible scoring volatility did not show up, and the smaller stake kept the miss from doing real damage to the day.",
+        result: "loss"
       }
     ]
   },

@@ -35,6 +35,10 @@ export default async function ArchivePage() {
             copy: "Each archived play preserves the posted line and sportsbook snapshot so the record reflects the number Sharplines actually released."
           },
           {
+            title: "Live status context",
+            copy: "When the game feed is available, archive entries also show whether a matchup is upcoming, live, or final plus the current or final score."
+          },
+          {
             title: "Detailed pick pages",
             copy: "Every archived pick links into a deeper page where the result, posting time, and analysis context can be reviewed cleanly."
           }

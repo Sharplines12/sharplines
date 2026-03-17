@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import type { PickArchiveEntry } from "@/lib/picks";
 import { formatPickTimestamp } from "@/lib/picks";
 import { cn, formatUnits } from "@/lib/utils";
+import { LiveStatusPill } from "@/components/live-status-pill";
 import { ResultPill } from "@/components/result-pill";
 
 type ArchiveBrowserProps = {
@@ -150,6 +151,7 @@ export function ArchiveBrowser({ picks, title = "Public picks archive", copy }: 
               <th className="px-4 py-3">Market</th>
               <th className="px-4 py-3">Sport</th>
               <th className="px-4 py-3">Odds at posting</th>
+              <th className="px-4 py-3">Game state</th>
               <th className="px-4 py-3">Units</th>
               <th className="px-4 py-3">P/L</th>
               <th className="px-4 py-3">Result</th>
@@ -177,6 +179,10 @@ export function ArchiveBrowser({ picks, title = "Public picks archive", copy }: 
                   <p className="mt-1 text-xs uppercase tracking-[0.14em] text-mist/40">{pick.confidence} confidence</p>
                 </td>
                 <td className="px-4 py-4 align-top text-white">{pick.odds}</td>
+                <td className="px-4 py-4 align-top text-mist/75">
+                  {pick.liveStatus ? <LiveStatusPill status={pick.liveStatus} /> : null}
+                  <p className="mt-2 text-white">{pick.scoreboard?.summary || "No score feed"}</p>
+                </td>
                 <td className="px-4 py-4 align-top text-mist/75">{pick.units.toFixed(1)}u</td>
                 <td className={cn("px-4 py-4 align-top", pick.profitLoss >= 0 ? "text-neon" : "text-rose-200")}>
                   {formatUnits(pick.profitLoss)}
@@ -212,11 +218,18 @@ export function ArchiveBrowser({ picks, title = "Public picks archive", copy }: 
                 <p className="mt-2 text-sm text-white">{formatPickTimestamp(pick.postedAt)}</p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                <p className="muted-label">Profit / loss</p>
-                <p className={cn("mt-2 text-sm", pick.profitLoss >= 0 ? "text-neon" : "text-rose-200")}>
-                  {formatUnits(pick.profitLoss)}
-                </p>
+                <p className="muted-label">Game state</p>
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  {pick.liveStatus ? <LiveStatusPill status={pick.liveStatus} /> : null}
+                  <span className="text-sm text-white">{pick.scoreboard?.summary || "No score feed"}</span>
+                </div>
               </div>
+            </div>
+            <div className="mt-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+              <p className="muted-label">Profit / loss</p>
+              <p className={cn("mt-2 text-sm", pick.profitLoss >= 0 ? "text-neon" : "text-rose-200")}>
+                {formatUnits(pick.profitLoss)}
+              </p>
             </div>
           </article>
         ))}

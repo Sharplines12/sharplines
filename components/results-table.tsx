@@ -3,6 +3,7 @@ import type { DailyCard } from "@/lib/data";
 import { flattenDailyCards, formatPickTimestamp } from "@/lib/picks";
 import { formatUnits } from "@/lib/utils";
 import { ResultPill } from "@/components/result-pill";
+import { LiveStatusPill } from "@/components/live-status-pill";
 
 type ResultsTableProps = {
   cards: DailyCard[];
@@ -21,6 +22,7 @@ export function ResultsTable({ cards }: ResultsTableProps) {
             <th className="px-4 py-3">Sport</th>
             <th className="px-4 py-3">Pick</th>
             <th className="px-4 py-3">Odds</th>
+            <th className="px-4 py-3">Score</th>
             <th className="px-4 py-3">P/L</th>
             <th className="px-4 py-3">Result</th>
           </tr>
@@ -37,6 +39,14 @@ export function ResultsTable({ cards }: ResultsTableProps) {
               <td className="px-4 py-3 text-mist/65">{pick.sport}</td>
               <td className="px-4 py-3 text-mist/75">{pick.line}</td>
               <td className="px-4 py-3 text-mist/75">{pick.odds}</td>
+              <td className="px-4 py-3 text-mist/75">
+                <p className="text-white">{pick.scoreboard?.summary || "No live score feed"}</p>
+                {pick.liveStatus ? (
+                  <div className="mt-2">
+                    <LiveStatusPill status={pick.liveStatus} />
+                  </div>
+                ) : null}
+              </td>
               <td className={`px-4 py-3 ${pick.profitLoss >= 0 ? "text-neon" : "text-rose-200"}`}>{formatUnits(pick.profitLoss)}</td>
               <td className="px-4 py-3 uppercase text-mist/65">
                 <ResultPill result={pick.result} />

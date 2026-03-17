@@ -3,6 +3,7 @@ import type { Route } from "next";
 import { Lock, TrendingDown, TrendingUp } from "lucide-react";
 import { getSportsbookSlugByName, type PickEntry } from "@/lib/data";
 import { cn, formatOdds } from "@/lib/utils";
+import { PickLiveSummary } from "@/components/pick-live-summary";
 
 type PickRowProps = {
   pick: PickEntry;
@@ -60,6 +61,7 @@ export function PickRow({ pick, detailed = false }: PickRowProps) {
               )}{" "}
               • {pick.startTime}
             </p>
+            <PickLiveSummary pick={pick} compact />
           </div>
           <p className="text-sm leading-7">{detailed ? pick.premiumAnalysis : pick.shortSummary}</p>
         </div>

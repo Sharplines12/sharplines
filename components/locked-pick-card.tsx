@@ -3,6 +3,7 @@ import type { Route } from "next";
 import { Crown, Lock } from "lucide-react";
 import { getSportsbookSlugByName, type PickEntry } from "@/lib/data";
 import { formatOdds } from "@/lib/utils";
+import { PickLiveSummary } from "@/components/pick-live-summary";
 
 type LockedPickCardProps = {
   pick: PickEntry;
@@ -30,6 +31,7 @@ export function LockedPickCard({ pick }: LockedPickCardProps) {
         <p className="mt-2 text-sm text-mist/65">
           {pick.event} • {pick.line} • {formatOdds(pick.odds)} • {pick.startTime}
         </p>
+        <PickLiveSummary pick={pick} compact />
         <p className="mt-2 text-xs uppercase tracking-[0.16em] text-mist/45">
           {sportsbookSlug ? (
             <Link href={`/sportsbooks/${sportsbookSlug}` as Route} className="hover:text-white">

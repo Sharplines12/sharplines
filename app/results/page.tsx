@@ -22,7 +22,7 @@ export default async function ResultsPage() {
       <SectionHeading
         eyebrow="Results"
         title="Transparent tracking is what keeps the premium brand trustworthy."
-        copy="Sharplines keeps recent results public, but the broader trust layer now lives across the full archive and performance pages. The premium product is the future card, not the past record."
+        copy="Sharplines keeps recent results public, with live game state and final grading feeding the broader archive and performance pages. The premium product is the future card, not the past record."
       />
 
       <div className="flex flex-wrap gap-3">

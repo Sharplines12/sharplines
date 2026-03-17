@@ -19,6 +19,7 @@ import {
   type PickEntry,
   type Sportsbook
 } from "@/lib/data";
+import { enrichDailyCardsWithLiveResults } from "@/lib/live-results";
 import { flattenDailyCards, getHistoricalPicks, getFuturePicks, type PickArchiveEntry } from "@/lib/picks";
 import { createSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase";
 
@@ -89,6 +90,42 @@ type DbSportsbook = {
   promo_summary: string;
 };
 
+function formatDbStartTime(value: string) {
+  if (!/^\d{4}-\d{2}-\d{2}T/.test(value)) {
+    return value;
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return `${new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    hour: "numeric",
+    minute: "2-digit"
+  }).format(date)} ET`;
+}
+
+function normalizeDbLine(pick: DbPickEntry) {
+  const line = pick.line.trim();
+
+  if (!/^\d+(\.\d+)?$/.test(line)) {
+    return line;
+  }
+
+  if (pick.pick_title.includes(`+${line}`)) {
+    return `+${line}`;
+  }
+
+  if (pick.pick_title.includes(`-${line}`)) {
+    return `-${line}`;
+  }
+
+  return line;
+}
+
 function mapPick(pick: DbPickEntry): PickEntry {
   return {
     id: pick.id,
@@ -99,10 +136,10 @@ function mapPick(pick: DbPickEntry): PickEntry {
     pickTitle: pick.pick_title,
     betType: pick.bet_type,
     market: pick.market,
-    line: pick.line,
+    line: normalizeDbLine(pick),
     odds: pick.odds,
     sportsbook: pick.sportsbook,
-    startTime: pick.start_time,
+    startTime: formatDbStartTime(pick.start_time),
     confidence: pick.confidence,
     units: pick.units,
     shortSummary: pick.short_summary,
@@ -178,10 +215,10 @@ async function safeQuery<T>(query: () => Promise<T>, fallback: T) {
 
 export async function getDailyCards() {
   if (!isSupabaseConfigured()) {
-    return fallbackDailyCards;
+    return enrichDailyCardsWithLiveResults(fallbackDailyCards);
   }
 
-  return safeQuery(async () => {
+  try {
     const supabase = await createSupabaseServerClient();
     const { data, error } = await supabase
       .from("daily_cards")
@@ -190,11 +227,13 @@ export async function getDailyCards() {
       .order("card_date", { ascending: false });
 
     if (error || !data?.length) {
-      return fallbackDailyCards;
+      return enrichDailyCardsWithLiveResults(fallbackDailyCards);
     }
 
-    return (data as DbDailyCard[]).map(mapDailyCard);
-  }, fallbackDailyCards);
+    return enrichDailyCardsWithLiveResults((data as DbDailyCard[]).map(mapDailyCard));
+  } catch {
+    return enrichDailyCardsWithLiveResults(fallbackDailyCards);
+  }
 }
 
 export async function getTodayCard() {

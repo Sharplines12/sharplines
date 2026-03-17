@@ -1,4 +1,4 @@
-import type { DailyCard, PickEntry, PickResult } from "@/lib/data";
+import type { DailyCard, PickEntry, PickLiveStatus, PickResult } from "@/lib/data";
 
 export type PickArchiveEntry = PickEntry & {
   cardId: string;
@@ -11,6 +11,12 @@ export type PickArchiveEntry = PickEntry & {
   profitLoss: number;
   isPremium: boolean;
   closingStatus: "open" | "started" | "settled";
+  liveStatus: PickLiveStatus;
+  gameDetail: string | null;
+  eventStartAt: string | null;
+  liveUpdatedAt: string | null;
+  liveDataSource: string | null;
+  autoGradingSupported: boolean;
   slug: string;
   hasStarted: boolean;
 };
@@ -121,6 +127,8 @@ export function flattenDailyCards(cards: DailyCard[], now = new Date()) {
       const settledAt = pick.settledAt ?? deriveSettledAt(pick.result, startDate);
       const closingStatus =
         pick.closingStatus ?? (pick.result !== "pending" ? "settled" : hasStarted ? "started" : "open");
+      const liveStatus =
+        pick.liveStatus ?? (pick.result !== "pending" ? "final" : hasStarted ? "live" : "upcoming");
 
       return {
         ...pick,
@@ -134,6 +142,12 @@ export function flattenDailyCards(cards: DailyCard[], now = new Date()) {
         profitLoss: pick.profitLoss ?? calculateProfitLoss(pick.result, pick.odds, pick.units),
         isPremium: pick.isPremium ?? Boolean(pick.premiumAnalysis),
         closingStatus,
+        liveStatus,
+        gameDetail: pick.gameDetail ?? null,
+        eventStartAt: pick.eventStartAt ?? startDate?.toISOString() ?? null,
+        liveUpdatedAt: pick.liveUpdatedAt ?? pick.updatedAt ?? null,
+        liveDataSource: pick.liveDataSource ?? null,
+        autoGradingSupported: pick.autoGradingSupported ?? false,
         slug: pick.slug ?? pick.id,
         hasStarted
       } satisfies PickArchiveEntry;

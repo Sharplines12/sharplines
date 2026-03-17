@@ -2,6 +2,7 @@ import type { DailyCard } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { formatUnits } from "@/lib/utils";
 import { ResultPill } from "@/components/result-pill";
+import { PickLiveSummary } from "@/components/pick-live-summary";
 
 type ResultsDayCardProps = {
   day: DailyCard;
@@ -31,6 +32,7 @@ export function ResultsDayCard({ day, compact = false }: ResultsDayCardProps) {
                 <p className="mt-1 text-xs uppercase tracking-[0.16em] text-mist/45">
                   {pick.market} • {pick.line} • {pick.units.toFixed(1)}u
                 </p>
+                <PickLiveSummary pick={pick} compact />
               </div>
               <div className="flex items-center gap-3">
                 {typeof pick.profitLoss === "number" ? (

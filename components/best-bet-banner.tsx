@@ -3,6 +3,7 @@ import type { Route } from "next";
 import { Gem, Lock } from "lucide-react";
 import { getSportsbookSlugByName, type PickEntry } from "@/lib/data";
 import { formatOdds } from "@/lib/utils";
+import { PickLiveSummary } from "@/components/pick-live-summary";
 
 type BestBetBannerProps = {
   pick: PickEntry;
@@ -32,6 +33,7 @@ export function BestBetBanner({ pick, locked = false }: BestBetBannerProps) {
           <p className="mt-3 text-lg text-mist/75">
             {pick.event} • {pick.line} • {formatOdds(pick.odds)} • {pick.startTime}
           </p>
+          <PickLiveSummary pick={pick} />
           <p className="mt-4 text-sm leading-7">{locked ? pick.premiumTeaser : pick.premiumAnalysis}</p>
         </div>
         <div className="rounded-[28px] border border-white/10 bg-white/[0.03] p-5">
