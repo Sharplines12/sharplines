@@ -21,7 +21,7 @@ export async function SiteHeader() {
 
   return (
     <header className="site-container sticky top-0 z-40 pt-4">
-      <div className="panel-strong px-4 py-3 sm:px-6">
+      <div className="surface-strong px-4 py-3 sm:px-6">
         <div className="flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3">
             <SharplinesWordmark compact />
@@ -29,7 +29,11 @@ export async function SiteHeader() {
 
           <nav className="hidden items-center gap-5 lg:flex">
             {navItems.map((item) => (
-              <Link key={item.href} href={item.href as Route} className="text-sm font-medium text-mist/70 hover:text-white">
+              <Link
+                key={item.href}
+                href={item.href as Route}
+                className="text-sm font-medium text-slate-500 hover:text-slate-950"
+              >
                 {item.label}
               </Link>
             ))}
@@ -80,7 +84,7 @@ export async function SiteHeader() {
             <Link
               key={item.href}
               href={item.href as Route}
-              className="whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-mist/60"
+              className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500"
             >
               {item.label}
             </Link>

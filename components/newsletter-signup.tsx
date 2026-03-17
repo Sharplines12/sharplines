@@ -14,7 +14,7 @@ export function NewsletterSignup() {
   const [state, formAction, isPending] = useActionState(submitNewsletterAction, initialState);
 
   return (
-    <div className="panel-strong relative overflow-hidden px-6 py-8 sm:px-10 sm:py-10">
+    <div className="surface-strong relative overflow-hidden px-6 py-8 sm:px-10 sm:py-10">
       <div className="hero-orb -left-4 top-6 h-24 w-24 bg-aqua/15" />
       <div className="hero-orb right-4 top-10 h-28 w-28 bg-neon/10" />
       <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
@@ -23,10 +23,10 @@ export function NewsletterSignup() {
             <Mail className="h-4 w-4" />
             Free Market Notes
           </span>
-          <h2 className="mt-5 max-w-3xl text-4xl uppercase leading-none text-white sm:text-5xl">
+          <h2 className="mt-5 max-w-3xl text-4xl uppercase leading-none text-slate-950 sm:text-5xl">
             Build the free Sharplines audience without making it feel like a cheap popup.
           </h2>
-          <p className="mt-4 max-w-2xl text-base leading-7 text-mist/75">
+          <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
             Use this as the calm, free-entry layer of the brand: featured card notes, best-bet alerts, and product
             drops for people who are not ready to buy premium yet.
           </p>
@@ -48,27 +48,27 @@ export function NewsletterSignup() {
                 copy: "The newsletter becomes the clean free-to-paid bridge into the full card."
               }
             ].map((item) => (
-              <div key={item.title} className="rounded-[24px] border border-white/10 bg-white/[0.03] p-4">
+              <div key={item.title} className="surface-soft p-4">
                 <item.icon className="h-4 w-4 text-aqua" />
-                <p className="mt-3 text-sm font-semibold uppercase tracking-[0.18em] text-white">{item.title}</p>
-                <p className="mt-2 text-sm leading-6 text-mist/65">{item.copy}</p>
+                <p className="mt-3 text-sm font-semibold uppercase tracking-[0.18em] text-slate-950">{item.title}</p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{item.copy}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="relative rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-5 shadow-panel backdrop-blur sm:p-6">
-          <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-aqua/40 to-transparent" />
+        <div className="relative rounded-[30px] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] p-5 shadow-[0_24px_80px_rgba(28,45,74,0.08)] backdrop-blur sm:p-6">
+          <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-sky-300 to-transparent" />
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="muted-label">Newsletter entry</p>
-              <h3 className="mt-2 text-2xl uppercase text-white">Join the Sharplines list</h3>
+              <h3 className="mt-2 text-2xl uppercase text-slate-950">Join the Sharplines list</h3>
             </div>
-            <div className="rounded-full border border-neon/25 bg-neon/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-neon">
+            <div className="rounded-full border border-lime-300 bg-lime-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-lime-800">
               Free
             </div>
           </div>
-          <p className="mt-3 text-sm leading-7 text-mist/70">
+          <p className="mt-3 text-sm leading-7 text-slate-600">
             Start with market notes and featured picks. Upgrade later if you want the full card and deeper analysis.
           </p>
 
@@ -82,13 +82,13 @@ export function NewsletterSignup() {
                 autoComplete="email"
               />
               <select name="focus" className="glass-input" defaultValue="Basketball">
-                <option value="Basketball" className="bg-ink text-white">
+                <option value="Basketball">
                   Basketball notes first
                 </option>
-                <option value="Basketball + Hockey" className="bg-ink text-white">
+                <option value="Basketball + Hockey">
                   Basketball + Hockey
                 </option>
-                <option value="Best Bet Alerts" className="bg-ink text-white">
+                <option value="Best Bet Alerts">
                   Best bet alerts
                 </option>
               </select>
@@ -99,16 +99,16 @@ export function NewsletterSignup() {
             </button>
 
             {state.message ? (
-              <p className={`text-sm leading-6 ${state.success ? "text-neon" : "text-amber-100"}`}>{state.message}</p>
+              <p className={`text-sm leading-6 ${state.success ? "text-lime-700" : "text-amber-700"}`}>{state.message}</p>
             ) : (
-              <p className="text-xs uppercase tracking-[0.18em] text-mist/45">
+              <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
                 This currently runs as a Sharplines waitlist until your email platform is connected.
               </p>
             )}
           </form>
 
-          <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-mist/60">Want the full card instead of the free notes layer?</p>
+          <div className="mt-6 flex flex-col gap-3 border-t border-slate-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-slate-500">Want the full card instead of the free notes layer?</p>
             <Link href="/pricing" className="cta-secondary">
               See premium
             </Link>

@@ -10,30 +10,30 @@ type PickRowProps = {
 };
 
 const resultStyles = {
-  win: "border-neon/30 bg-neon/10 text-neon",
-  loss: "border-rose-400/30 bg-rose-400/10 text-rose-200",
-  push: "border-aqua/30 bg-aqua/10 text-aqua",
-  pending: "border-white/10 bg-white/[0.03] text-mist/70"
+  win: "border-lime-300 bg-lime-100 text-lime-800",
+  loss: "border-rose-200 bg-rose-50 text-rose-700",
+  push: "border-sky-200 bg-sky-50 text-sky-700",
+  pending: "border-slate-200 bg-slate-50 text-slate-500"
 };
 
 export function PickRow({ pick, detailed = false }: PickRowProps) {
   const sportsbookSlug = getSportsbookSlugByName(pick.sportsbook);
 
   return (
-    <div className="rounded-[28px] border border-white/10 bg-white/[0.03] p-5">
+    <div className="surface p-5">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="rounded-full border border-white/10 px-3 py-1 text-xs uppercase tracking-[0.18em] text-mist/55">
+            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs uppercase tracking-[0.18em] text-slate-500">
               {pick.sport}
             </span>
-            <span className="rounded-full border border-white/10 px-3 py-1 text-xs uppercase tracking-[0.18em] text-mist/55">
+            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs uppercase tracking-[0.18em] text-slate-500">
               {pick.league}
             </span>
-            <span className="rounded-full border border-white/10 px-3 py-1 text-xs uppercase tracking-[0.18em] text-mist/55">
+            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs uppercase tracking-[0.18em] text-slate-500">
               {pick.confidence} confidence
             </span>
-            <span className="rounded-full border border-white/10 px-3 py-1 text-xs uppercase tracking-[0.18em] text-mist/55">
+            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs uppercase tracking-[0.18em] text-slate-500">
               {pick.units.toFixed(1)}u
             </span>
             <span
@@ -46,13 +46,13 @@ export function PickRow({ pick, detailed = false }: PickRowProps) {
             </span>
           </div>
           <div>
-            <h3 className="text-2xl uppercase text-white">{pick.pickTitle}</h3>
-            <p className="mt-1 text-sm text-mist/65">
+            <h3 className="text-2xl uppercase text-slate-950">{pick.pickTitle}</h3>
+            <p className="mt-1 text-sm text-slate-600">
               {pick.event} • {pick.betType} • {pick.line} at {formatOdds(pick.odds)}
             </p>
-            <p className="mt-1 text-xs uppercase tracking-[0.16em] text-mist/45">
+            <p className="mt-1 text-xs uppercase tracking-[0.16em] text-slate-400">
               {sportsbookSlug ? (
-                <Link href={`/sportsbooks/${sportsbookSlug}` as Route} className="hover:text-white">
+                <Link href={`/sportsbooks/${sportsbookSlug}` as Route} className="hover:text-slate-950">
                   {pick.sportsbook}
                 </Link>
               ) : (
@@ -61,28 +61,28 @@ export function PickRow({ pick, detailed = false }: PickRowProps) {
               • {pick.startTime}
             </p>
           </div>
-          <p className="text-sm leading-7">{detailed ? pick.premiumAnalysis : pick.shortSummary}</p>
+          <p className="text-sm leading-7 text-slate-600">{detailed ? pick.premiumAnalysis : pick.shortSummary}</p>
         </div>
         <div className="flex items-center gap-3">
           {detailed ? (
-            <span className="rounded-full border border-neon/20 bg-neon/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-neon">
+            <span className="rounded-full border border-lime-300 bg-lime-100 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-lime-800">
               Full member note
             </span>
           ) : (
-            <span className="rounded-full border border-ember/20 bg-ember/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100">
+            <span className="rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-700">
               Premium teaser
             </span>
           )}
           {pick.result === "win" ? (
-            <TrendingUp className="h-5 w-5 text-neon" />
+            <TrendingUp className="h-5 w-5 text-lime-700" />
           ) : pick.result === "loss" ? (
-            <TrendingDown className="h-5 w-5 text-rose-200" />
+            <TrendingDown className="h-5 w-5 text-rose-500" />
           ) : pick.result === "pending" ? (
-            <Lock className="h-5 w-5 text-aqua" />
+            <Lock className="h-5 w-5 text-sky-600" />
           ) : null}
         </div>
       </div>
-      {!detailed ? <p className="mt-4 text-sm text-mist/60">{pick.premiumTeaser}</p> : null}
+      {!detailed ? <p className="mt-4 text-sm text-slate-500">{pick.premiumTeaser}</p> : null}
     </div>
   );
 }
