@@ -74,6 +74,19 @@ export type Article = {
 
 export type Guide = Article;
 
+type EditorialEntryInput = Omit<Article, "readingTime">;
+
+function buildReadingTime(excerpt: string, content: string[]) {
+  const words = [excerpt, ...content]
+    .join(" ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
+  const minutes = Math.max(3, Math.round(words / 210));
+
+  return `${minutes} min read`;
+}
+
 export const siteConfig = {
   name: "Sharplines",
   shortName: "Sharplines",
@@ -575,21 +588,26 @@ export const sportsbooks: Sportsbook[] = [
   }
 ];
 
-export const articles: Article[] = [
+const articleDrafts: EditorialEntryInput[] = [
   {
     slug: "how-to-read-a-daily-betting-card",
     title: "How To Read A Daily Betting Card Without Chasing Every Game",
     excerpt: "How to tell the difference between a real betting card, a random list of opinions, and a content product that is just trying to look busy.",
     category: "Strategy",
     publishedAt: "March 10, 2026",
-    readingTime: "8 min read",
     heroKicker: "Card Strategy",
     content: [
       "A lot of betting content still confuses activity with quality. The card is long, the opinions are loud, and everything gets treated like a must-play spot. That can feel exciting for a few minutes, but it becomes useless quickly if there is no structure behind it.",
       "A real daily card should do two things well. First, it should tell you what the strongest opinions actually are. Second, it should make it obvious where conviction begins to taper off. If every pick is presented with the same energy and the same unit size, the card is not helping you think. It is just asking you to borrow someone else's confidence.",
       "That is why better products separate the board into layers. There is usually a best bet or featured position, then a handful of standard plays, and then maybe a smaller lean that is worth tracking but not worth treating like the centerpiece. Those distinctions matter. They tell you how the handicapper sees the risk, not just how they want to market the card.",
       "The same logic applies to analysis. Good writeups explain why a number is playable, what market factors matter, and what would make the bet less attractive if the line moves. Weak writeups mostly exist to sound certain. They tell you a side is strong, but they do not tell you where the edge actually lives.",
-      "Over time, the cleanest cards are also the easiest to grade honestly. When the strongest opinion loses, you can go back and ask whether the number was still right. When a smaller lean wins, you can avoid rewriting history and pretending it was always the best play on the board. That kind of separation keeps the product accountable, which is a big part of what makes a picks brand feel real."
+      "Over time, the cleanest cards are also the easiest to grade honestly. When the strongest opinion loses, you can go back and ask whether the number was still right. When a smaller lean wins, you can avoid rewriting history and pretending it was always the best play on the board. That kind of separation keeps the product accountable, which is a big part of what makes a picks brand feel real.",
+      "A strong card also respects the fact that most bettors are making choices under time pressure. They may be reading from a phone ten minutes before tip, or checking a premium board between line moves. The product should help them identify the core positions quickly without turning every decision into a scavenger hunt through five different paragraphs that all say the same thing.",
+      "That is where formatting matters. The best cards tell you the event, market, number, sportsbook, confidence, and a short thesis immediately. The longer writeup exists to support the play, not to bury it. Readers should be able to understand what is being bet in seconds and then decide whether they want the deeper context.",
+      "Another signal of quality is whether the card acknowledges price sensitivity. It is not enough to say Duke is the side or the under is the look. Good betting content explains whether a play is worth betting only at -4.5, still acceptable at -5, or gone once the market reaches -6. That is the difference between analysis and fandom.",
+      "The same principle applies to volume. If a card covers seven games just because seven games are on television, the product starts to look like content for content's sake. A sharper card is comfortable passing on matchups that do not offer a real number advantage. Selectivity often does more for credibility than a bloated slate ever can.",
+      "The best readers pick up on that quickly. They do not just want winning picks; they want a workflow they can trust. A disciplined daily card teaches them what matters, what does not, and how to think about the board when the premium writeup is no longer in front of them.",
+      "That is ultimately why daily-card structure matters so much for a brand like Sharplines. The card is not only the product. It is also a statement about process. When it is clear, measured, and easy to audit later, the entire site feels more serious."
     ]
   },
   {
@@ -598,14 +616,19 @@ export const articles: Article[] = [
     excerpt: "The difference between a review that actually helps a bettor and one that only exists to hold an affiliate link.",
     category: "Reviews",
     publishedAt: "March 9, 2026",
-    readingTime: "7 min read",
     heroKicker: "Sportsbook Reviews",
     content: [
       "Most sportsbook reviews are technically about the operator, but you can usually tell within a few sentences whether the page was written for an actual reader or for a link report. The weak ones all sound the same. They repeat whatever promo language is easiest to recycle, say the app is \"great for bettors,\" and move on without offering much of a reason to trust the opinion.",
       "A useful review starts with the experience itself. What does the app feel like to navigate? Are the markets broad or mostly surface-level? Does the book make mainstream betting easy while feeling thinner around props and niche spots, or does it hold up better once you move past the front-page menu? Those are the kinds of things a bettor can actually use.",
       "The next layer is context. A mainstream operator like FanDuel or DraftKings does not need a fake hard sell. Readers already know the names. What they need is a calmer explanation of how those books differ in practice: pricing, app feel, market depth, live betting, and whether the product seems stronger for beginners or for someone who already shops numbers across multiple books.",
       "The other thing a real review should do is describe tradeoffs honestly. Maybe the app is clean but the pricing is rarely aggressive. Maybe the rewards ecosystem is interesting but the market menu can feel uneven by state. Those details make the page more credible because they signal that the goal is to evaluate the product, not just to push a signup.",
-      "For a betting media brand, sportsbook reviews are a trust test. If the reviews feel thoughtful, the affiliate layer feels earned. If the reviews feel thin, everything else starts to look thinner too."
+      "For a betting media brand, sportsbook reviews are a trust test. If the reviews feel thoughtful, the affiliate layer feels earned. If the reviews feel thin, everything else starts to look thinner too.",
+      "Good reviews also help bettors understand what comparison actually means. It is not only about the bonus headline. It is about how quickly the book posts props, whether the live screen is usable, how often the app hangs during high-volume windows, and whether the market menu feels deep enough for the type of bettor reading the page.",
+      "That is why operator fit is such an important section. Some users simply want a recognizable book with a clean interface and a broad menu on Saturday afternoons. Others care more about prop availability, alt markets, and whether the app is good enough for line shopping across three or four tabs. A useful review says that out loud instead of pretending one operator wins every category.",
+      "There is also a responsibility piece here. If an operator's pricing is often less aggressive in certain mainstream markets, the review should say so. If state availability creates important limitations, the page should state that clearly. If the book has a good beginner feel but less appeal for experienced shoppers, that is still valuable information.",
+      "Readers can tell when a page has been written from observation rather than from a template. Small details about navigation, market discovery, and promotional clarity make the review feel grounded. They also make affiliate links feel less intrusive because the editorial layer is doing real work before the call to action shows up.",
+      "For Sharplines, this matters beyond SEO. Review pages help prove that the site is not only a paywall with a few locked picks. They show that there is operator knowledge, product context, and a broader understanding of how bettors actually choose where to place a wager.",
+      "That is why the best sportsbook reviews stay calm. They do not need to shout. They simply need to answer the questions a real bettor would have before signing up or before adding another book to the rotation."
     ]
   },
   {
@@ -614,31 +637,45 @@ export const articles: Article[] = [
     excerpt: "Why public results matter, what a clean record should show, and why hiding losing days destroys trust faster than a cold streak ever could.",
     category: "Transparency",
     publishedAt: "March 8, 2026",
-    readingTime: "7 min read",
     heroKicker: "Accountability",
     content: [
       "The easiest way to make a picks brand look fake is not by losing. It is by pretending the losses somehow do not count. Most people who have spent time around betting content already know the signs: selective screenshots, record resets, suspiciously vague unit counts, and timelines that celebrate every win while quietly erasing the rough nights.",
       "A real record does not need to look perfect. It needs to look complete. That means wins, losses, pushes, unit size, and enough date-by-date structure that somebody can actually understand how the card has performed over time. Without that, the record is just another piece of marketing language.",
       "That is also why unit tracking matters more than raw win rate. A 3-2 day can still be weak if the losses came on larger positions. A 2-2 day can still be fine if the card was built around one stronger position and one smaller lean. Once you start showing units and not just wins, the reader gets a clearer picture of how the product is actually being managed.",
       "Transparency also changes the tone of the whole site. If your record is public, you do not need to write like you are trying to overpower skepticism. The data is already doing some of that work for you. The copy can stay calmer, the claims can stay tighter, and the premium pitch can feel more like an invitation than a dare.",
-      "In the long run, honest tracking is one of the few things that helps both sides of the business at once. Members feel less like they are buying into a black box, and operator partners see a brand that at least understands how to present itself like a serious product."
+      "In the long run, honest tracking is one of the few things that helps both sides of the business at once. Members feel less like they are buying into a black box, and operator partners see a brand that at least understands how to present itself like a serious product.",
+      "A clean results page should also preserve context. It helps to know whether a losing day came from a missed best bet, three small leans, or a bad close after a late injury update. None of that erases the loss, but it does help readers understand how the card was built and whether the process still made sense.",
+      "That is the difference between transparency and performance theater. Performance theater wants the audience to remember only the green screenshots. Transparency is willing to keep the full sequence visible, even when the short-term record is rough. That kind of honesty creates a much sturdier relationship over time.",
+      "There is also a practical side to this. Honest archives make better future analysis possible. If you can review old plays with the original number, writeup, unit size, and result, you can actually learn something from them. If the history has been cleaned up for appearance, the archive becomes nearly useless as a tool for improvement.",
+      "That is one reason serious bettors care about closing line value, thresholds, and whether the edge was still there even when the result failed. A good archive gives you enough information to ask those questions. It does not stop at the final score and call the lesson complete.",
+      "For a premium picks brand, public recordkeeping is also part of the sales experience. It signals that the product expects scrutiny. That confidence reads much better than a site that tries to protect itself from evaluation by keeping everything vague.",
+      "The simplest version of the rule is still the best one: keep the wins, keep the losses, keep the unit sizing, and keep the dates. If the product is worth trusting, the full record should help prove it rather than threaten it."
     ]
   }
 ];
 
-export const guides: Guide[] = [
+export const articles: Article[] = articleDrafts.map((article) => ({
+  ...article,
+  readingTime: buildReadingTime(article.excerpt, article.content)
+}));
+
+const guideDrafts: EditorialEntryInput[] = [
   {
     slug: "best-sportsbook-apps-for-beginners",
     title: "Best Sportsbook Apps For Beginners",
     excerpt: "A beginner-friendly guide to the major U.S. sportsbook apps and what matters most when choosing one.",
     category: "Beginner Guide",
     publishedAt: "March 7, 2026",
-    readingTime: "7 min read",
     heroKicker: "Betting Guides",
     content: [
       "The best app for a beginner is usually the one with the clearest interface, solid market depth, and enough brand trust to make the experience feel stable instead of overwhelming.",
       "New bettors should care less about hype and more about usability, market availability, and how clearly an app presents odds, bet slips, and grading.",
-      "A strong beginner guide should compare apps calmly, explain tradeoffs, and remind readers that offers, terms, and availability vary by state."
+      "A strong beginner guide should compare apps calmly, explain tradeoffs, and remind readers that offers, terms, and availability vary by state.",
+      "Most new users do not need every possible market on day one. They need an app that makes the basics obvious: how to find spreads, totals, and moneylines; how the bet slip works; how live prices update; and where account information is stored. If those basics feel confusing, everything else gets harder quickly.",
+      "Brand familiarity matters too. A national operator with a clean, familiar interface may be a better beginner choice than a book with a deeper niche menu but a less intuitive product. Early comfort matters because confusion often leads to rushed decisions and poor number discipline.",
+      "Beginners should also pay attention to simple practical details. Can you find player props without endless tapping? Does the app make odds changes obvious before submitting a ticket? Is the grading history easy to review afterward? Those are small things until they are not.",
+      "Another useful filter is whether the app supports comparison shopping. Even a beginner should start learning that the same side can be -110 at one book and -118 at another. An app that encourages cleaner browsing and faster market checks helps build that habit earlier.",
+      "A beginner guide is strongest when it avoids making the choice sound permanent. Most bettors eventually use more than one book. The real goal is to help new readers pick a good starting point while understanding how and why they may add other operators later."
     ]
   },
   {
@@ -647,12 +684,16 @@ export const guides: Guide[] = [
     excerpt: "A side-by-side look at two of the most familiar U.S. sportsbook brands for mainstream bettors.",
     category: "Comparison",
     publishedAt: "March 6, 2026",
-    readingTime: "6 min read",
     heroKicker: "Betting Guides",
     content: [
       "FanDuel and DraftKings are often the first two names bettors compare because both have national recognition and broad event coverage.",
       "The most useful comparison is not which brand is universally better, but which one fits the bettor's preferred interface, market menu, and review priorities.",
-      "A good comparison page stays neutral, explains app feel and market depth, and avoids overpromising promo value."
+      "A good comparison page stays neutral, explains app feel and market depth, and avoids overpromising promo value.",
+      "For many users, FanDuel feels cleaner on first impression. The navigation tends to be straightforward, the mainstream markets are easy to reach, and the product generally works well for a bettor who wants a stable, familiar experience. That is part of why it is often the easiest recommendation for newer users.",
+      "DraftKings often appeals to readers who want a deeper-feeling event menu and a broader sense of market variety. It is still mainstream, but it can feel slightly more expansive once you move beyond the front page and start browsing props, alt lines, and more specialized markets.",
+      "Pricing is another area where blanket statements usually fail. Neither book wins every category all the time. A bettor who checks only one app may never notice that, but a bettor who shops numbers quickly sees how often the better price changes by sport, market type, and time of day.",
+      "That is why interface alone is not enough. Good comparison content should help readers think in layers: app usability, market breadth, odds quality, live-betting feel, and whether the operator matches their style. Someone looking for simple mainstream betting may not prioritize the same things as someone who checks props constantly.",
+      "The best comparison pages also explain what they are not doing. They are not declaring a universal winner for every bettor in every state. They are giving readers a clearer framework for deciding which operator feels stronger for their own habits."
     ]
   },
   {
@@ -661,12 +702,16 @@ export const guides: Guide[] = [
     excerpt: "A straightforward guide to the structure of sportsbook welcome offers without hype or unrealistic framing.",
     category: "Offers Explained",
     publishedAt: "March 5, 2026",
-    readingTime: "5 min read",
     heroKicker: "Betting Guides",
     content: [
       "Welcome offers vary by operator, state, and time. The useful question is not whether an offer sounds large, but what the terms, limits, and eligibility rules actually say.",
       "Readers should understand that welcome offers do not change the underlying risk of betting, and they should never be described as guaranteed value or automatic profit.",
-      "A credible guide explains how to read offer terms calmly and where operator-specific restrictions usually matter."
+      "A credible guide explains how to read offer terms calmly and where operator-specific restrictions usually matter.",
+      "The headline amount is rarely the whole story. A larger-looking offer can still be less useful if the qualifying rules are narrow, the time window is short, or the eligible markets are more limited than the reader expects. That is why the terms deserve more attention than the graphic.",
+      "Another thing worth explaining is that welcome offers are still attached to a real-money betting environment. They do not remove variance, they do not guarantee a positive result, and they should never be treated like free income. Readers who understand that are much less likely to misread what the promotion is actually doing.",
+      "Good offer coverage also explains where state differences matter. A promotion that is available in one state may not exist in another, and the exact structure can change as operators rotate creative, adjust acquisition goals, or respond to regulation.",
+      "For a media site, the best tone is descriptive rather than persuasive. Spell out who may qualify, what the important conditions are, and where readers should verify the current language on the operator site before taking action.",
+      "That kind of guide helps the affiliate layer feel more responsible. It tells readers how to think about offers without implying they are a shortcut to easy results."
     ]
   },
   {
@@ -675,12 +720,16 @@ export const guides: Guide[] = [
     excerpt: "An easy explanation of plus and minus odds, implied payout, and why price matters more than just picking winners.",
     category: "Odds Basics",
     publishedAt: "March 4, 2026",
-    readingTime: "4 min read",
     heroKicker: "Betting Guides",
     content: [
       "American odds tell you both payout structure and implied price. Positive numbers show underdog return, while negative numbers show favorite cost.",
       "The real lesson is that betting is a price-driven activity. Two bettors can like the same side but only one can have a worthwhile number.",
-      "A clean odds explainer helps newer readers understand why line shopping and number discipline matter."
+      "A clean odds explainer helps newer readers understand why line shopping and number discipline matter.",
+      "Positive odds tell you how much profit a 100-dollar stake would return. Negative odds tell you how much you would need to risk to win 100 dollars. That is the mechanical part, and it matters, but it is only the beginning.",
+      "The more important lesson is that odds are prices, not predictions. If a bettor only asks who is more likely to win, they miss the real question: is the number fair relative to the true probability? That is what turns a pick into a betting decision.",
+      "This is also why line shopping matters. If one book offers +105 and another offers -110 on the same outcome, the difference may look small in the moment, but it compounds over time. Price sensitivity is one of the few edges that almost every bettor can improve immediately.",
+      "A good odds guide should also show how different prices change breakeven points. Once readers understand how much often they need to win at -110 versus +105, they start thinking about the market differently. That is a healthier habit than focusing only on today's single result.",
+      "For Sharplines, odds education is part of the broader brand story. It shows that the site is trying to build better betting habits, not just publish selections."
     ]
   },
   {
@@ -689,12 +738,16 @@ export const guides: Guide[] = [
     excerpt: "What parlays are, why they appeal to bettors, and how to think about them responsibly.",
     category: "Bet Type Guide",
     publishedAt: "March 3, 2026",
-    readingTime: "6 min read",
     heroKicker: "Betting Guides",
     content: [
       "Parlays combine multiple outcomes into one ticket, which increases payout potential and difficulty at the same time.",
       "A credible guide should explain why parlays are popular without presenting them as a shortcut to easy results.",
-      "The best educational framing is to help readers understand risk concentration, correlation, and price sensitivity."
+      "The best educational framing is to help readers understand risk concentration, correlation, and price sensitivity.",
+      "Parlays appeal to bettors because they compress multiple opinions into a single payout line. That can be fun, and for some users it is part of the entertainment value. The problem begins when the bigger return distracts from how much the difficulty rises with each leg.",
+      "A useful guide should explain that every added leg compounds risk. A bettor may feel good about each individual piece, but the ticket still requires everything to align. That is why parlays can feel close all night and still lose in ways single bets do not.",
+      "Correlation matters too. Some books restrict obvious correlations, but even legal combinations can carry hidden overlap in game environment, pace, or scoring profile. Readers should learn to ask whether the legs are independent or whether the ticket is more fragile than it looks.",
+      "Price is another piece most beginner parlay guides ignore. A two-leg parlay is not automatically strong just because both sides sound reasonable. The underlying numbers still matter. If each leg is a poor price on its own, bundling them does not solve the problem.",
+      "Responsible framing means acknowledging why bettors enjoy parlays while also being honest about the risk concentration. That is more useful than either shaming the bet type or pretending it is a secret shortcut."
     ]
   },
   {
@@ -703,12 +756,16 @@ export const guides: Guide[] = [
     excerpt: "A foundational guide to units, exposure control, and why disciplined sizing matters more than streak chasing.",
     category: "Strategy",
     publishedAt: "March 2, 2026",
-    readingTime: "6 min read",
     heroKicker: "Betting Guides",
     content: [
       "Bankroll management is what turns betting content into a repeatable framework instead of emotional guessing.",
       "Unit sizing helps create consistency across plays and makes record tracking more useful over time.",
-      "A good beginner strategy guide should emphasize preservation, pacing, and self-control instead of hype."
+      "A good beginner strategy guide should emphasize preservation, pacing, and self-control instead of hype.",
+      "The easiest mistake newer bettors make is tying stake size to emotion. A play feels obvious, so the risk jumps. A bad night stings, so the next card gets oversized in an attempt to get even quickly. That pattern usually does more damage than the picks themselves.",
+      "Units exist to stop that drift. They create a consistent language for exposure, which makes both tracking and decision-making cleaner. Once a bettor starts thinking in units rather than in impulsive dollar swings, the card gets easier to manage.",
+      "Bankroll management also helps a reader interpret results correctly. A product that goes 2-2 on one day and 4-3 on another may look almost the same on the surface, but the unit distribution can tell a very different story. That is why serious results pages show more than just win-loss record.",
+      "Another healthy habit is defining total daily exposure. Even bettors who use small units can get sloppy if they stack too many plays or chase late action after a rough start. A bankroll plan should set limits not only on single bets but also on how much of the card can be in play at once.",
+      "At its core, bankroll management is not flashy. That is exactly why it matters. It is one of the few habits that can make the entire betting experience more sustainable regardless of short-term variance."
     ]
   },
   {
@@ -717,12 +774,16 @@ export const guides: Guide[] = [
     excerpt: "A practical guide to spreads, totals, moneylines, and what each market is actually asking you to bet.",
     category: "Line Reading",
     publishedAt: "March 1, 2026",
-    readingTime: "5 min read",
     heroKicker: "Betting Guides",
     content: [
       "Reading betting lines starts with understanding what the market measures: margin, total points, or straight-up outcome.",
       "Most new bettors improve quickly once they stop seeing lines as predictions and start seeing them as prices attached to specific market assumptions.",
-      "A strong line-reading guide should stay practical and avoid jargon overload."
+      "A strong line-reading guide should stay practical and avoid jargon overload.",
+      "A point spread is asking whether a team can win by more than a listed margin or stay within it. A total is asking about combined scoring. A moneyline strips away margin and focuses on the straight winner. Those are the building blocks, and they need to be clear before anything more advanced matters.",
+      "What trips many new readers up is that the line is not simply a prediction from the sportsbook. It is a price attached to a market. That means it can move for reasons that include injury news, betting volume, sharper action, and adjustments in the book's own risk position.",
+      "That is why line reading and line movement belong together. If a spread opens at -3.5 and moves to -5, the question is not only whether the favorite is better. It is whether the earlier number offered a better price than the current one, and whether the edge still exists.",
+      "The same logic applies to totals and props. Markets tell a story about assumptions: pace, efficiency, game script, role, volume, and injury impact. A bettor who learns to read that story becomes much better at understanding why a play exists in the first place.",
+      "The cleaner the explanation, the better. Readers do not need jargon piled on top of a simple concept. They need a practical way to understand what the market is asking and how price changes the answer."
     ]
   },
   {
@@ -731,15 +792,24 @@ export const guides: Guide[] = [
     excerpt: "A framework for matching different sportsbook apps to different types of bettors and browsing styles.",
     category: "App Guides",
     publishedAt: "February 28, 2026",
-    readingTime: "7 min read",
     heroKicker: "Betting Guides",
     content: [
       "Not every sportsbook fits every bettor. Some users care most about a clean app, others about niche markets, and others about mainstream familiarity.",
       "A useful guide categorizes operator strengths without sounding like a hard sell for any single book.",
-      "This kind of page supports affiliate strategy best when it stays editorial, comparative, and honest about tradeoffs."
+      "This kind of page supports affiliate strategy best when it stays editorial, comparative, and honest about tradeoffs.",
+      "A beginner may value clarity above all else. They want a clean bet slip, obvious market navigation, and a product that does not feel cluttered. For that reader, a book with strong mainstream usability may be a better recommendation than one with a wider but more confusing menu.",
+      "A comparison shopper has different needs. They care about price differences, prop depth, and how quickly they can bounce between markets without losing context. That bettor may tolerate a busier interface if the operator helps them shop more efficiently.",
+      "Then there is the entertainment-first user, who may care most about broad event coverage, a familiar brand, and an app that feels stable during major televised slates. That person may not be hunting for niche edges, but they still need honest guidance about tradeoffs and state availability.",
+      "Framing sportsbook apps by user type is useful because it avoids the false promise of a universal number-one recommendation. It lets the content stay practical. Different readers want different things, and credible editorial coverage should be comfortable saying that.",
+      "For Sharplines, pages like this also help the affiliate layer feel more mature. They show operator knowledge, encourage comparison behavior, and give readers a reason to stay on the site even when they are not looking at the premium card."
     ]
   }
 ];
+
+export const guides: Guide[] = guideDrafts.map((guide) => ({
+  ...guide,
+  readingTime: buildReadingTime(guide.excerpt, guide.content)
+}));
 
 export const faqs = [
   {
