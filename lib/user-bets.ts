@@ -110,8 +110,8 @@ function mapUserBet(row: DbUserBet): UserBet {
 }
 
 function validateUserBet(input: UserBetInput) {
-  if (!input.date || !input.sport || !input.league || !input.event || !input.betType || !input.pickTitle || !input.odds) {
-    throw new Error("Add the date, sport, league, event, bet type, pick title, and odds.");
+  if (!input.date || !input.sport || !input.league || !input.event || !input.betType || !input.pickTitle || !input.odds || !input.sportsbook) {
+    throw new Error("Add the date, league, game, bet type, pick title, sportsbook, and odds.");
   }
 }
 

@@ -5,7 +5,7 @@ import { siteConfig } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: `${siteConfig.name} | Login`,
-  description: `Log in to access premium picks, the dashboard, and gated member content on ${siteConfig.name}.`
+  description: `Log in to access premium picks, sportsbook tracking, casino tracking, and gated member content on ${siteConfig.name}.`
 };
 
 type LoginPageProps = {
@@ -23,11 +23,22 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       <div className="mx-auto grid max-w-5xl gap-5 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="panel-strong p-8">
           <span className="eyebrow">Member Login</span>
-          <h1 className="mt-5 text-5xl uppercase text-white">Return to the premium side of {siteConfig.name}.</h1>
+          <h1 className="mt-5 text-5xl uppercase text-white">Return to your picks, sportsbook tracker, and casino tracker.</h1>
           <p className="mt-4 text-sm leading-7">
-            Premium members can access the protected picks dashboard, the full daily card, and the archive once
-            authenticated.
+            Log in to access the sportsbook tracker, the separate casino tracker, your history and analytics views,
+            and the protected premium card if you are a paid member.
           </p>
+          <div className="mt-6 grid gap-3 text-sm text-mist/75">
+            {[
+              "Sportsbook tracker for bets, ROI, win rate, and history.",
+              "Casino tracker for session logs, buy-in, cash-out, and net results.",
+              "Premium members also unlock current-day picks and deeper writeups before games start."
+            ].map((item) => (
+              <div key={item} className="rounded-[20px] border border-white/10 bg-white/[0.03] px-4 py-3">
+                {item}
+              </div>
+            ))}
+          </div>
           <p className="mt-5 text-sm text-mist/65">
             Need an account first?{" "}
             <Link href="/signup" className="text-white hover:text-aqua">

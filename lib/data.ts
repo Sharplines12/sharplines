@@ -118,6 +118,16 @@ export type UserBet = {
   settledAt?: string | null;
 };
 
+export const approvedUserSportsbooks = [
+  "FanDuel",
+  "DraftKings",
+  "BetMGM",
+  "Caesars",
+  "Fanatics",
+  "BetRivers",
+  "Hard Rock Bet"
+] as const;
+
 export type CasinoSession = {
   id: string;
   userId: string;

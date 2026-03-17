@@ -9,7 +9,7 @@ import { faqs, siteConfig } from "@/lib/data";
 export const metadata: Metadata = {
   title: `${siteConfig.name} | Pricing`,
   description:
-    `Compare free and premium membership access for ${siteConfig.name}, including daily picks, archive access, and premium dashboard features.`
+    `Compare free and premium membership access for ${siteConfig.name}, including sportsbook tracking, casino tracking, daily picks, archive access, and premium dashboard features.`
 };
 
 export default function PricingPage() {
@@ -18,7 +18,7 @@ export default function PricingPage() {
       <SectionHeading
         eyebrow="Pricing"
         title="Past picks stay public. Premium unlocks the live edge."
-        copy="Sharplines is built to keep historical results, archive pages, and public performance open while gating current-day picks, full premium analysis, and the deeper utility layer behind membership."
+        copy="Sharplines is built to keep historical results, archive pages, public performance, and core tracking tools open while gating current-day picks, full premium analysis, and the deeper utility layer behind membership."
       />
 
       <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
@@ -31,7 +31,7 @@ export default function PricingPage() {
             "Full current-day top picks and betting card before lock",
             "Complete written analysis and premium notes",
             "Premium-only picks and deeper live-card context",
-            "Dashboard compare tools and premium workspace access"
+            "Advanced sportsbook and casino analytics plus premium workspace access"
           ]}
           cta={<CheckoutButton className="cta-primary w-full justify-center">Start monthly</CheckoutButton>}
         />
@@ -40,14 +40,15 @@ export default function PricingPage() {
           <h2 className="mt-3 text-3xl uppercase text-white">One clear premium membership keeps the offer focused.</h2>
           <p className="mt-4 text-sm leading-7 text-mist/75">
             Sharplines keeps the paid product simple at launch: one monthly membership tied to the full card, deeper
-            analysis, archive access, and the protected member dashboard. That structure is easier for readers to
+            analysis, archive access, advanced tracker views, and the protected member dashboard. That structure is easier for readers to
             understand and easier for partners to review.
           </p>
           <div className="mt-6 space-y-3 text-sm text-mist/75">
             {[
               "Monthly premium access is the active subscription product.",
               "Past picks, historical results, and public performance remain visible without a paywall.",
-              "Premium exists to unlock the future card, deeper writeups, and the utility layer before games start."
+              "Free accounts can already track sportsbook bets and casino sessions.",
+              "Premium exists to unlock the future card, deeper writeups, and the advanced utility layer before games start."
             ].map((item) => (
               <div key={item} className="rounded-[20px] border border-white/10 bg-white/[0.03] px-4 py-3">
                 {item}
@@ -59,10 +60,22 @@ export default function PricingPage() {
 
       <div className="panel p-6">
         <p className="muted-label">Free tier</p>
-        <h2 className="mt-2 text-3xl uppercase text-white">Create a free account to follow the content before upgrading.</h2>
+        <h2 className="mt-2 text-3xl uppercase text-white">Create a free account to use Sharplines as a tracking tool first.</h2>
         <p className="mt-4 max-w-3xl text-sm leading-7">
-          A free account gives users access to the dashboard, manual bet tracking, compare tools, public archive browsing, and the premium upgrade flow.
+          A free account gives users access to the sportsbook tracker, casino tracker, manual bet tracking, session history,
+          public archive browsing, and the premium upgrade flow.
         </p>
+        <div className="mt-6 grid gap-3 text-sm text-mist/75 lg:grid-cols-3">
+          {[
+            "Sportsbook tracker with bet history and basic analytics.",
+            "Casino tracker with separate session-based history and bankroll review.",
+            "Upgrade later for advanced filters, compare tools, and premium picks."
+          ].map((item) => (
+            <div key={item} className="rounded-[20px] border border-white/10 bg-white/[0.03] px-4 py-3">
+              {item}
+            </div>
+          ))}
+        </div>
         <div className="mt-6">
           <Link href="/signup" className="cta-secondary">
             Create free account
@@ -87,7 +100,8 @@ export default function PricingPage() {
                 ["Analysis", "Teasers only", "Complete writeups"],
                 ["Past picks archive", "Full public access", "Full public access"],
                 ["Performance stats", "Public access", "Advanced compare + premium context"],
-                ["My Bets tracker", "Dashboard access", "Dashboard access"],
+                ["Sportsbook tracker", "Basic access", "Advanced access"],
+                ["Casino tracker", "Basic access", "Advanced access"],
                 ["Premium workspace", "No", "Yes"]
               ].map(([feature, free, premium]) => (
                 <tr key={feature}>
