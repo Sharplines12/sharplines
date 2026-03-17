@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Route } from "next";
 import type { ReactNode } from "react";
-import { Archive, BarChart3, CircleDollarSign, Crown, LayoutDashboard, ListChecks, LogOut, ScrollText } from "lucide-react";
+import { Archive, BarChart3, CircleDollarSign, Crown, LayoutDashboard, ListChecks, LogOut, ScrollText, Users } from "lucide-react";
 import { logoutAction } from "@/app/login/actions";
 import { requireAuthenticatedUser, isPaidAccess } from "@/lib/auth";
 
@@ -21,6 +21,8 @@ export default async function DashboardLayout({
 }>) {
   const session = await requireAuthenticatedUser("/dashboard");
   const paidAccess = isPaidAccess(session.role);
+  const dashboardNavItems =
+    session.role === "admin" ? [...navItems, { href: "/dashboard/audience", label: "Audience", icon: Users }] : navItems;
 
   return (
     <div className="site-container pb-16 pt-10 sm:pt-14">
@@ -36,7 +38,7 @@ export default async function DashboardLayout({
           </div>
 
           <nav className="mt-5 space-y-2">
-            {navItems.map((item) => (
+            {dashboardNavItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href as Route}

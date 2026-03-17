@@ -455,3 +455,13 @@ export async function requireAuthenticatedUser(nextPath = "/dashboard") {
 export function isPaidAccess(role: SessionUser["role"]) {
   return role === "paid" || role === "admin";
 }
+
+export async function requireAdminUser(nextPath = "/dashboard/audience") {
+  const session = await requireAuthenticatedUser(nextPath);
+
+  if (session.role !== "admin") {
+    redirect("/dashboard");
+  }
+
+  return session;
+}
