@@ -93,9 +93,16 @@ export default async function HomePage() {
                 <CheckoutButton className="cta-primary">
                   Unlock premium picks
                 </CheckoutButton>
-                <Link href="/daily-picks" className="cta-secondary">
-                  Browse today&apos;s free preview
+                <Link href="/signup" className="cta-secondary">
+                  Create free account
                 </Link>
+              </div>
+              <div className="rounded-[24px] border border-aqua/20 bg-aqua/10 p-4">
+                <p className="text-xs uppercase tracking-[0.18em] text-aqua">Free account incentive</p>
+                <p className="mt-3 text-sm leading-7 text-mist/80">
+                  Sign up free to save your own bets, build a personal record, and have supported `moneyline`,
+                  `spread`, and `total` tickets graded automatically on the midnight rollover.
+                </p>
               </div>
               <div className="grid gap-4 sm:grid-cols-3">
                 {heroStats.map((item) => (
@@ -131,9 +138,9 @@ export default async function HomePage() {
 
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 {[
-                  {
-                    label: "Upcoming preview",
-                    value: hasCurrentCard ? `${freeUpcomingPicks.length} free picks` : "Waiting for publish",
+                    {
+                      label: "Upcoming preview",
+                      value: hasCurrentCard ? `${freeUpcomingPicks.length} free picks` : "Waiting for publish",
                       href: "/daily-picks"
                     },
                     {
@@ -142,7 +149,7 @@ export default async function HomePage() {
                       href: "/pricing"
                     },
                     { label: "Best bet", value: bestBet?.pickTitle ?? "Awaiting today's top play", href: "/daily-picks" },
-                    { label: "Trackers", value: "Sportsbook + casino tools with login", href: "/signup" }
+                    { label: "Free account", value: "Save bets + midnight auto-grading", href: "/signup" }
                   ].map((item) => (
                     <Link
                       key={item.label}
@@ -165,6 +172,34 @@ export default async function HomePage() {
               </div>
               <div className="pointer-events-none absolute -right-2 -top-2 h-28 w-28 rounded-full bg-neon/10 blur-3xl" />
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="site-container mt-8">
+        <div className="panel p-5 sm:p-6">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p className="muted-label">Free account includes</p>
+              <h2 className="mt-2 text-2xl uppercase text-white sm:text-3xl">
+                Sportsbook tracking, casino session history, and year-to-date review before you ever upgrade.
+              </h2>
+            </div>
+            <Link href="/signup" className="cta-primary">
+              Create free account
+            </Link>
+          </div>
+          <div className="mt-5 grid gap-3 lg:grid-cols-4">
+            {[
+              "Sportsbook tracker with saved bet history and automatic midnight grading for core markets.",
+              "Casino tracker with separate session-based bankroll logs.",
+              "History, monthly, YTD, and all-time views inside your account.",
+              "Upgrade later for deeper analytics, compare tools, and premium picks."
+            ].map((item) => (
+              <div key={item} className="rounded-[20px] border border-white/10 bg-white/[0.03] px-4 py-3 text-sm leading-7 text-mist/75">
+                {item}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -253,27 +288,27 @@ export default async function HomePage() {
       <section className="site-container mt-20">
         <SectionHeading
           eyebrow="Member Tools"
-          title="A free account unlocks more than just a login."
-          copy="Sharplines is also a utility product. Once users sign in, they can track sportsbook bets, log casino sessions, review history, and monitor YTD performance without needing premium first."
+          title="A free account gives users a reason to come back tomorrow."
+          copy="Sharplines is also a utility product. Once users sign in, they can save bets to their own account, track sportsbook and casino activity, review history, and let supported bets settle automatically at rollover."
         />
         <div className="mt-8 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="grid gap-5 sm:grid-cols-2">
             {[
               {
                 title: "Sportsbook Tracker",
-                copy: "Track bets, odds, stake, units, history, and basic performance views inside a dedicated sportsbook dashboard."
+                copy: "Track the exact sportsbook, line, odds, stake, and units you took inside a dedicated sportsbook dashboard."
               },
               {
                 title: "Casino Tracker",
                 copy: "Track casino sessions separately with buy-in, cash-out, notes, and bankroll trend views so it never gets mixed into sportsbook ROI."
               },
               {
-                title: "History + YTD review",
-                copy: "Free accounts can already review tracked history and broader timeframe views. Premium expands the filter depth and analytics."
+                title: "Midnight auto-grading",
+                copy: "Supported moneyline, spread, and total bets can now settle automatically during the daily rollover, so users do not need to grade every ticket by hand."
               },
               {
-                title: "Premium later",
-                copy: "Users can start with the tools, then upgrade later for deeper analytics, compare views, and premium picks before games start."
+                title: "History + YTD review",
+                copy: "Free accounts can already review tracked history and broader timeframe views. Premium expands the filter depth and analytics."
               }
             ].map((item) => (
               <div key={item.title} className="panel p-6">
@@ -284,14 +319,13 @@ export default async function HomePage() {
           </div>
           <div className="panel p-6">
             <p className="muted-label">How it works</p>
-            <h2 className="mt-3 text-3xl uppercase text-white">Sign in, start tracking, then decide if premium fits.</h2>
+            <h2 className="mt-3 text-3xl uppercase text-white">Create the free account for the tracker, then decide on premium.</h2>
             <p className="mt-4 text-sm leading-7 text-mist/75">
-              The product is clearer when readers know a free account already gives them real utility. Premium is still
-              the picks product, but the tracker layer gives users a reason to join the platform before they subscribe.
+              The cleanest conversion path is simple: free users get a real personal utility layer right away, and premium stays focused on the live card, deeper analysis, and pregame access.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href="/signup" className="cta-primary">
-                Create free account
+                Start free tracker
               </Link>
               <Link href="/pricing" className="cta-secondary">
                 See premium
