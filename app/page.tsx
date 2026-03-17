@@ -59,7 +59,7 @@ export default async function HomePage() {
   return (
     <div className="pb-16">
       <section className="site-container pt-10 sm:pt-16">
-        <div className="surface-strong relative overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
+        <div className="panel-strong relative overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
           <div className="hero-orb right-0 top-0 h-40 w-40 bg-aqua/20" />
           <div className="hero-orb bottom-0 left-1/3 h-32 w-32 bg-neon/15" />
           <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
@@ -69,10 +69,10 @@ export default async function HomePage() {
                 Live card + premium analysis
               </span>
               <div className="space-y-4">
-                <h1 className="max-w-3xl font-display text-5xl uppercase leading-[0.95] text-slate-950 sm:text-6xl lg:text-7xl">
-                  Sharper picks. Cleaner brand. A premium card that actually looks worth paying for.
+                <h1 className="max-w-3xl font-display text-5xl uppercase leading-[0.95] text-white sm:text-6xl lg:text-7xl">
+                  Sharp picks. Clean records. A premium card that actually looks credible.
                 </h1>
-                <p className="max-w-2xl text-lg text-slate-600 sm:text-xl">
+                <p className="max-w-2xl text-lg text-mist/75 sm:text-xl">
                   {siteConfig.name} is built like a real betting media property first: daily top picks, transparent
                   tracking, calmer editorial coverage, and a protected premium card without the spammy affiliate feel.
                 </p>
@@ -87,32 +87,32 @@ export default async function HomePage() {
               </div>
               <div className="grid gap-4 sm:grid-cols-3">
                 {heroStats.map((item) => (
-                  <div key={item.label} className="surface-soft p-4">
-                    <div className="flex items-center gap-2 text-slate-400">
+                  <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/[0.04] p-4">
+                    <div className="flex items-center gap-2 text-mist/55">
                       <item.icon className="h-4 w-4 text-aqua" />
                       <p className="text-xs uppercase tracking-[0.18em]">{item.label}</p>
                     </div>
-                    <p className="mt-3 text-2xl font-display uppercase text-slate-950">{item.value}</p>
+                    <p className="mt-3 text-2xl font-display uppercase text-white">{item.value}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="relative">
-              <div className="surface p-6 sm:p-8">
+              <div className="panel p-6 sm:p-8">
                 <div className="flex items-center justify-between gap-4">
                   <div>
                     <p className="muted-label">{todayCard.date}</p>
-                    <h2 className="mt-2 text-3xl uppercase text-slate-950">Today&apos;s card snapshot</h2>
+                    <h2 className="mt-2 text-3xl uppercase text-white">Today&apos;s card snapshot</h2>
                   </div>
-                  <div className="rounded-full border border-lime-300 bg-lime-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-lime-800">
+                  <div className="rounded-full border border-neon/25 bg-neon/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-neon">
                     {upcomingPicks.length ? "Live board" : "Archive view"}
                   </div>
                 </div>
 
                 <div className="mt-6 flex items-end gap-3">
-                  <p className="text-5xl font-display uppercase text-slate-950">{metrics.totals.wins}</p>
-                  <p className="pb-1 text-sm uppercase tracking-[0.18em] text-slate-400">
+                  <p className="text-5xl font-display uppercase text-white">{metrics.totals.wins}</p>
+                  <p className="pb-1 text-sm uppercase tracking-[0.18em] text-mist/55">
                     Wins in the visible record sample
                   </p>
                 </div>
@@ -127,17 +127,17 @@ export default async function HomePage() {
                     <Link
                       key={item.label}
                       href={item.href as Route}
-                      className="surface-soft p-4 hover:border-sky-300"
+                      className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4 hover:border-aqua/30"
                     >
                       <p className="muted-label">{item.label}</p>
-                      <p className="mt-2 text-base font-medium text-slate-950">{item.value}</p>
+                      <p className="mt-2 text-base font-medium text-white">{item.value}</p>
                     </Link>
                   ))}
                 </div>
 
-                <div className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50 p-4">
-                  <p className="text-xs uppercase tracking-[0.18em] text-slate-400">Why it converts</p>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">
+                <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-mist/45">Why it converts</p>
+                  <p className="mt-3 text-sm leading-7 text-mist/70">
                     The free layer stays useful, the locked layer stays visible, and the record tracking makes the
                     product feel like a real operation instead of a one-page affiliate shell.
                   </p>
@@ -153,8 +153,8 @@ export default async function HomePage() {
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <span className="eyebrow">Today&apos;s card</span>
-            <h2 className="mt-5 text-4xl uppercase leading-none text-slate-950 sm:text-5xl">
-              The homepage should feel like the front page of the product.
+            <h2 className="mt-5 text-4xl uppercase leading-none text-white sm:text-5xl">
+              The homepage should feel like the front page of the picks product.
             </h2>
           </div>
           <Link href="/daily-picks" className="cta-secondary">
@@ -174,10 +174,10 @@ export default async function HomePage() {
                 {lockedUpcomingPicks.map((pick) => (
                   <LockedPickCard key={pick.id} pick={pick} />
                 ))}
-                <div className="surface p-5">
+                <div className="panel p-5">
                   <div className="flex items-center gap-3">
-                    <LockKeyhole className="h-5 w-5 text-lime-700" />
-                    <p className="text-sm text-slate-700">
+                    <LockKeyhole className="h-5 w-5 text-neon" />
+                    <p className="text-sm text-white">
                       Premium members unlock the rest of the card, deeper writeups, and archived notes.
                     </p>
                   </div>
@@ -186,10 +186,10 @@ export default async function HomePage() {
               </div>
             </div>
           ) : (
-            <div className="surface p-6">
-              <p className="text-xs uppercase tracking-[0.18em] text-slate-400">Archive mode</p>
-              <h3 className="mt-3 text-3xl uppercase text-slate-950">The live teaser has rolled forward.</h3>
-              <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">
+            <div className="panel p-6">
+              <p className="text-xs uppercase tracking-[0.18em] text-mist/45">Archive mode</p>
+              <h3 className="mt-3 text-3xl uppercase text-white">The live teaser has rolled forward.</h3>
+              <p className="mt-4 max-w-3xl text-sm leading-7 text-mist/70">
                 Today&apos;s visible card has already started, so the homepage preview now leans on the archive block
                 instead of pretending old starts are still upcoming.
               </p>
@@ -197,13 +197,13 @@ export default async function HomePage() {
           )}
 
           {archivedPicks.length ? (
-            <div className="surface p-6">
+            <div className="panel p-6">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.18em] text-slate-400">Archive preview</p>
-                  <h3 className="mt-2 text-3xl uppercase text-slate-950">Earlier starts roll down into the archive view.</h3>
+                  <p className="text-xs uppercase tracking-[0.18em] text-mist/45">Archive preview</p>
+                  <h3 className="mt-2 text-3xl uppercase text-white">Earlier starts roll down into the archive view.</h3>
                 </div>
-                <Link href="/results" className="text-sm uppercase tracking-[0.18em] text-sky-600 hover:text-slate-950">
+                <Link href="/results" className="text-sm uppercase tracking-[0.18em] text-aqua hover:text-white">
                   See full results
                 </Link>
               </div>
@@ -249,10 +249,10 @@ export default async function HomePage() {
               copy: "Sportsbook reviews and operator CTAs exist, but they never overpower the premium picks product."
             }
           ].map((item) => (
-            <div key={item.title} className="surface p-6">
+            <div key={item.title} className="panel p-6">
               <item.icon className="h-5 w-5 text-aqua" />
-              <h3 className="mt-4 text-2xl uppercase text-slate-950">{item.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">{item.copy}</p>
+              <h3 className="mt-4 text-2xl uppercase text-white">{item.title}</h3>
+              <p className="mt-3 text-sm leading-7">{item.copy}</p>
             </div>
           ))}
         </div>

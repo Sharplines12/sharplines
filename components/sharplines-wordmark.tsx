@@ -13,7 +13,7 @@ function SharplinesMark({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-[0_12px_32px_rgba(28,45,74,0.08)]",
+        "flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]",
         className
       )}
     >
@@ -59,7 +59,7 @@ export function SharplinesWordmark({
         <div className={cn("leading-none", textClassName)}>
           <div
             className={cn(
-              "flex items-end gap-2 font-display text-[1.7rem] uppercase tracking-[0.08em]",
+              "flex items-end gap-2 font-display text-[1.7rem] uppercase tracking-[0.08em] text-white",
               compact ? "text-[1.35rem]" : ""
             )}
           >
@@ -67,7 +67,7 @@ export function SharplinesWordmark({
             <span className="brand-wordmark-lines">Lines</span>
           </div>
           {showTagline ? (
-            <p className="mt-1 text-[10px] uppercase tracking-[0.34em] text-slate-400">
+            <p className="mt-1 text-[10px] uppercase tracking-[0.34em] text-mist/45">
               Betting Media + Premium Card
             </p>
           ) : null}
