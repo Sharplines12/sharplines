@@ -21,7 +21,7 @@ export default async function SportsbooksPage() {
       <SectionHeading
         eyebrow="Affiliate Support Pages"
         title="Sportsbook reviews stay neutral, compliant, and secondary to the premium picks product."
-        copy="These pages help the site look current and legitimate, but they should feel like calm editorial coverage rather than aggressive promo funnels."
+        copy="These pages give Sharplines real editorial depth through calm operator coverage, clean review structure, and compliant on-site context."
       />
 
       <div className="grid gap-5 lg:grid-cols-2">
@@ -36,7 +36,7 @@ export default async function SportsbooksPage() {
         ))}
       </div>
 
-      <DisclaimerBanner copy="These review modules are editorially framed and should stay compliant. Terms, state access, and operator availability vary." />
+      <DisclaimerBanner copy="These review pages are editorially framed. Terms, state access, and operator availability vary by operator and location." />
       <ResponsibleGamingBanner />
     </div>
   );

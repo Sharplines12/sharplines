@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import { PickRow } from "@/components/pick-row";
 import { getTodayCard } from "@/lib/content";
+import { siteConfig } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: `${siteConfig.name} | Members Today`,
+  description: `Today's protected premium card, full analysis, and member-only picks inside ${siteConfig.name}.`
+};
 
 export default async function MembersTodayPage() {
   const todayCard = await getTodayCard();

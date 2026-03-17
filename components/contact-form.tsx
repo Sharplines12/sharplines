@@ -15,7 +15,8 @@ export function ContactForm() {
     <div className="panel-strong p-8">
       <h2 className="text-3xl uppercase text-white">Send a message</h2>
       <p className="mt-3 text-sm">
-        This action currently confirms the form locally. Connect it to Resend, your inbox, or a CRM next.
+        Use the form for partnership requests, support, or media inquiries. For immediate operator outreach, the
+        business email above remains the primary contact point.
       </p>
       <form action={formAction} className="mt-6 space-y-4">
         <input name="name" type="text" placeholder="Your name" className="glass-input" />

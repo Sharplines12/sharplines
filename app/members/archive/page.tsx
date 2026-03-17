@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import { ResultsDayCard } from "@/components/results-day-card";
 import { getResultsLedger } from "@/lib/content";
+import { siteConfig } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: `${siteConfig.name} | Members Archive`,
+  description: `Protected premium archive and prior graded cards inside ${siteConfig.name}.`
+};
 
 export default async function MembersArchivePage() {
   const resultsLedger = await getResultsLedger();

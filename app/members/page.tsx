@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, CalendarDays, CreditCard, LockKeyhole, Trophy } from "lucide-react";
 import { ArticleCard } from "@/components/article-card";
@@ -19,6 +20,11 @@ import {
 import {
   siteConfig,
 } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: `${siteConfig.name} | Member Dashboard`,
+  description: `Protected member dashboard with today's premium card, archive access, saved content, and performance tracking.`
+};
 
 export default async function MembersDashboardPage() {
   const [todayCard, resultsLedger, dailyCards, articles, courseModules, savedArticleSlugs, savedPickIds] =
@@ -135,8 +141,8 @@ export default async function MembersDashboardPage() {
             {[
               { label: "Plan", value: "Premium monthly" },
               { label: "Status", value: "Active paid member" },
-              { label: "Billing", value: "Stripe placeholder connected" },
-              { label: "Upgrade path", value: "Yearly plan can be added next" }
+              { label: "Billing", value: "Stripe-backed subscription access" },
+              { label: "Membership type", value: "Protected premium picks and archive" }
             ].map((item) => (
               <div key={item.label} className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4">
                 <p className="muted-label">{item.label}</p>

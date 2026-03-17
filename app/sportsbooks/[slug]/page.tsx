@@ -110,7 +110,7 @@ export default async function SportsbookReviewPage({ params }: SportsbookReviewP
             <p className="mt-3 text-sm leading-7">{sportsbook.promoSummary}</p>
             <p className="mt-4 text-xs uppercase tracking-[0.16em] text-mist/45">{sportsbook.disclaimer}</p>
             <Link href={`/go/${sportsbook.slug}` as Route} className="cta-primary mt-5">
-              Visit {sportsbook.name}
+              Visit official site
             </Link>
           </div>
         </div>

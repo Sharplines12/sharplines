@@ -102,7 +102,7 @@ export function NewsletterSignup() {
               <p className={`text-sm leading-6 ${state.success ? "text-neon" : "text-amber-100"}`}>{state.message}</p>
             ) : (
               <p className="text-xs uppercase tracking-[0.18em] text-mist/45">
-                This currently runs as a Sharplines waitlist until your email platform is connected.
+                Join the Sharplines market notes list for editorial updates, featured picks, and product releases.
               </p>
             )}
           </form>

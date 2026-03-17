@@ -15,8 +15,8 @@ export default function SignupPage() {
           <span className="eyebrow">Free account</span>
           <h1 className="mt-5 text-5xl uppercase text-white">Create a free account and enter the content side first.</h1>
           <p className="mt-4 text-sm leading-7">
-            Free accounts give users a cleaner path into the site, saved content placeholders, and a clear upgrade
-            route into premium picks without making the site feel like a one-page affiliate shell.
+            Free accounts give readers a cleaner path into the site, public picks previews, and a clear upgrade route
+            into premium picks without making the brand feel like a one-page affiliate shell.
           </p>
         </div>
         <SignupForm />

@@ -22,7 +22,6 @@ export async function submitContactAction(
 
   return {
     success: true,
-    message:
-      "Form captured. Wire this action to your inbox or CRM next, and this page will become your partnership/contact endpoint."
+    message: "Inquiry received. Sharplines can follow up through the business contact workflow listed on this page."
   };
 }

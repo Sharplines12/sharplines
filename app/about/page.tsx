@@ -45,7 +45,7 @@ export default function AboutPage() {
               copy: "Measured betting language, disciplined card building, and a premium experience that feels closer to a media product than a random picks feed."
             },
             {
-              title: "Why it should feel credible",
+              title: "Why it feels credible",
               copy: "Public wins and losses, cleaner operator coverage, and a paywall that is tied to a real product instead of vague hype or private-message selling."
             },
             {

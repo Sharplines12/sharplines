@@ -25,7 +25,7 @@ export function PromoOfferCard({ sportsbook }: PromoOfferCardProps) {
           Read review
         </Link>
         <Link href={`/go/${sportsbook.slug}` as Route} className="cta-secondary">
-          Visit operator
+          Visit official site
           <ArrowUpRight className="ml-2 h-4 w-4" />
         </Link>
       </div>

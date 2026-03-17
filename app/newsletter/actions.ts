@@ -22,7 +22,7 @@ export async function submitNewsletterAction(
   return {
     success: true,
     message: focus
-      ? `You're on the Sharplines market notes list for ${focus.toLowerCase()}. Connect this action to your email platform next to turn the waitlist live.`
-      : "You're on the Sharplines market notes list. Connect this action to your email platform next to turn the waitlist live."
+      ? `You're on the Sharplines market notes list for ${focus.toLowerCase()}.`
+      : "You're on the Sharplines market notes list."
   };
 }

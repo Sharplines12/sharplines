@@ -14,7 +14,7 @@ export default function ContactPage() {
       <SectionHeading
         eyebrow="Contact"
         title="Use this page for brand deals, affiliate conversations, and member support."
-        copy="The UI is polished now. Hook it to your real inbox or CRM when you are ready to accept live leads."
+        copy="Sharplines keeps a direct business contact path open for operator outreach, support requests, and commercial conversations."
       />
 
       <div className="mt-10 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
@@ -27,7 +27,7 @@ export default function ContactPage() {
             </p>
           </div>
           <div className="panel p-6">
-            <h3 className="text-2xl uppercase text-white">What this page should convert</h3>
+            <h3 className="text-2xl uppercase text-white">Business and partnership inquiries</h3>
             <p className="mt-3 text-sm">
               The contact page is not just a fallback. It helps operators and collaborators see that {siteConfig.name}
               has a professional destination for outreach, media questions, and commercial discussions.

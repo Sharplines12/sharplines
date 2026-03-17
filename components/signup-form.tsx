@@ -15,7 +15,7 @@ export function SignupForm() {
   return (
     <div className="panel p-8">
       <h2 className="text-3xl uppercase text-white">Create account</h2>
-      <p className="mt-3 text-sm">This placeholder flow creates a free-tier session and sends users into pricing.</p>
+      <p className="mt-3 text-sm">Create a free account to browse content, follow the public card, and upgrade later.</p>
       <form action={formAction} className="mt-6 space-y-4">
         <div>
           <label className="mb-2 block text-xs uppercase tracking-[0.18em] text-mist/45">Name</label>

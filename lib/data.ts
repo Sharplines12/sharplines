@@ -83,7 +83,7 @@ export const siteConfig = {
   annualValue: 348,
   contactEmail: "partners@sharplines.com",
   socialHandle: "@sharplines",
-  isDemoContent: true,
+  isDemoContent: false,
   freePreviewCount: 2,
   disclosures: [
     "21+ only. Please gamble responsibly.",
@@ -135,7 +135,7 @@ export const dailyCards: DailyCard[] = [
     headline: "Daily Top Picks",
     summary: "Four measured positions across college hoops and NBA totals, with one featured best bet and two locked premium edges.",
     premiumIntro: "Premium members get the full card, unit sizing context, and extra matchup notes.",
-    recordLabel: "Sample launch card",
+    recordLabel: "Featured daily card",
     picks: [
       {
         id: "p1",

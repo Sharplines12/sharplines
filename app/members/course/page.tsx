@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import { BookOpenText, CheckCircle2, Clock3 } from "lucide-react";
 import { getCourseModules } from "@/lib/content";
 import { siteConfig } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: `${siteConfig.name} | Members Course`,
+  description: `Protected course modules and betting education for active ${siteConfig.name} members.`
+};
 
 export default async function MembersCoursePage() {
   const courseModules = await getCourseModules();
@@ -12,7 +18,7 @@ export default async function MembersCoursePage() {
         <h1 className="mt-2 text-5xl uppercase text-white">The full library stays attached to the membership.</h1>
         <p className="mt-4 max-w-3xl text-sm leading-7">
           These modules reinforce the {siteConfig.name} process so the daily card is part of a system, not a one-off
-          purchase. Replace the summaries below with your final lesson copy and video delivery links when ready.
+          purchase. Course delivery stays inside the membership workflow alongside the daily card and archive.
         </p>
       </div>
 

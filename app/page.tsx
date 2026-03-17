@@ -154,7 +154,7 @@ export default async function HomePage() {
           <div>
             <span className="eyebrow">Today&apos;s card</span>
             <h2 className="mt-5 text-4xl uppercase leading-none text-white sm:text-5xl">
-              The homepage should feel like the front page of the picks product.
+              The homepage is built to read like the front page of the picks product.
             </h2>
           </div>
           <Link href="/daily-picks" className="cta-secondary">
@@ -229,7 +229,7 @@ export default async function HomePage() {
         <SectionHeading
           eyebrow="Why Upgrade"
           title="The premium tier is the core product, not an afterthought."
-          copy="Everything here should reinforce that the paid card is the main value. The affiliate and editorial layers support that story."
+          copy="Everything on the public side points clearly toward the paid card. The affiliate and editorial layers support that product story without overpowering it."
         />
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
           {[
@@ -262,7 +262,7 @@ export default async function HomePage() {
         <SectionHeading
           eyebrow="Sportsbook Reviews"
           title="Affiliate pages stay clean, neutral, and second to the premium picks product."
-          copy="These pages should feel editorial and trustworthy, with calm promo language and strong responsible-gaming context."
+          copy="These pages stay editorial and trustworthy, with calm promo language and clear responsible-gaming context."
         />
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
           {sportsbooks.slice(0, 4).map((sportsbook) => (
