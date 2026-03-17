@@ -11,6 +11,27 @@ export const metadata: Metadata = {
   description:
     `${siteConfig.name} is a premium sports betting media brand focused on daily top picks, gated premium analysis, sportsbook reviews, and responsible betting content.`,
   metadataBase: new URL(process.env.APP_URL || "http://localhost:3000"),
+  openGraph: {
+    title: `${siteConfig.name} | Premium Daily Picks & Betting Analysis`,
+    description:
+      `${siteConfig.name} is a premium sports betting media brand focused on daily top picks, gated premium analysis, sportsbook reviews, and responsible betting content.`,
+    type: "website",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} share image`
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.name} | Premium Daily Picks & Betting Analysis`,
+    description:
+      `${siteConfig.name} is a premium sports betting media brand focused on daily top picks, gated premium analysis, sportsbook reviews, and responsible betting content.`,
+    images: ["/opengraph-image"]
+  },
   icons: {
     icon: "/icon.svg",
     shortcut: "/icon.svg",
