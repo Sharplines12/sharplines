@@ -19,7 +19,7 @@ export default async function ArticlesPage() {
       <SectionHeading
         eyebrow="Articles"
         title="Articles give the brand a point of view, not just filler around the picks."
-        copy="Sharplines articles are built to feel informed, calm, and worth returning to. They add matchup context, market reads, operator comparisons, and editorial depth around the premium product."
+        copy="Sharplines articles are built to feel informed, calm, and worth returning to. They add matchup context, market reads, operator comparisons, and editorial depth around the premium product through a data-driven approach and long-term consistency."
       />
 
       <div className="grid gap-5 lg:grid-cols-3">

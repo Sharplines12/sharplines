@@ -18,7 +18,7 @@ export default async function GuidesPage() {
       <SectionHeading
         eyebrow="Betting Guides"
         title="Evergreen guide content gives the brand depth beyond the daily card."
-        copy="These guides position Sharplines like a betting education property as much as a picks brand, with evergreen explainers that support search growth and long-term trust."
+        copy="These guides position Sharplines like a betting education property as much as a picks brand, with evergreen explainers that support search growth, disciplined betting, and long-term trust."
       />
 
       <div className="grid gap-5 lg:grid-cols-3">

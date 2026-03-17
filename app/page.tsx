@@ -73,8 +73,9 @@ export default async function HomePage() {
                   Sharp picks. Clean records. A premium card that actually looks credible.
                 </h1>
                 <p className="max-w-2xl text-lg text-mist/75 sm:text-xl">
-                  {siteConfig.name} is built like a real betting media property first: daily top picks, transparent
-                  tracking, calmer editorial coverage, and a protected premium card without the spammy affiliate feel.
+                  {siteConfig.name} is built like a real betting media property first: daily top picks, a data-driven
+                  approach, transparent performance tracking, calmer editorial coverage, and a protected premium card
+                  without the spammy affiliate feel.
                 </p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row">
@@ -138,8 +139,8 @@ export default async function HomePage() {
                 <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4">
                   <p className="text-xs uppercase tracking-[0.18em] text-mist/45">Why it converts</p>
                   <p className="mt-3 text-sm leading-7 text-mist/70">
-                    The free layer stays useful, the locked layer stays visible, and the record tracking makes the
-                    product feel like a real operation instead of a one-page affiliate shell.
+                    The free layer stays useful, the locked layer stays visible, and transparent performance tracking
+                    makes the product feel like a real operation instead of a one-page affiliate shell.
                   </p>
                 </div>
               </div>
@@ -227,6 +228,63 @@ export default async function HomePage() {
 
       <section className="site-container mt-20">
         <SectionHeading
+          eyebrow="Why Sharplines"
+          title="A premium picks brand built on process, not hype."
+          copy="Sharplines is built to show how a data-driven approach, transparent results tracking, a structured unit system, and a consistent methodology can support long-term consistency."
+        />
+        <div className="mt-8 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="grid gap-5 sm:grid-cols-2">
+            {[
+              {
+                title: "Data-driven picks",
+                copy: "Each card is framed around matchup context, market pricing, and disciplined thresholds rather than one-line opinions."
+              },
+              {
+                title: "Transparent results tracking",
+                copy: "Public wins, losses, pushes, and unit movement stay visible so performance can be reviewed over time."
+              },
+              {
+                title: "Structured unit system",
+                copy: "Featured plays, standard positions, and smaller leans are separated so card sizing stays clear and measurable."
+              },
+              {
+                title: "Consistent methodology",
+                copy: "The site is built around disciplined betting, analysis-based decisions, and long-term consistency instead of short-term hype."
+              }
+            ].map((item) => (
+              <div key={item.title} className="panel p-6">
+                <p className="muted-label">{item.title}</p>
+                <p className="mt-4 text-sm leading-7 text-mist/75">{item.copy}</p>
+              </div>
+            ))}
+          </div>
+          <div className="panel p-6">
+            <p className="muted-label">Explore the brand</p>
+            <h2 className="mt-3 text-3xl uppercase text-white">Trust signals should route somewhere useful.</h2>
+            <p className="mt-4 text-sm leading-7 text-mist/75">
+              Sharplines works best when readers can move naturally between the live card, sportsbook reviews, betting
+              education, and responsible gaming language without the site feeling cluttered or sales-heavy.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link href="/daily-picks" className="cta-secondary">
+                Daily Picks
+              </Link>
+              <Link href="/sportsbooks" className="cta-secondary">
+                Sportsbooks
+              </Link>
+              <Link href="/guides" className="cta-secondary">
+                Guides
+              </Link>
+              <Link href="/responsible-gaming" className="cta-secondary">
+                Responsible Gaming
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="site-container mt-20">
+        <SectionHeading
           eyebrow="Why Upgrade"
           title="The premium tier is the core product, not an afterthought."
           copy="Everything on the public side points clearly toward the paid card. The affiliate and editorial layers support that product story without overpowering it."
@@ -236,17 +294,17 @@ export default async function HomePage() {
             {
               icon: Crown,
               title: "Full daily card",
-              copy: "Premium members get the entire card, deeper notes, best bets, leans, and archived picks."
+              copy: "Premium members get the entire card, deeper notes, best bets, leans, and archived picks with a disciplined betting framework."
             },
             {
               icon: Newspaper,
               title: "Content-first brand",
-              copy: "Articles, reviews, and clean editorial pages keep the site looking like a legitimate media property."
+              copy: "Articles, reviews, and clean editorial pages keep the site looking like a legitimate media property with long-term consistency."
             },
             {
               icon: ArrowRight,
               title: "Affiliate as support",
-              copy: "Sportsbook reviews and operator CTAs exist, but they never overpower the premium picks product."
+              copy: "Sportsbook reviews and operator CTAs exist, but they never overpower the premium picks product or the analysis-based approach."
             }
           ].map((item) => (
             <div key={item.title} className="panel p-6">
@@ -294,7 +352,7 @@ export default async function HomePage() {
         <SectionHeading
           eyebrow="Sportsbook Reviews"
           title="Affiliate pages stay clean, neutral, and second to the premium picks product."
-          copy="These pages stay editorial and trustworthy, with calm promo language, price-shopping context, and clear responsible-gaming language."
+          copy="These pages stay editorial and trustworthy, with calm promo language, price-shopping context, and clear responsible-gaming language that supports disciplined betting."
         />
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
           {sportsbooks.slice(0, 4).map((sportsbook) => (
@@ -307,7 +365,7 @@ export default async function HomePage() {
         <SectionHeading
           eyebrow="Recent Articles"
           title="Articles make the site feel like a real betting media property."
-          copy="Analysis writing gives Sharplines a point of view, keeps the site current, and supports long-term editorial trust around the picks product."
+          copy="Analysis writing gives Sharplines a point of view, keeps the site current, and supports long-term consistency around the picks product."
         />
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
           {articles.map((article) => (
@@ -325,7 +383,7 @@ export default async function HomePage() {
         <SectionHeading
           eyebrow="Betting Guides"
           title="Guides make the site look like a serious long-term editorial platform."
-          copy="These pages give affiliate managers and readers something deeper to evaluate than a single picks feed, especially around education and line-shopping behavior."
+          copy="These pages give affiliate managers and readers something deeper to evaluate than a single picks feed, especially around education, line-shopping behavior, and a data-driven approach."
         />
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
           {guides.slice(0, 3).map((guide) => (

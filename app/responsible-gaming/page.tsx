@@ -15,7 +15,7 @@ export default function ResponsibleGamingPage() {
         <h1 className="mt-2 text-5xl uppercase text-white">Betting content should always come with guardrails.</h1>
         <p className="mt-4 max-w-3xl text-sm leading-7">
           Sports betting involves risk. {siteConfig.name} presents opinion-based content and should never frame betting
-          as guaranteed or low-risk. Use this page to centralize your responsible gaming language and support links.
+          as guaranteed or low-risk. No outcome is guaranteed, and only wager what you can afford to lose.
         </p>
       </div>
       <ResponsibleGamingBanner />

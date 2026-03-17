@@ -22,7 +22,7 @@ export default async function DailyPicksPage() {
       <SectionHeading
         eyebrow="Daily Picks"
         title="Daily top picks sit at the center of the whole product."
-        copy="Free users can scan the headline plays and preview limited analysis. Upcoming picks stay in the teaser flow, while already-started plays drop into an archive area below so the board keeps its timing honest."
+        copy="Free users can scan the headline plays and preview limited analysis. Upcoming picks stay in the teaser flow, while already-started plays drop into an archive area below so the board keeps its timing honest. The page is designed around a data-driven approach, disciplined betting, and transparent performance tracking."
       />
 
       <DailyPicksBrowser cards={dailyCards} freePreviewCount={siteConfig.freePreviewCount} />
@@ -31,7 +31,7 @@ export default async function DailyPicksPage() {
         <h2 className="text-4xl uppercase text-white">Unlock the full premium card</h2>
         <p className="mt-4 max-w-3xl text-sm leading-7">
           Premium members get complete analysis, extra locked picks, unit sizing notes, archived cards, and dashboard
-          access built around the daily top picks product.
+          access built around disciplined betting, structured unit sizing, and long-term consistency.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton className="cta-primary">Upgrade to premium</CheckoutButton>
@@ -41,7 +41,7 @@ export default async function DailyPicksPage() {
         </div>
       </div>
 
-      <DisclaimerBanner copy="Lines, player availability, and listed prices can move throughout the day. Always confirm the current number and market status before placing a wager." />
+      <DisclaimerBanner copy="Lines, player availability, and listed prices can move throughout the day. Sports betting involves risk, no outcome is guaranteed, and always confirm the current number and market status before placing a wager." />
       <ResponsibleGamingBanner />
     </div>
   );

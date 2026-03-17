@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { AuthorCard } from "@/components/author-card";
 import { DisclaimerBanner } from "@/components/disclaimer-banner";
 import { PromoOfferCard } from "@/components/promo-offer-card";
 import { ResponsibleGamingBanner } from "@/components/responsible-gaming-banner";
@@ -44,8 +45,8 @@ export default async function SportsbookReviewPage({ params }: SportsbookReviewP
       name: sportsbook.name
     },
     author: {
-      "@type": "Organization",
-      name: siteConfig.name
+      "@type": "Person",
+      name: siteConfig.founder.name
     },
     reviewBody: sportsbook.summary
   };
@@ -59,14 +60,20 @@ export default async function SportsbookReviewPage({ params }: SportsbookReviewP
       <div className="panel-strong p-8">
         <p className="muted-label">Sportsbook review</p>
         <h1 className="mt-2 text-5xl uppercase text-white">{sportsbook.name}</h1>
-        <p className="mt-4 max-w-3xl text-sm leading-7">{sportsbook.overview}</p>
+        <p className="mt-4 max-w-3xl text-sm leading-7">
+          {sportsbook.overview} Sharplines reviews operators through a data-driven approach, comparison-minded
+          editorial coverage, and disciplined betting context rather than hype-led promo copy.
+        </p>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-5">
           <div className="panel p-6">
             <h2 className="text-3xl uppercase text-white">Overview</h2>
-            <p className="mt-4 text-sm leading-7">{sportsbook.summary}</p>
+            <p className="mt-4 text-sm leading-7">
+              {sportsbook.summary} The goal is to explain where the book fits, how it compares, and whether it
+              supports a disciplined betting workflow over the long term.
+            </p>
           </div>
           <div className="panel p-6">
             <h2 className="text-3xl uppercase text-white">User experience</h2>
@@ -116,6 +123,13 @@ export default async function SportsbookReviewPage({ params }: SportsbookReviewP
         </div>
       </div>
 
+      <AuthorCard
+        title="Written by Dale Campbell"
+        links={[
+          { label: "More sportsbook reviews", href: "/sportsbooks" },
+          { label: "Responsible Gaming", href: "/responsible-gaming" }
+        ]}
+      />
       <PromoOfferCard sportsbook={sportsbook} />
       <DisclaimerBanner copy="Operator offers, odds, and state eligibility change often. Always confirm current terms before publishing live recommendations or review summaries." />
       <ResponsibleGamingBanner />

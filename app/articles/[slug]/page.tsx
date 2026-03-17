@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AuthorCard } from "@/components/author-card";
 import { PremiumCtaBlock } from "@/components/premium-cta-block";
 import { getArticleBySlug } from "@/lib/content";
 import { siteConfig } from "@/lib/data";
@@ -40,8 +41,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     datePublished: article.publishedAt,
     description: article.excerpt,
     author: {
-      "@type": "Organization",
-      name: siteConfig.name
+      "@type": "Person",
+      name: siteConfig.founder.name
     }
   };
 
@@ -59,6 +60,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <span>{article.readingTime}</span>
         </div>
         <p className="mt-6 text-lg text-mist/75">{article.excerpt}</p>
+        <div className="mt-8">
+          <AuthorCard compact links={[{ label: "More guides", href: "/guides" }, { label: "Contact", href: "/contact" }]} />
+        </div>
         <div className="mt-8 space-y-5 text-sm leading-8">
           {article.content.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>

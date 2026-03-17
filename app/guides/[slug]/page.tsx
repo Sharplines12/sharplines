@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AuthorCard } from "@/components/author-card";
 import { PremiumCtaBlock } from "@/components/premium-cta-block";
 import { getGuideBySlug } from "@/lib/content";
 import { siteConfig } from "@/lib/data";
@@ -40,8 +41,8 @@ export default async function GuidePage({ params }: GuidePageProps) {
     datePublished: guide.publishedAt,
     description: guide.excerpt,
     author: {
-      "@type": "Organization",
-      name: siteConfig.name
+      "@type": "Person",
+      name: siteConfig.founder.name
     }
   };
 
@@ -59,6 +60,9 @@ export default async function GuidePage({ params }: GuidePageProps) {
           <span>{guide.readingTime}</span>
         </div>
         <p className="mt-6 text-lg text-mist/75">{guide.excerpt}</p>
+        <div className="mt-8">
+          <AuthorCard compact links={[{ label: "Daily Picks", href: "/daily-picks" }, { label: "Sportsbooks", href: "/sportsbooks" }]} />
+        </div>
         <div className="mt-8 space-y-5 text-sm leading-8">
           {guide.content.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
