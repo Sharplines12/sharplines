@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { cookies } from "next/headers";
 import "./globals.css";
+import { MaintenanceOverlay } from "@/components/maintenance-overlay";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/lib/data";
+import { MAINTENANCE_COOKIE_NAME, MAINTENANCE_COOKIE_VALUE } from "@/lib/site-lock";
 import { isSupabaseConfigured } from "@/lib/supabase";
 
 export const metadata: Metadata = {
@@ -39,16 +42,21 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({
+export const dynamic = "force-dynamic";
+
+export default async function RootLayout({
   children
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const hasMaintenanceAccess = cookieStore.get(MAINTENANCE_COOKIE_NAME)?.value === MAINTENANCE_COOKIE_VALUE;
   const showDemoBanner = siteConfig.isDemoContent && !isSupabaseConfigured();
 
   return (
     <html lang="en">
       <body className="font-sans antialiased">
+        <MaintenanceOverlay initiallyUnlocked={hasMaintenanceAccess} />
         <div className="relative overflow-hidden">
           <div className="hero-orb left-[-8rem] top-24 h-64 w-64 bg-aqua/20" />
           <div className="hero-orb right-[-4rem] top-72 h-56 w-56 bg-neon/15" />

@@ -19,6 +19,7 @@ import {
   type PickEntry,
   type Sportsbook
 } from "@/lib/data";
+import { getNewYorkIsoDate } from "@/lib/daily-card";
 import { enrichDailyCardsWithLiveResults } from "@/lib/live-results";
 import { flattenDailyCards, getHistoricalPicks, getFuturePicks, type PickArchiveEntry } from "@/lib/picks";
 import { createSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase";
@@ -213,9 +214,21 @@ async function safeQuery<T>(query: () => Promise<T>, fallback: T) {
   }
 }
 
+function injectForcedTodayCard(cards: DailyCard[]) {
+  const forcedCard = fallbackDailyCards[0];
+  const forcedDate = forcedCard?.picks[0]?.date;
+
+  if (!forcedCard || forcedDate !== getNewYorkIsoDate()) {
+    return cards;
+  }
+
+  const withoutForcedDate = cards.filter((card) => card.picks[0]?.date !== forcedDate);
+  return [forcedCard, ...withoutForcedDate];
+}
+
 export async function getDailyCards() {
   if (!isSupabaseConfigured()) {
-    return enrichDailyCardsWithLiveResults(fallbackDailyCards);
+    return enrichDailyCardsWithLiveResults(injectForcedTodayCard(fallbackDailyCards));
   }
 
   try {
@@ -227,12 +240,12 @@ export async function getDailyCards() {
       .order("card_date", { ascending: false });
 
     if (error || !data?.length) {
-      return enrichDailyCardsWithLiveResults(fallbackDailyCards);
+      return enrichDailyCardsWithLiveResults(injectForcedTodayCard(fallbackDailyCards));
     }
 
-    return enrichDailyCardsWithLiveResults((data as DbDailyCard[]).map(mapDailyCard));
+    return enrichDailyCardsWithLiveResults(injectForcedTodayCard((data as DbDailyCard[]).map(mapDailyCard)));
   } catch {
-    return enrichDailyCardsWithLiveResults(fallbackDailyCards);
+    return enrichDailyCardsWithLiveResults(injectForcedTodayCard(fallbackDailyCards));
   }
 }
 

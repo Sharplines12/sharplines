@@ -1,9 +1,24 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { MAINTENANCE_COOKIE_NAME, MAINTENANCE_COOKIE_VALUE } from "@/lib/site-lock";
 import { createSupabaseMiddlewareClient, isSupabaseConfigured } from "@/lib/supabase";
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const hasMaintenanceAccess = request.cookies.get(MAINTENANCE_COOKIE_NAME)?.value === MAINTENANCE_COOKIE_VALUE;
+  const isMaintenancePath = pathname === "/maintenance";
+  const isMaintenanceApi = pathname === "/api/maintenance-access";
+  const isNextAsset = pathname.startsWith("/_next");
+  const isStaticAsset = /\.[a-z0-9]+$/i.test(pathname);
+
+  if (!hasMaintenanceAccess && !isMaintenancePath && !isMaintenanceApi && !isNextAsset && !isStaticAsset) {
+    return NextResponse.redirect(new URL("/maintenance", request.url));
+  }
+
+  if (hasMaintenanceAccess && isMaintenancePath) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
   let response = NextResponse.next({
     request: {
       headers: request.headers
@@ -49,5 +64,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/premium-picks/:path*", "/members/:path*", "/dashboard/:path*", "/casino/:path*"]
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"]
 };
