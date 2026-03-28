@@ -8,6 +8,7 @@ import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/lib/data";
 import { MAINTENANCE_COOKIE_NAME, MAINTENANCE_COOKIE_VALUE } from "@/lib/site-lock";
 import { isSupabaseConfigured } from "@/lib/supabase";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: `${siteConfig.name} | Premium Daily Picks & Betting Analysis`,
@@ -69,6 +70,7 @@ export default async function RootLayout({
             Starter demo mode. Connect live data before launch.
           </div>
         ) : null}
+        <SpeedInsights />
       </body>
     </html>
   );
